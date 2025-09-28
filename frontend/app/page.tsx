@@ -129,7 +129,7 @@ export default function Home() {
                         <div className="w-96 h-100 border-4 border-red-500 rounded-3xl bg-white shadow-lg">
                             {/* Hier können Sie Inhalt für die Box hinzufügen */}
                             <div className="w-full h-full flex items-center justify-center">
-                                <p className="text-gray-600 text-center">W</p>
+                                <p className="text-gray-600 text-center">Bild</p>
                             </div>
                         </div>
                     </div>
