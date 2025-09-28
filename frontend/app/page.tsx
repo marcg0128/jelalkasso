@@ -3,6 +3,8 @@ import React from 'react';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 
+
+
 export default function Home() {
     const [scrollY, setScrollY] = useState(0);
     const [isScrolled, setIsScrolled] = useState(false);
@@ -65,55 +67,75 @@ export default function Home() {
             </div>
 
             <div className="flex min-h-screen flex-col justify-between pl-30 mt-50">
-                <h1
-                    className={`text-[10rem] font-bold sticky top-1 z-51`}
-                    style={{
-                        transform: `scale(${scale})`,
-                        transformOrigin: 'top left',
-                        transition: 'transform .2s linear',
-                    }}
-                >
-                    Jelal Kasso
-                </h1>
-
-                <section id="start" className="relative">
+                <div className="flex items-start justify-between">
                     <div>
-                        <div
-                            className="transition-all duration-200 ease-out"
-                            style={getSubtitleTransform()}
-                        >
-                            <p className="text-2xl mt-4">Photographer | Videographer | Filmmaker</p>
-                        </div>
-
-
-                        <div
-                            className="mt-10 flex transition-all duration-300"
+                        <h1
+                            className={`text-[10rem] font-bold sticky top-1 z-51`}
                             style={{
-                                opacity: Math.max(0, 1 - (scrollY / 300)),
-                                transform: `translateY(${scrollY * 0.2}px)`
+                                transform: `scale(${scale})`,
+                                transformOrigin: 'top left',
+                                transition: 'transform .2s linear',
                             }}
                         >
-                            <a
-                                href="https://www.instagram.com/jk_fotovideo/"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="group relative w-15 h-15 bg-gradient-to-br rounded-full flex items-center
-                                           justify-center transition-all duration-300 shadow-lg border-1 border-gray-500
-                                           hover:border-gray-300"
-                            >
-                                <Image
-                                    src="/instagram.svg"
-                                    alt="Instagram"
-                                    width={32}
-                                    height={32}
-                                    className="filter brightness-0 invert transition-transform duration-300"
-                                />
-                            </a>
+                            Jelal Kasso
+                        </h1>
 
-                        </div>
+                        <section id="start" className="relative">
+                            <div>
+                                <div
+                                    className="transition-all duration-200 ease-out"
+                                    style={getSubtitleTransform()}
+                                >
+                                    <p className="text-2xl mt-4">Photographer | Videographer | Filmmaker</p>
+                                </div>
+
+                                <div
+                                    className="mt-10 flex transition-all duration-300"
+                                    style={{
+                                        opacity: Math.max(0, 1 - (scrollY / 300)),
+                                        transform: `translateY(${scrollY * 0.2}px)`
+                                    }}
+                                >
+                                    <a
+                                        href="https://www.instagram.com/jk_fotovideo/"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="group relative w-15 h-15 bg-gradient-to-br rounded-full flex items-center
+                                                   justify-center transition-all duration-300 shadow-lg border-1 border-gray-500
+                                                   hover:border-gray-300"
+                                    >
+                                        <Image
+                                            src="/instagram.svg"
+                                            alt="Instagram"
+                                            width={32}
+                                            height={32}
+                                            className="filter brightness-0 invert transition-transform duration-300"
+                                        />
+                                    </a>
+                                </div>
+                            </div>
+                        </section>
                     </div>
 
-                </section>
+                    {/* Box rechts neben dem Namen */}
+                    <div
+                        className="mr-20 mt-10 transition-all duration-300"
+                        style={{
+                            opacity: Math.max(0, 1 - (scrollY / 300)),
+                            transform: `translateY(${scrollY * 0.15}px) scale(${scale})`
+                        }}
+                    >
+                        <div className="w-96 h-100 border-4 border-red-500 rounded-3xl bg-white shadow-lg">
+                            {/* Hier können Sie Inhalt für die Box hinzufügen */}
+                            <div className="w-full h-full flex items-center justify-center">
+                                <p className="text-gray-600 text-center">Box Content</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <section id="start-spacer" className="h-20"></section>
+
                 <section id="about" className="min-h-screen">
                     <div
                         className="mt-100"
@@ -141,8 +163,6 @@ export default function Home() {
                     </div>
                 </section>
             </div>
-
-
         </>
     );
 }
