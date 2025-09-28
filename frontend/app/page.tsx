@@ -119,11 +119,7 @@ export default function Home() {
 
                     {/* Box rechts neben dem Namen */}
                     <div
-                        className="mr-20 mt-10 transition-all duration-300"
-                        style={{
-                            opacity: Math.max(0, 1 - (scrollY / 300)),
-                            transform: `translateY(${scrollY * 0.15}px) scale(${scale})`
-                        }}
+                        className="mr-20 mt-10 transition-all duration-300 "
                     >
                         <div className="w-96 h-100 border-4 border-red-500 rounded-3xl bg-white shadow-lg">
                             {/* Hier können Sie Inhalt für die Box hinzufügen */}
