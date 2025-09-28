@@ -3,8 +3,6 @@ import React from 'react';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 
-
-
 export default function Home() {
     const [scrollY, setScrollY] = useState(0);
     const [isScrolled, setIsScrolled] = useState(false);
@@ -23,7 +21,6 @@ export default function Home() {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-
     const getSubtitleTransform = () => {
         const progress = Math.min(scrollY / 300, 1);
         const opacity = 1 - progress;
@@ -40,6 +37,15 @@ export default function Home() {
 
     return (
         <>
+            {/* Blue Light Gradient from Top Left */}
+            <div
+                className="fixed top-[-50px] left-[-50px] w-180 h-180 pointer-events-none z-52"
+                style={{
+                    background: 'radial-gradient(circle at 30% 30%, rgba(59, 130, 246, 0.3) 0%, rgba(59, 130, 246, 0.1) 40%, transparent 70%)',
+                    filter: 'blur(10px)'
+                }}
+            ></div>
+
             {/* Sticky Header/Navbar */}
             <div
                 className={`fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md shadow-sm transition-all duration-500 ${
@@ -67,19 +73,18 @@ export default function Home() {
             </div>
 
             <div className="flex min-h-screen flex-col justify-between pl-30 mt-50">
+                <h1
+                    className={`text-[10rem] font-bold sticky top-1 z-51`}
+                    style={{
+                        transform: `scale(${scale})`,
+                        transformOrigin: 'top left',
+                        transition: 'transform .2s linear',
+                    }}
+                >
+                    Jelal Kasso
+                </h1>
                 <div className="flex items-start justify-between">
                     <div>
-                        <h1
-                            className={`text-[10rem] font-bold sticky top-1 z-51`}
-                            style={{
-                                transform: `scale(${scale})`,
-                                transformOrigin: 'top left',
-                                transition: 'transform .2s linear',
-                            }}
-                        >
-                            Jelal Kasso
-                        </h1>
-
                         <section id="start" className="relative">
                             <div>
                                 <div
@@ -119,12 +124,12 @@ export default function Home() {
 
                     {/* Box rechts neben dem Namen */}
                     <div
-                        className="mr-20 mt-10 transition-all duration-300 "
+                        className="mr-20 mt-10 transition-all duration-300 z-52 "
                     >
                         <div className="w-96 h-100 border-4 border-red-500 rounded-3xl bg-white shadow-lg">
                             {/* Hier können Sie Inhalt für die Box hinzufügen */}
                             <div className="w-full h-full flex items-center justify-center">
-                                <p className="text-gray-600 text-center">Box Content</p>
+                                <p className="text-gray-600 text-center">W</p>
                             </div>
                         </div>
                     </div>
