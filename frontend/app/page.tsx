@@ -306,9 +306,12 @@ export default function Home() {
                                             <p className="text-red-500 text-sm mt-1">{errors.message}</p>
                                         )}
                                     </div>
-                                    <div className="flex items-center justify-between">
+                                    <div className="flex items-center justify-between ">
                                         <button
-                                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold p-3 px-6 rounded-xl focus:outline-none focus:shadow-outline transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                                            className="bg-[#2758a8] hover:bg-[#2b64c2] text-white font-bold p-3
+                                                       px-6 rounded-xl focus:outline-none transition-all duration-270
+                                                        disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer
+                                                        hover:shadow-[0_0_20px_rgba(39,88,168,0.5)]"
                                             type="button"
                                             onClick={sendEmail}
                                             disabled={isSubmitting}
