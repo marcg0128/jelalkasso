@@ -16,6 +16,13 @@ export default function Home() {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitStatus, setSubmitStatus] = useState('');
 
+    const portfolioItems = [
+        { id: 1, title: 'Projekt 1', imageUrl: '/project1.jpg', description: 'Beschreibung zu Projekt'},
+        { id: 2, title: 'Projekt 2', imageUrl: '/project2.jpg', description: 'Beschreibung zu Projekt'},
+        { id: 3, title: 'Projekt 3', imageUrl: '/project3.jpg', description: 'Beschreibung zu Projekt'},
+        // Weitere Projekte hier hinzufügen
+    ];
+
     useEffect(() => {
         const handleScroll = () => {
             const currentScrollY = window.scrollY;
@@ -232,9 +239,30 @@ export default function Home() {
                 <section id="projects" className="min-h-screen">
                     <div className="mt-120 mb-20 px-12">
                         <h2 className="text-7xl font-semibold mb-10">Portfolio</h2>
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <ul className="w-400 h-170 border-1 border-gray-500 rounded-3xl overflow-x-auto snap-x
+                                        snap-mandatory grid grid-flow-col auto-cols-[40%] m-20 p-0 list-none gap-8 scroll-container"
+                            >
+                            {portfolioItems.map((item, index) => (
 
-                        </div>
+                                <li key={item.id} className={`snap-center mb-8 p-6 bg-white rounded-2xl shadow-md hover:shadow-lg transition-shadow ${index % 2 === 0 ? 'bg-gray-50' : 'bg-gray-100'}`}>
+                                    <div className="flex items-center">
+                                        <div className="w-1/3 h-48 relative mr-6">
+                                            <Image
+                                                src={item.imageUrl}
+                                                alt={item.title}
+                                                layout="fill"
+                                                objectFit="cover"
+                                                className="rounded-2xl"
+                                            />
+                                        </div>
+                                        <div className="w-2/3">
+                                            <h3 className="text-3xl font-bold mb-2">{item.title}</h3>
+                                            <p className="text-lg text-gray-700">{item.description}</p>
+                                        </div>
+                                    </div>
+                                </li>
+                            ))}
+                        </ul>
                     </div>
                 </section>
 
