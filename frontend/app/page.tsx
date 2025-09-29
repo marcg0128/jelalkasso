@@ -132,16 +132,16 @@ export default function Home() {
                     </h2>
                     <nav className="flex items-center">
                         <div className="flex space-x-6 justify-end">
-                            <a href="#start" className="text-sm font-medium text-gray-700 hover:text-gray-900 transition-colors">Home</a>
-                            <a href="#about" className="text-sm font-medium text-gray-700 hover:text-gray-900 transition-colors">About</a>
-                            <a href="#projects" className="text-sm font-medium text-gray-700 hover:text-gray-900 transition-colors">Projects</a>
-                            <a href="#contact" className="text-sm font-medium text-gray-700 hover:text-gray-900 transition-colors">Contact</a>
+                            <a href="#start" className="text-sm font-medium text-gray-700 hover:text-gray-900 transition-colors">Start</a>
+                            <a href="#about" className="text-sm font-medium text-gray-700 hover:text-gray-900 transition-colors">Über mich</a>
+                            <a href="#projects" className="text-sm font-medium text-gray-700 hover:text-gray-900 transition-colors">Projekte</a>
+                            <a href="#contact" className="text-sm font-medium text-gray-700 hover:text-gray-900 transition-colors">Kontakt</a>
                         </div>
                     </nav>
                 </div>
             </div>
 
-            <div className="flex min-h-screen flex-col justify-between pl-30 mt-50">
+            <div className="flex min-h-screen flex-col justify-between pl-30 mt-50 text-[#ededed]  ">
                 <h1
                     className={`text-[10rem] font-bold sticky top-1 z-51`}
                     style={{
@@ -189,45 +189,58 @@ export default function Home() {
                                 </div>
                             </div>
                         </section>
+                        <section id="about" className="min-h-screen">
+                            <div
+                                className="mt-150 mb-10 px-12"
+                                style={{
+                                    transform: `translateY(${scrollY * 0.1}px)`
+                                }}
+                            >
+                                <h2 className="text-7xl font-semibold mb-4">Über mich</h2>
+                                <p className="text-4xl max-w-3xl">
+                                    Hi, ich bin Jelal Kasso – leidenschaftlicher Fotograf und Videograf. Ich liebe es, besondere Momente
+                                    einzufangen und Geschichten durch Bilder und Videos zu erzählen. Jedes Projekt ist für mich
+                                    eine neue Gelegenheit, Kreativität mit Technik zu verbinden und einzigartige Erinnerungen zu
+                                    schaffen.
+                                </p>
+                                <br/>
+                                <p className="text-3xl max-w-3xl text-gray-500">
+                                    In den letzten Jahren durfte ich mit Menschen aus den unterschiedlichsten Bereichen arbeiten
+                                    – von persönlichen Shootings über Hochzeiten bis hin zu kreativen Projekten und Events.
+                                    Jedes Projekt ist für mich einzigartig, und ich lege großen Wert darauf, meine Arbeit
+                                    individuell auf die Wünsche und Persönlichkeit meiner Kunden abzustimmen. <br/><br/>
+
+                                    Mit Kreativität, technischer Präzision und einem Auge für Details schaffe ich Bilder und
+                                    Videos, die nicht nur ästhetisch überzeugen, sondern auch Gefühle wecken. Mein Ziel ist es,
+                                    Erinnerungen zu gestalten, die Menschen bewegen und eine Geschichte erzählen, die noch lange
+                                    nachwirkt.
+                                </p>
+                            </div>
+                        </section>
                     </div>
 
                     {/* Box rechts neben dem Namen */}
-                    <div className="mr-20 mt-10 transition-all duration-300 z-49">
+                    <aside className="sticky top-24 self-start z-40">
                         <div className="w-96 h-100 border-4 border-red-500 rounded-3xl bg-white shadow-lg overflow-hidden">
                             <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200">
                                 <p className="text-gray-400 text-center text-xl">Profilbild</p>
                             </div>
                         </div>
-                    </div>
+                    </aside>
                 </div>
 
-                <section id="start-spacer" className="h-20"></section>
+                <section id="projects" className="min-h-screen">
+                    <div className="mt-120 mb-20 px-12">
+                        <h2 className="text-7xl font-semibold mb-10">Portfolio</h2>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 
-                <section id="about" className="min-h-screen">
-                    <div
-                        className="mt-20 mb-10 px-12"
-                        style={{
-                            transform: `translateY(${scrollY * 0.1}px)`
-                        }}
-                    >
-                        <h2 className="text-7xl font-semibold mb-4">Über mich</h2>
-                        <p className="text-2xl max-w-3xl">
-                            Hi, ich bin Jelal Kasso – leidenschaftlicher Fotograf und Videograf. Ich liebe es, besondere Momente
-                            einzufangen und Geschichten durch Bilder und Videos zu erzählen. Jedes Projekt ist für mich
-                            eine neue Gelegenheit, Kreativität mit Technik zu verbinden und einzigartige Erinnerungen zu
-                            schaffen.
-                        </p>
-                    </div>
-
-                    <div className="mt-20 mb-20">
-                        <div className="h-screen bg-gradient-to-b from-gray-50 to-gray-100 flex items-center justify-center">
-                            <div className="text-center">
-                                <h2 className="text-4xl font-bold mb-4">Portfolio</h2>
-                                <p className="text-gray-600">Hier kommen deine Projekte...</p>
-                            </div>
                         </div>
                     </div>
                 </section>
+
+                <section id="start-spacer" className="h-20"></section>
+
+
 
                 <section id="contact" className="min-h-screen">
                     <div className="mt-20 mb-20">
