@@ -2,6 +2,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 export default function Home() {
     const [scrollY, setScrollY] = useState(0);
@@ -16,12 +17,46 @@ export default function Home() {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitStatus, setSubmitStatus] = useState('');
 
-    const portfolioItems = [
-        { id: 1, title: 'Projekt 1', imageUrl: '/project1.jpg', description: 'Beschreibung zu Projekt'},
-        { id: 2, title: 'Projekt 2', imageUrl: '/project2.jpg', description: 'Beschreibung zu Projekt'},
-        { id: 3, title: 'Projekt 3', imageUrl: '/project3.jpg', description: 'Beschreibung zu Projekt'},
-        // Weitere Projekte hier hinzufügen
+    const [currentIndex, setCurrentIndex] = useState(0);
+
+  const portfolioItems = [
+        {
+          id: 1,
+          title: "E-Commerce Platform",
+          description: "Eine moderne E-Commerce-Lösung mit React und Node.js, die nahtlose Benutzererfahrung und schnelle Performance bietet.",
+          imageUrl: "https://images.unsplash.com/photo-1557821552-17105176677c?w=800&h=600&fit=crop"
+        },
+        {
+          id: 2,
+          title: "Mobile Banking App",
+          description: "Sichere und intuitive Banking-Anwendung mit biometrischer Authentifizierung und Echtzeit-Transaktionen.",
+          imageUrl: "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=800&h=600&fit=crop"
+        },
+        {
+          id: 3,
+          title: "Dashboard Analytics",
+          description: "Datenvisualisierungs-Dashboard mit interaktiven Charts und Echtzeit-Metriken für Business Intelligence.",
+          imageUrl: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop"
+        },
+        {
+          id: 4,
+          title: "Social Media Platform",
+          description: "Innovative Social-Media-Plattform mit KI-gestützten Empfehlungen und modernen Chat-Features.",
+          imageUrl: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=800&h=600&fit=crop"
+        }
     ];
+
+     const nextSlide = () => {
+    setCurrentIndex((prev) => (prev + 1) % portfolioItems.length);
+     };
+
+     const prevSlide = () => {
+         setCurrentIndex((prev) => (prev - 1 + portfolioItems.length) % portfolioItems.length);
+     };
+
+     const goToSlide = (index) => {
+        setCurrentIndex(index);
+     };
 
     useEffect(() => {
         const handleScroll = () => {
@@ -236,37 +271,77 @@ export default function Home() {
                     </aside>
                 </div>
 
-                <section id="projects" className="min-h-screen">
-                    <div className="mt-120 mb-20 px-12">
-                        <h2 className="text-7xl font-semibold mb-10">Portfolio</h2>
-                        <ul className="w-400 h-170 border-1 border-gray-500 rounded-3xl overflow-x-auto snap-x
-                                        snap-mandatory grid grid-flow-col auto-cols-[40%] m-20 p-0 list-none gap-8 scroll-container"
-                            >
-                            {portfolioItems.map((item, index) => (
+                <section id="projects" className="min-h-screen flex flex-col mt-120">
+                    <div className="w-full px-8 py-20">
+                        <h2 className="text-7xl font-semibold mb-16 text-gray-900">Portfolio</h2>
 
-                                <li key={item.id} className={`snap-center mb-8 p-6 bg-white rounded-2xl shadow-md hover:shadow-lg transition-shadow ${index % 2 === 0 ? 'bg-gray-50' : 'bg-gray-100'}`}>
-                                    <div className="flex items-center">
-                                        <div className="w-1/3 h-48 relative mr-6">
-                                            <Image
-                                                src={item.imageUrl}
-                                                alt={item.title}
-                                                layout="fill"
-                                                objectFit="cover"
-                                                className="rounded-2xl"
-                                            />
+                        <div className="relative">
+                            {/* Carousel Container */}
+                            <div className="relative overflow-hidden rounded-3xl shadow-2xl bg-white">
+                                <div
+                                    className="flex transition-transform duration-500 ease-out"
+                                    style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+                                >
+                                    {portfolioItems.map((item) => (
+                                        <div key={item.id} className="min-w-full">
+                                            <div className="flex flex-col h-full">
+                                                {/* Image */}
+                                                <div className="w-full flex-1">
+                                                    <div className="relative h-[70vh] overflow-hidden">
+                                                        <img
+                                                            src={item.imageUrl}
+                                                            alt={item.title}
+                                                            className="w-full h-full object-cover"
+                                                        />
+                                                    </div>
+                                                </div>
+
+                                                {/* Content */}
+                                                <div className="w-full py-12 px-16">
+                                                    <h3 className="text-5xl font-bold text-gray-900 mb-4">{item.title}</h3>
+                                                    <p className="text-2xl text-gray-600 leading-relaxed">{item.description}</p>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div className="w-2/3">
-                                            <h3 className="text-3xl font-bold mb-2">{item.title}</h3>
-                                            <p className="text-lg text-gray-700">{item.description}</p>
-                                        </div>
-                                    </div>
-                                </li>
-                            ))}
-                        </ul>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Navigation Buttons */}
+                            <button
+                                onClick={prevSlide}
+                                className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white p-4 rounded-full shadow-lg transition-all hover:scale-110 z-10"
+                                aria-label="Vorheriges Projekt"
+                            >
+                                <ChevronLeft className="w-6 h-6 text-gray-800" />
+                            </button>
+
+                            <button
+                                onClick={nextSlide}
+                                className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white p-4 rounded-full shadow-lg transition-all hover:scale-110 z-10"
+                                aria-label="Nächstes Projekt"
+                            >
+                                <ChevronRight className="w-6 h-6 text-gray-800" />
+                            </button>
+
+                            {/* Dot Indicators */}
+                            <div className="flex justify-center gap-3 mt-8">
+                                {portfolioItems.map((_, index) => (
+                                    <button
+                                        key={index}
+                                        onClick={() => goToSlide(index)}
+                                        className={`transition-all duration-300 rounded-full ${
+                                            currentIndex === index
+                                                ? 'w-12 h-3 bg-gray-800'
+                                                : 'w-3 h-3 bg-gray-400 hover:bg-gray-600'
+                                        }`}
+                                        aria-label={`Gehe zu Projekt ${index + 1}`}
+                                    />
+                                ))}
+                            </div>
+                        </div>
                     </div>
                 </section>
-
-                <section id="start-spacer" className="h-20"></section>
 
 
 
