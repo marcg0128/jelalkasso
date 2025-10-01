@@ -14,10 +14,10 @@ export default function Home() {
     const [currentIndex, setCurrentIndex] = useState(0);
 
     const portfolioItems = [
-        { id: 1, title: "Hochzeitsmomente", description: "Eine Foto- und Videoreportage, die Emotionen authentisch einfängt und den Tag in einzigartigen Bildern erzählt.", imageUrl: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800&h=600&fit=crop" },
-        { id: 2, title: "Event-Highlights", description: "Professionelle Aufnahmen, die Atmosphäre, Energie und besondere Momente eines Events eindrucksvoll festhalten.", imageUrl: "https://images.unsplash.com/photo-1497032628192-86f99bcd76bc?w=800&h=600&fit=crop" },
-        { id: 3, title: "Porträtserie", description: "Kreative Porträts mit Fokus auf Persönlichkeit und Ausdruck, die modern und authentisch inszeniert sind.", imageUrl: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=800&h=600&fit=crop" },
-        { id: 4, title: "Imagefilm & Business", description: "Ein visueller Auftritt, der Unternehmen, Marken und Produkte professionell präsentiert und Vertrauen schafft.", imageUrl: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800&h=600&fit=crop" }
+        { id: 1, title: "Hochzeitsmomente", description: "Eine Foto- und Videoreportage, die Emotionen authentisch einfängt und den Tag in einzigartigen Bildern erzählt.", imageUrl: "/images/Download.jpeg" },
+        { id: 2, title: "Event-Highlights", description: "Professionelle Aufnahmen, die Atmosphäre, Energie und besondere Momente eines Events eindrucksvoll festhalten.", imageUrl: "" },
+        { id: 3, title: "Porträtserie", description: "Kreative Porträts mit Fokus auf Persönlichkeit und Ausdruck, die modern und authentisch inszeniert sind.", imageUrl: "" },
+        { id: 4, title: "Imagefilm & Business", description: "Ein visueller Auftritt, der Unternehmen, Marken und Produkte professionell präsentiert und Vertrauen schafft.", imageUrl: "" }
     ];
 
     const nextSlide = () => setCurrentIndex((prev) => (prev + 1) % portfolioItems.length);
@@ -98,7 +98,17 @@ export default function Home() {
         setWindowSize({ width: window.innerWidth, height: window.innerHeight });
     }, []);
 
-    const maxScroll = windowSize.height > 0 ? windowSize.height * 0.5 : 400;
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            setWindowSize({ width: window.innerWidth, height: window.innerHeight });
+        }
+    }, []);
+
+    // Falls Server-Render: nichts anzeigen (oder statischen Fallback zurückgeben)
+    if (windowSize.height === 0) return null;
+
+    // Danach ist Window sicher verfügbar
+    const maxScroll = windowSize.height * 0.5;
     const minScale = windowSize.width < 768 ? 0.5 : 0.15;
     const scaleFactor = Math.max(minScale, 1 - scrollY / maxScroll);
 
@@ -109,7 +119,7 @@ export default function Home() {
 
             {/* Navbar */}
             <div className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-                isMobile || isScrolled ? "bg-white/90 backdrop-blur-md shadow-sm" : "opacity-0 pointer-events-none"
+                isMobile || isScrolled ? "bg-white/90 backdrop-blur-md shadow-sm translate-y-0" : "opacity-0 pointer-events-none -translate-y-full"
             }`}>
                 <div className="container mx-auto px-[2vw] py-[1.5vh] flex items-center justify-between z-49">
                     <h2 className="text-[clamp(1rem,2.5vw,1.5rem)] font-semibold">
@@ -231,7 +241,12 @@ export default function Home() {
                                             <div className="flex flex-col h-full">
                                                 <div className="w-full flex-1">
                                                     <div className="relative h-[50vh] md:h-[70vh] overflow-hidden">
-                                                        <img src={item.imageUrl} alt={item.title} className="w-full h-full object-cover" />
+                                                        <Image
+                                                            src={item.imageUrl}
+                                                            alt={item.title}
+                                                            fill
+                                                            className="object-cover"
+                                                        />
                                                     </div>
                                                 </div>
                                                 <div className="w-full py-[3vh] md:py-[6vh] px-[4vw] md:px-[6vw]">
