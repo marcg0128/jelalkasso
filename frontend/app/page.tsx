@@ -22,27 +22,27 @@ export default function Home() {
   const portfolioItems = [
         {
           id: 1,
-          title: "E-Commerce Platform",
-          description: "Eine moderne E-Commerce-Lösung mit React und Node.js, die nahtlose Benutzererfahrung und schnelle Performance bietet.",
-          imageUrl: "https://images.unsplash.com/photo-1557821552-17105176677c?w=800&h=600&fit=crop"
+          title: "Hochzeitsmomente",
+          description: "Eine Foto- und Videoreportage, die Emotionen authentisch einfängt und den Tag in einzigartigen Bildern erzählt.",
+          imageUrl: " https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800&h=600&fit=crop"
         },
         {
           id: 2,
-          title: "Mobile Banking App",
-          description: "Sichere und intuitive Banking-Anwendung mit biometrischer Authentifizierung und Echtzeit-Transaktionen.",
-          imageUrl: "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=800&h=600&fit=crop"
+          title: "Event-Highlights",
+          description: "Professionelle Aufnahmen, die Atmosphäre, Energie und besondere Momente eines Events eindrucksvoll festhalten.",
+          imageUrl: " https://images.unsplash.com/photo-1497032628192-86f99bcd76bc?w=800&h=600&fit=crop"
         },
         {
           id: 3,
-          title: "Dashboard Analytics",
-          description: "Datenvisualisierungs-Dashboard mit interaktiven Charts und Echtzeit-Metriken für Business Intelligence.",
-          imageUrl: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop"
+          title: "Porträtserie",
+          description: "Kreative Porträts mit Fokus auf Persönlichkeit und Ausdruck, die modern und authentisch inszeniert sind.",
+          imageUrl: " https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=800&h=600&fit=crop"
         },
         {
           id: 4,
-          title: "Social Media Platform",
-          description: "Innovative Social-Media-Plattform mit KI-gestützten Empfehlungen und modernen Chat-Features.",
-          imageUrl: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=800&h=600&fit=crop"
+          title: "Imagefilm & Business",
+          description: "Ein visueller Auftritt, der Unternehmen, Marken und Produkte professionell präsentiert und Vertrauen schafft.",
+          imageUrl: " https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800&h=600&fit=crop"
         }
     ];
 
@@ -271,12 +271,11 @@ export default function Home() {
                     </aside>
                 </div>
 
-                <section id="projects" className="min-h-screen flex flex-col mt-120">
+                <section id="projects" className="min-h-screen flex flex-col mt-100">
                     <div className="w-full px-8 py-20">
-                        <h2 className="text-7xl font-semibold mb-16 text-gray-900">Portfolio</h2>
+                        <h2 className="text-7xl font-semibold mb-16 ">Portfolio</h2>
 
                         <div className="relative">
-                            {/* Carousel Container */}
                             <div className="relative overflow-hidden rounded-3xl shadow-2xl bg-white">
                                 <div
                                     className="flex transition-transform duration-500 ease-out"
@@ -285,7 +284,6 @@ export default function Home() {
                                     {portfolioItems.map((item) => (
                                         <div key={item.id} className="min-w-full">
                                             <div className="flex flex-col h-full">
-                                                {/* Image */}
                                                 <div className="w-full flex-1">
                                                     <div className="relative h-[70vh] overflow-hidden">
                                                         <img
@@ -298,7 +296,7 @@ export default function Home() {
 
                                                 {/* Content */}
                                                 <div className="w-full py-12 px-16">
-                                                    <h3 className="text-5xl font-bold text-gray-900 mb-4">{item.title}</h3>
+                                                    <h3 className="text-5xl font-bold  mb-4">{item.title}</h3>
                                                     <p className="text-2xl text-gray-600 leading-relaxed">{item.description}</p>
                                                 </div>
                                             </div>
@@ -310,7 +308,7 @@ export default function Home() {
                             {/* Navigation Buttons */}
                             <button
                                 onClick={prevSlide}
-                                className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white p-4 rounded-full shadow-lg transition-all hover:scale-110 z-10"
+                                className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white p-4 rounded-full shadow-lg transition-all hover:scale-110 z-10 cursor-pointer"
                                 aria-label="Vorheriges Projekt"
                             >
                                 <ChevronLeft className="w-6 h-6 text-gray-800" />
@@ -318,10 +316,10 @@ export default function Home() {
 
                             <button
                                 onClick={nextSlide}
-                                className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white p-4 rounded-full shadow-lg transition-all hover:scale-110 z-10"
+                                className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white p-4 rounded-full shadow-lg transition-all hover:scale-110 z-10 cursor-pointer"
                                 aria-label="Nächstes Projekt"
                             >
-                                <ChevronRight className="w-6 h-6 text-gray-800" />
+                                <ChevronRight className="w-6 h-6 text-gray-800 " />
                             </button>
 
                             {/* Dot Indicators */}
@@ -330,7 +328,7 @@ export default function Home() {
                                     <button
                                         key={index}
                                         onClick={() => goToSlide(index)}
-                                        className={`transition-all duration-300 rounded-full ${
+                                        className={`cursor-pointer transition-all duration-300 rounded-full ${
                                             currentIndex === index
                                                 ? 'w-12 h-3 bg-gray-800'
                                                 : 'w-3 h-3 bg-gray-400 hover:bg-gray-600'
