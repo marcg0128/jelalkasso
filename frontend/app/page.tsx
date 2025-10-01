@@ -25,6 +25,8 @@ export default function Home() {
     const goToSlide = (index: number) => setCurrentIndex(index);
 
     useEffect(() => {
+        setWindowSize({ width: window.innerWidth, height: window.innerHeight });
+
         const handleScroll = () => {
             const currentScrollY = window.scrollY;
             setScrollY(currentScrollY);
@@ -39,6 +41,7 @@ export default function Home() {
     useEffect(() => {
         const handleResize = () => {
             setIsMobile(window.innerWidth < 768);
+            setWindowSize({ width: window.innerWidth, height: window.innerHeight });
         };
         handleResize();
         window.addEventListener("resize", handleResize);
@@ -84,19 +87,25 @@ export default function Home() {
     };
 
     const getSubtitleTransform = () => {
-        const progress = Math.min(scrollY / (window.innerHeight * 0.3), 1);
+        if (windowSize.height === 0) return { transform: 'translateY(0px)', opacity: 1 };
+        const progress = Math.min(scrollY / (windowSize.height * 0.3), 1);
         return { transform: `translateY(${-scrollY * 0.3}px)`, opacity: 1 - progress };
     };
 
-    const maxScroll = typeof window !== 'undefined' ? window.innerHeight * 0.5 : 400;
-    const minScale = typeof window !== 'undefined' && window.innerWidth < 768 ? 0.5 : 0.15;
+    const [windowSize, setWindowSize] = useState({ width: 0, height: 0 });
+
+    useEffect(() => {
+        setWindowSize({ width: window.innerWidth, height: window.innerHeight });
+    }, []);
+
+    const maxScroll = windowSize.height > 0 ? windowSize.height * 0.5 : 400;
+    const minScale = windowSize.width < 768 ? 0.5 : 0.15;
     const scaleFactor = Math.max(minScale, 1 - scrollY / maxScroll);
 
     return (
         <>
             {/* Blue Light Gradient */}
-                        <div className="fixed top-[-50px] left-[-50px] w-180 h-180 pointer-events-none z-52" style={{ background: 'radial-gradient(circle at 30% 30%, rgba(59, 130, 246, 0.3) 0%, rgba(59, 130, 246, 0.1) 40%, transparent 70%)', filter: 'blur(10px)' }}></div>
-
+            <div className="fixed top-[-50px] left-[-50px] w-180 h-180 pointer-events-none z-52" style={{ background: 'radial-gradient(circle at 30% 30%, rgba(59, 130, 246, 0.3) 0%, rgba(59, 130, 246, 0.1) 40%, transparent 70%)', filter: 'blur(10px)' }}></div>
 
             {/* Navbar */}
             <div className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
