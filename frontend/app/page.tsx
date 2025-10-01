@@ -2,6 +2,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 export default function Home() {
     const [scrollY, setScrollY] = useState(0);
@@ -15,6 +16,47 @@ export default function Home() {
     const [errors, setErrors] = useState<{name?: string; email?: string; message?: string}>({});
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitStatus, setSubmitStatus] = useState('');
+
+    const [currentIndex, setCurrentIndex] = useState(0);
+
+  const portfolioItems = [
+        {
+          id: 1,
+          title: "Hochzeitsmomente",
+          description: "Eine Foto- und Videoreportage, die Emotionen authentisch einfängt und den Tag in einzigartigen Bildern erzählt.",
+          imageUrl: " https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800&h=600&fit=crop"
+        },
+        {
+          id: 2,
+          title: "Event-Highlights",
+          description: "Professionelle Aufnahmen, die Atmosphäre, Energie und besondere Momente eines Events eindrucksvoll festhalten.",
+          imageUrl: " https://images.unsplash.com/photo-1497032628192-86f99bcd76bc?w=800&h=600&fit=crop"
+        },
+        {
+          id: 3,
+          title: "Porträtserie",
+          description: "Kreative Porträts mit Fokus auf Persönlichkeit und Ausdruck, die modern und authentisch inszeniert sind.",
+          imageUrl: " https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=800&h=600&fit=crop"
+        },
+        {
+          id: 4,
+          title: "Imagefilm & Business",
+          description: "Ein visueller Auftritt, der Unternehmen, Marken und Produkte professionell präsentiert und Vertrauen schafft.",
+          imageUrl: " https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800&h=600&fit=crop"
+        }
+    ];
+
+     const nextSlide = () => {
+    setCurrentIndex((prev) => (prev + 1) % portfolioItems.length);
+     };
+
+     const prevSlide = () => {
+         setCurrentIndex((prev) => (prev - 1 + portfolioItems.length) % portfolioItems.length);
+     };
+
+     const goToSlide = (index: number ) => {
+        setCurrentIndex(index);
+     };
 
     useEffect(() => {
         const handleScroll = () => {
@@ -229,16 +271,75 @@ export default function Home() {
                     </aside>
                 </div>
 
-                <section id="projects" className="min-h-screen">
-                    <div className="mt-120 mb-20 px-12">
-                        <h2 className="text-7xl font-semibold mb-10">Portfolio</h2>
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <section id="projects" className="min-h-screen flex flex-col mt-100">
+                    <div className="w-full px-8 py-20">
+                        <h2 className="text-7xl font-semibold mb-16 ">Portfolio</h2>
 
+                        <div className="relative">
+                            <div className="relative overflow-hidden rounded-3xl shadow-2xl bg-white">
+                                <div
+                                    className="flex transition-transform duration-500 ease-out"
+                                    style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+                                >
+                                    {portfolioItems.map((item) => (
+                                        <div key={item.id} className="min-w-full">
+                                            <div className="flex flex-col h-full">
+                                                <div className="w-full flex-1">
+                                                    <div className="relative h-[70vh] overflow-hidden">
+                                                        <img
+                                                            src={item.imageUrl}
+                                                            alt={item.title}
+                                                            className="w-full h-full object-cover"
+                                                        />
+                                                    </div>
+                                                </div>
+
+                                                {/* Content */}
+                                                <div className="w-full py-12 px-16">
+                                                    <h3 className="text-5xl font-bold  mb-4">{item.title}</h3>
+                                                    <p className="text-2xl text-gray-600 leading-relaxed">{item.description}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Navigation Buttons */}
+                            <button
+                                onClick={prevSlide}
+                                className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white p-4 rounded-full shadow-lg transition-all hover:scale-110 z-10 cursor-pointer"
+                                aria-label="Vorheriges Projekt"
+                            >
+                                <ChevronLeft className="w-6 h-6 text-gray-800" />
+                            </button>
+
+                            <button
+                                onClick={nextSlide}
+                                className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white p-4 rounded-full shadow-lg transition-all hover:scale-110 z-10 cursor-pointer"
+                                aria-label="Nächstes Projekt"
+                            >
+                                <ChevronRight className="w-6 h-6 text-gray-800 " />
+                            </button>
+
+                            {/* Dot Indicators */}
+                            <div className="flex justify-center gap-3 mt-8">
+                                {portfolioItems.map((_, index) => (
+                                    <button
+                                        key={index}
+                                        onClick={() => goToSlide(index)}
+                                        className={`cursor-pointer transition-all duration-300 rounded-full ${
+                                            currentIndex === index
+                                                ? 'w-12 h-3 bg-gray-800'
+                                                : 'w-3 h-3 bg-gray-400 hover:bg-gray-600'
+                                        }`}
+                                        aria-label={`Gehe zu Projekt ${index + 1}`}
+                                    />
+                                ))}
+                            </div>
                         </div>
                     </div>
                 </section>
-
-                <section id="start-spacer" className="h-20"></section>
 
 
 
