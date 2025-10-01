@@ -54,7 +54,7 @@ export default function Home() {
          setCurrentIndex((prev) => (prev - 1 + portfolioItems.length) % portfolioItems.length);
      };
 
-     const goToSlide = (index) => {
+     const goToSlide = (index: number ) => {
         setCurrentIndex(index);
      };
 
