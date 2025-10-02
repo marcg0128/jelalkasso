@@ -24,8 +24,8 @@
 }
 
 
-body, h1, h2, h3, h4, h5, h6, p, div {
-    background: var(--background);
+body {
+    background: #090909;
     color: #fff;
     font-family: 'Montserrat', sans-serif !important; /* !important erzwingt die Schrift */
 }
