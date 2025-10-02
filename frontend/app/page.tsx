@@ -69,11 +69,15 @@ export default function Home() {
     return (
         <>
             <div>
-                <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-                    <div className="">
-                        <Image src="" alt="logo"  className="" />
+                <nav className="bg-[var(--bg-dark)] w-full fixed top-0 left-0 z-50 flex items-center justify-between p-4 shadow-md">
+                    <div className=" flex items-center">
+                        <Image
+                            src={"/logo.svg"}
+                            alt="logo"
+                            className=""
+                        />
                     </div>
-                    <div>
+                    <div className="">
                         <ul>
                             <li><a href="#home">Home</a></li>
                             <li><a href="#about">Über mich</a></li>

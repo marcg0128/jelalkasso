@@ -24,10 +24,11 @@
 }
 
 
-/*body, h1, h2, h3, h4, h5, h6, p, div {*/
-/*    background: var(--background);*/
-/*    font-family: 'Raleway', sans-serif !important; !* !important erzwingt die Schrift *!*/
-/*}*/
+body, h1, h2, h3, h4, h5, h6, p, div {
+    background: var(--background);
+    color: #fff;
+    font-family: 'Montserrat', sans-serif !important; /* !important erzwingt die Schrift */
+}
 
 
 
