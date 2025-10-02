@@ -78,14 +78,29 @@ export default function Home() {
         }
     };
 
+    const calcLogoSizeWidth = () => {
+        if (scrollY > 700) return 120;
+
+        return 220;
+    }
+
+    const calcLogoSizeHeight = () => {
+        if (scrollY > 700) return 150;
+
+        return 330;
+    }
+
     return (
         <>
-            <div className="">
+            <div id="home"></div>
+            <div className="nav">
                 <nav className="bg-black w-full fixed top-0 left-0 z-50 flex items-center justify-center px-6 py-3 shadow-md">
                     <div className="flex items-center w-full max-w-5xl justify-center relative mb-8">
 
                         {/* Linke Seite */}
-                        <ul className="relative md:flex items-center gap-12 text-white font-medium mt-40">
+                        <ul className={`relative md:flex items-center gap-12 text-white font-medium ${
+                            scrollY > 700 ? 'mt-5' : 'mt-40'
+                        }`}>
                             {navItems.map(item => (
                                 <li key={item.id} className="relative">
                                     <a
@@ -108,19 +123,23 @@ export default function Home() {
                         </ul>
 
                         {/* Logo */}
-                        <div className="absolute left-1/2 -translate-x-1/2 top-[-8rem] pointer-events-none">
+                        <div className={`absolute left-1/2  top-[-8rem] pointer-events-none transition-all ${
+                            scrollY > 700 ? '-translate-x-[40em] translate-y-15' : '-translate-x-1/2'
+                        }`}>
                             <Image
                                 src={"/logo.svg"}
                                 alt="logo"
                                 className="filter brightness-0 invert h-auto pointer-events-none"
-                                width={220}
-                                height={330}
+                                width={calcLogoSizeWidth()}
+                                height={calcLogoSizeHeight()}
                                 priority
                             />
                         </div>
 
                         {/* Rechte Seite */}
-                        <ul className="relative ml-12 md:flex items-center gap-12 text-white font-medium mt-40">
+                        <ul className={`relative md:flex items-center gap-12 text-white font-medium ml-[43px] ${
+                            scrollY > 700 ? 'mt-5' : 'mt-40'
+                        }`}>
                             {navItemsRight.map(item => (
                                 <li key={item.id} className="relative">
                                     <a
@@ -145,7 +164,33 @@ export default function Home() {
                 </nav>
             </div>
 
+            <div id="intro" className="min-h-screen flex flex-col items-center justify-center bg-white text-black px-6 py-20">
+                Video
+            </div>
 
+            <div  id="about" className="mb-20"></div>
+
+            <section className="min-h-screen flex flex-col items-center px-6 py-20">
+                <h1 className="text-6xl mb-8">Über mich</h1>
+                <p className="text-4xl max-w-3xl">
+                                    Hi, ich bin Jelal Kasso – leidenschaftlicher Fotograf und Videograf. Ich liebe es, besondere Momente
+                                    einzufangen und Geschichten durch Bilder und Videos zu erzählen. Jedes Projekt ist für mich
+                                    eine neue Gelegenheit, Kreativität mit Technik zu verbinden und einzigartige Erinnerungen zu
+                                    schaffen.
+                </p>
+                <br/>
+                <p className="text-3xl max-w-3xl text-gray-500">
+                    In den letzten Jahren durfte ich mit Menschen aus den unterschiedlichsten Bereichen arbeiten
+                    – von persönlichen Shootings über Hochzeiten bis hin zu kreativen Projekten und Events.
+                    Jedes Projekt ist für mich einzigartig, und ich lege großen Wert darauf, meine Arbeit
+                    individuell auf die Wünsche und Persönlichkeit meiner Kunden abzustimmen. <br/><br/>
+
+                    Mit Kreativität, technischer Präzision und einem Auge für Details schaffe ich Bilder und
+                    Videos, die nicht nur ästhetisch überzeugen, sondern auch Gefühle wecken. Mein Ziel ist es,
+                    Erinnerungen zu gestalten, die Menschen bewegen und eine Geschichte erzählen, die noch lange
+                    nachwirkt.
+                </p>
+            </section>
 
         </>
     );
