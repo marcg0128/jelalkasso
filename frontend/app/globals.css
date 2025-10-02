@@ -1,18 +1,33 @@
-@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
 
 @import "tailwindcss";
 
 :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --bg-dark: oklch(0.1 0.05 249);
+    --bg: oklch(0.15 0.05 249);
+    --bg-light: oklch(0.2 0.05 249);
+    --text: oklch(0.96 0.1 249);
+    --text-muted: oklch(0.76 0.1 249);
+    --highlight: oklch(0.5 0.1 249);
+    --border: oklch(0.4 0.1 249);
+    --border-muted: oklch(0.3 0.1 249);
+    --primary: oklch(0.76 0.1 249);
+    --secondary: oklch(0.76 0.1 69);
+    --danger: oklch(0.7 0.1 30);
+    --warning: oklch(0.7 0.1 100);
+    --success: oklch(0.7 0.1 160);
+    --info: oklch(0.7 0.1 260);
 
+
+    --background: var(--bg);
+    --foreground: var(--text);
 }
 
 
-body, h1, h2, h3, h4, h5, h6, p, div {
-    background: var(--background);
-    font-family: 'Raleway', sans-serif !important; /* !important erzwingt die Schrift */
-}
+/*body, h1, h2, h3, h4, h5, h6, p, div {*/
+/*    background: var(--background);*/
+/*    font-family: 'Raleway', sans-serif !important; !* !important erzwingt die Schrift *!*/
+/*}*/
 
 
 
