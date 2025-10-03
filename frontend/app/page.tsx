@@ -148,13 +148,13 @@ export default function Home() {
     }, []);
 
     const calcLogoSizeWidth = () => {
-        if (windowWidth < 640) return scrollY > 800 ? 80 : 140;
+        if (windowWidth < 640) return 140;
         if (windowWidth < 1024) return scrollY > 800 ? 100 : 180;
         return scrollY > 800 ? 120 : 220;
     };
 
     const calcLogoSizeHeight = () => {
-        if (windowWidth < 640) return scrollY > 800 ? 100 : 200;
+        if (windowWidth < 640) return  200;
         if (windowWidth < 1024) return scrollY > 800 ? 120 : 260;
         return scrollY > 800 ? 150 : 330;
     };
@@ -194,7 +194,7 @@ export default function Home() {
 
                         {/* Logo */}
                         <div className={`absolute top-[-8rem] left-1/2 pointer-events-none transition-transform duration-500 ease-in-out
-                                        ${scrollY > 800 ? 'md:-translate-x-[40em] md:translate-y-15' : '-translate-x-1/2 translate-y-6 md:translate-y-0'}`}
+                                        ${scrollY > 800 ? '-translate-x-1/2 translate-y-6 md:-translate-x-[40em] md:translate-y-15' : '-translate-x-1/2 translate-y-6 md:translate-y-0'}`}
                         >
 
                             <Image
