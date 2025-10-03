@@ -34,6 +34,10 @@ export default function Home() {
     const nextSlide = () => setCurrentIndex((prev) => (prev + 1) % portfolioItems.length);
     const prevSlide = () => setCurrentIndex((prev) => (prev - 1 + portfolioItems.length) % portfolioItems.length);
 
+     const goToSlide = (index: number ) => {
+        setCurrentIndex(index);
+     };
+
     useEffect(() => {
         const handleScroll = () => setScrollY(window.scrollY);
         window.addEventListener('scroll', handleScroll);
@@ -79,14 +83,12 @@ export default function Home() {
     };
 
     const calcLogoSizeWidth = () => {
-        if (scrollY > 700) return 120;
-
+        if (scrollY > 800) return 120;
         return 220;
     }
 
     const calcLogoSizeHeight = () => {
-        if (scrollY > 700) return 150;
-
+        if (scrollY > 800) return 150;
         return 330;
     }
 
@@ -94,12 +96,12 @@ export default function Home() {
         <>
             <div id="home"></div>
             <div className="nav">
-                <nav className="bg-black w-full fixed top-0 left-0 z-50 flex items-center justify-center px-6 py-3 shadow-md">
+                <nav className="bg-black w-full fixed top-0 left-0 z-50 flex items-center justify-center px-6 py-3 shadow-md transition-all duration-500 ease-in-out">
                     <div className="flex items-center w-full max-w-5xl justify-center relative mb-8">
 
                         {/* Linke Seite */}
-                        <ul className={`relative md:flex items-center gap-12 text-white font-medium ${
-                            scrollY > 700 ? 'mt-5' : 'mt-40'
+                        <ul className={`relative md:flex items-center gap-12 text-white font-medium transition-all duration-500 ease-in-out ${
+                            scrollY > 800 ? 'mt-5' : 'mt-40'
                         }`}>
                             {navItems.map(item => (
                                 <li key={item.id} className="relative">
@@ -123,13 +125,13 @@ export default function Home() {
                         </ul>
 
                         {/* Logo */}
-                        <div className={`absolute left-1/2  top-[-8rem] pointer-events-none transition-all ${
-                            scrollY > 700 ? '-translate-x-[40em] translate-y-15' : '-translate-x-1/2'
+                        <div className={`absolute left-1/2 top-[-8rem] pointer-events-none transition-all duration-500 ease-in-out ${
+                            scrollY > 800 ? '-translate-x-[40em] translate-y-15' : '-translate-x-1/2'
                         }`}>
                             <Image
                                 src={"/logo.svg"}
                                 alt="logo"
-                                className="filter brightness-0 invert h-auto pointer-events-none"
+                                className="filter brightness-0 invert h-auto pointer-events-none transition-all duration-500 ease-in-out"
                                 width={calcLogoSizeWidth()}
                                 height={calcLogoSizeHeight()}
                                 priority
@@ -137,8 +139,8 @@ export default function Home() {
                         </div>
 
                         {/* Rechte Seite */}
-                        <ul className={`relative md:flex items-center gap-12 text-white font-medium ml-[43px] ${
-                            scrollY > 700 ? 'mt-5' : 'mt-40'
+                        <ul className={`relative md:flex items-center gap-12 text-white font-medium ml-[43px] transition-all duration-500 ease-in-out ${
+                            scrollY > 800 ? 'mt-5' : 'mt-40'
                         }`}>
                             {navItemsRight.map(item => (
                                 <li key={item.id} className="relative">
@@ -164,19 +166,39 @@ export default function Home() {
                 </nav>
             </div>
 
-            <div id="intro" className="min-h-screen flex flex-col items-center justify-center bg-white text-black px-6 py-20">
+            <div id="intro" className="min-h-screen flex flex-col items-center justify-center bg-white text-black px-6 py-20 relative">
                 Video
+
+                {/* Instagram Button - unten rechts fixiert */}
+                <div className="fixed bottom-8 right-8 z-40">
+                    <a
+                        href="https://www.instagram.com/jk_fotovideo/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group relative w-16 h-16 backdrop-blur-md bg-white/10 rounded-full flex items-center
+                                   justify-center transition-all duration-300  border-0
+                                   hover:shadow-xl hover:ring-2 hover:ring-white/30 active:scale-95
+                                   before:absolute before:inset-[-10px] before:rounded-full before:backdrop-blur-sm before:-z-10"
+                    >
+                        <Instagram
+                            width={32}
+                            height={32}
+                            className="text-white transition-transform duration-300 mix-blend-difference"
+                        />
+
+                    </a>
+                </div>
             </div>
 
-            <div  id="about" className="mb-20"></div>
+            <div id="about" className="mb-20"></div>
 
             <section className="min-h-screen flex flex-col items-center px-6 py-20">
                 <h1 className="text-6xl mb-8">Über mich</h1>
                 <p className="text-4xl max-w-3xl">
-                                    Hi, ich bin Jelal Kasso – leidenschaftlicher Fotograf und Videograf. Ich liebe es, besondere Momente
-                                    einzufangen und Geschichten durch Bilder und Videos zu erzählen. Jedes Projekt ist für mich
-                                    eine neue Gelegenheit, Kreativität mit Technik zu verbinden und einzigartige Erinnerungen zu
-                                    schaffen.
+                    Hi, ich bin Jelal Kasso – leidenschaftlicher Fotograf und Videograf. Ich liebe es, besondere Momente
+                    einzufangen und Geschichten durch Bilder und Videos zu erzählen. Jedes Projekt ist für mich
+                    eine neue Gelegenheit, Kreativität mit Technik zu verbinden und einzigartige Erinnerungen zu
+                    schaffen.
                 </p>
                 <br/>
                 <p className="text-3xl max-w-3xl text-gray-500">
@@ -190,6 +212,212 @@ export default function Home() {
                     Erinnerungen zu gestalten, die Menschen bewegen und eine Geschichte erzählen, die noch lange
                     nachwirkt.
                 </p>
+            </section>
+
+            <section id="projects" className=" flex flex-col mt-100">
+                    <div className="min-h-screen w-full px-8 py-20 ">
+                        <h2 className="text-7xl font-semibold mb-16 text-center">Portfolio</h2>
+
+                        <div className="relative">
+                            <div className="relative overflow-hidden rounded-3xl shadow-2xl ">
+                                <div
+                                    className="flex transition-transform duration-500 ease-out"
+                                    style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+                                >
+                                    {portfolioItems.map((item) => (
+                                        <div key={item.id} className="min-w-full">
+                                            <div className="flex flex-col h-full">
+                                                <div className="w-full flex-1">
+                                                    <div className="relative h-[70vh] overflow-hidden">
+                                                        <img
+                                                            src={item.imageUrl}
+                                                            alt={item.title}
+                                                            className="w-full h-full object-cover"
+                                                        />
+                                                    </div>
+                                                </div>
+
+                                                {/* Content */}
+                                                <div className="w-full py-12 px-16">
+                                                    <h3 className="text-5xl font-bold  mb-4">{item.title}</h3>
+                                                    <p className="text-2xl text-gray-600 leading-relaxed">{item.description}</p>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                    ))}
+
+                                </div>
+
+
+                            </div>
+
+
+
+
+                            {/* Navigation Buttons */}
+                            <button
+                                onClick={prevSlide}
+                                className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white p-4 rounded-full shadow-lg transition-all hover:scale-110 z-10 cursor-pointer"
+                                aria-label="Vorheriges Projekt"
+                            >
+                                <ChevronLeft className="w-6 h-6 text-gray-800" />
+                            </button>
+
+                            <button
+                                onClick={nextSlide}
+                                className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white p-4 rounded-full shadow-lg transition-all hover:scale-110 z-10 cursor-pointer"
+                                aria-label="Nächstes Projekt"
+                            >
+                                <ChevronRight className="w-6 h-6 text-gray-800 " />
+                            </button>
+
+                            {/* Dot Indicators */}
+                            <div className="flex justify-center gap-3 mt-8">
+                                {portfolioItems.map((_, index) => (
+                                    <button
+                                        key={index}
+                                        onClick={() => goToSlide(index)}
+                                        className={`cursor-pointer transition-all duration-300 rounded-full ${
+                                            currentIndex === index
+                                                ? 'w-12 h-3 bg-white/10'
+                                                : 'w-3 h-3 bg-gray-400 hover:bg-gray-600'
+                                        }`}
+                                        aria-label={`Gehe zu Projekt ${index + 1}`}
+                                    />
+                                ))}
+                            </div>
+
+                        </div>
+                    </div>
+                </section>
+
+            <section className="min-h-screen flex flex-col items-center px-6 py-20">
+                <h1 className="text-6xl mb-8">Speaking & Workshops</h1>
+                <p className="text-4xl max-w-6xl">
+                    Fotografie und Videografie sind für mich nicht nur ein Beruf, sondern auch eine Leidenschaft,
+                    die ich gerne mit anderen teile. Neben meiner Arbeit an Projekten halte ich regelmäßig Vorträge und
+                    Workshops, in denen ich mein Wissen und meine Erfahrungen weitergebe. Dabei geht es um Themen wie
+                    Bildgestaltung, Storytelling mit der Kamera, den kreativen Prozess hinter einem Projekt sowie den
+                    Einsatz moderner Technik und Tools.
+                    <br/>
+                    <br/>
+
+                    Mir ist es wichtig, nicht nur theoretisches Wissen zu vermitteln, sondern auch praktische Einblicke
+                    zu geben, die sofort angewendet werden können. Ob in kleinen Gruppen, bei Events oder in
+                    individuellen Sessions – mein Ziel ist es, Menschen zu inspirieren, ihre eigene Kreativität zu
+                    entdecken und neue Wege in der Fotografie und Videografie zu gehen.
+                </p>
+            </section>
+
+            <div id={"contact"} className="mb-20"></div>
+
+            <section className="min-h-screen">
+                    <div className=" mb-20">
+                        <div className="h-screen bg-gradient-to-b  flex items-center px-50 gap-8">
+                            <div className="w-1/3">
+                                <h2 className="text-5xl font-bold mb-4">Lass uns zusammenarbeiten.</h2>
+                                <p className="text-lg">
+                                    Ob für ein Shooting, ein Event oder ein individuelles Projekt – ich freue mich
+                                    darauf, deine Ideen in Bildern und Videos zum Leben zu erwecken. Schreib mir
+                                    einfach, und wir finden gemeinsam den passenden Weg.
+                                </p>
+                            </div>
+                            <div className="w-2/3 flex items-center justify-center">
+                                <div className="w-full max-w-lg p-8">
+                                    <div className="mb-4">
+                                        <label className="block text-gray-700 font-bold mb-2" htmlFor="name">
+                                            Name*
+                                        </label>
+                                        <input
+                                            className={`shadow appearance-none border ${errors.name ? 'border-red-500' : 'border'} rounded-2xl w-full p-5 text-gray-700 leading-tight focus:outline-none focus:ring-2  transition-all`}
+                                            id="name"
+                                            name="name"
+                                            type="text"
+                                            placeholder="Dein Name"
+                                            value={formData.name}
+                                            onChange={handleFormChange}
+                                        />
+                                        {errors.name && (
+                                            <p className="text-red-500 text-sm mt-1">{errors.name}</p>
+                                        )}
+                                    </div>
+                                    <div className="mb-4">
+                                        <label className="block text-gray-700 font-bold mb-2" htmlFor="email">
+                                            E-Mail*
+                                        </label>
+                                        <input
+                                            className={`shadow appearance-none border ${errors.email ? 'border-red-500' : 'border'} rounded-2xl w-full p-5 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-whitetransition-all`}
+                                            id="email"
+                                            name="email"
+                                            type="email"
+                                            placeholder="deine@email.com"
+                                            value={formData.email}
+                                            onChange={handleFormChange}
+                                        />
+                                        {errors.email && (
+                                            <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+                                        )}
+                                    </div>
+                                    <div className="mb-4">
+                                        <label className="block text-gray-700 font-bold mb-2" htmlFor="message">
+                                            Nachricht*
+                                        </label>
+                                        <textarea
+                                            className={`shadow appearance-none border ${errors.message ? 'border-red-500' : 'border'} rounded-2xl w-full p-5 text-gray-700 leading-tight focus:outline-none focus:ring-2  resize-none transition-all`}
+                                            id="message"
+                                            name="message"
+                                            rows={8}
+                                            placeholder="Erzähl mir von deinem Projekt..."
+                                            value={formData.message}
+                                            onChange={handleFormChange}
+                                        ></textarea>
+                                        {errors.message && (
+                                            <p className="text-red-500 text-sm mt-1">{errors.message}</p>
+                                        )}
+                                    </div>
+                                    <div className="flex items-center justify-between">
+                                        <button
+                                            className="bg-white/10 hover:bg-gray-900 text-white font-bold p-3 px-6 rounded-xl focus:outline-none focus:shadow-outline transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                                            type="button"
+                                            onClick={sendEmail}
+                                            disabled={isSubmitting}
+                                        >
+                                            {isSubmitting ? 'Wird gesendet...' : 'Senden'}
+                                        </button>
+                                    </div>
+
+                                    {submitStatus === 'success' && (
+                                        <div className="mt-4 p-4 bg-green-100 border border-green-500 rounded-lg text-green-700">
+                                            Nachricht erfolgreich gesendet! ✓
+                                        </div>
+                                    )}
+
+                                    {submitStatus === 'error' && (
+                                        <div className="mt-4 p-4 bg-red-100 border border-red-500 rounded-lg text-red-700">
+                                            Fehler beim Senden. Bitte versuche es erneut.
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </section>
+
+
+
+            <section>
+                <div className="w-full bg-black text-white py-6 flex flex-col items-center">
+                    <div className="flex items-center gap-4 mb-4">
+                        <Instagram className="w-6 h-6"/>
+                        <a href="https://www.instagram.com/jelal.kasso/" target="_blank" rel="noopener noreferrer" className="hover:underline">
+                            @jelal.kasso
+                        </a>
+                    </div>
+                    <p className="text-sm">&copy; {new Date().getFullYear()} Jelal Kasso. Alle Rechte vorbehalten.</p>
+                </div>
             </section>
 
         </>
