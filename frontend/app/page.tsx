@@ -1,282 +1,225 @@
 'use client';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { useEffect, useRef, useState } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { motion } from "framer-motion";
+import { ChevronLeft, ChevronRight, Menu, X, Instagram } from 'lucide-react';
+
+const navItems = [
+    { id: "home", label: "Start" },
+    { id: "about", label: "Über mich" },
+];
+
+const navItemsRight = [
+    { id: "portfolio", label: "Portfolio" },
+    { id: "contact", label: "Kontakt" },
+];
 
 export default function Home() {
     const [scrollY, setScrollY] = useState(0);
-    const [isScrolled, setIsScrolled] = useState(false);
-    const headerRef = useRef(null);
-    const [formData, setFormData] = useState({
-        name: '',
-        email: '',
-        message: ''
-    });
-    const [errors, setErrors] = useState<{name?: string; email?: string; message?: string}>({});
+    const [menuOpen, setMenuOpen] = useState(false);
+    const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+    const [errors, setErrors] = useState<{ name?: string; email?: string; message?: string }>({});
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitStatus, setSubmitStatus] = useState('');
-
     const [currentIndex, setCurrentIndex] = useState(0);
+    const [active, setActive] = useState("home");
 
-  const portfolioItems = [
-        {
-          id: 1,
-          title: "Hochzeitsmomente",
-          description: "Eine Foto- und Videoreportage, die Emotionen authentisch einfängt und den Tag in einzigartigen Bildern erzählt.",
-          imageUrl: " https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800&h=600&fit=crop"
-        },
-        {
-          id: 2,
-          title: "Event-Highlights",
-          description: "Professionelle Aufnahmen, die Atmosphäre, Energie und besondere Momente eines Events eindrucksvoll festhalten.",
-          imageUrl: " https://images.unsplash.com/photo-1497032628192-86f99bcd76bc?w=800&h=600&fit=crop"
-        },
-        {
-          id: 3,
-          title: "Porträtserie",
-          description: "Kreative Porträts mit Fokus auf Persönlichkeit und Ausdruck, die modern und authentisch inszeniert sind.",
-          imageUrl: " https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=800&h=600&fit=crop"
-        },
-        {
-          id: 4,
-          title: "Imagefilm & Business",
-          description: "Ein visueller Auftritt, der Unternehmen, Marken und Produkte professionell präsentiert und Vertrauen schafft.",
-          imageUrl: " https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800&h=600&fit=crop"
-        }
+    const portfolioItems = [
+        { id: 1, title: "Hochzeitsmomente", description: "Eine Foto- und Videoreportage, die Emotionen authentisch einfängt und den Tag in einzigartigen Bildern erzählt.", imageUrl: "/images/Download.jpeg" },
+        { id: 2, title: "Event-Highlights", description: "Professionelle Aufnahmen, die Atmosphäre, Energie und besondere Momente eines Events eindrucksvoll festhalten.", imageUrl: "/images/Download.jpeg" },
+        { id: 3, title: "Porträtserie", description: "Kreative Porträts mit Fokus auf Persönlichkeit und Ausdruck, die modern und authentisch inszeniert sind.", imageUrl: "/images/Download.jpeg" },
+        { id: 4, title: "Imagefilm & Business", description: "Ein visueller Auftritt, der Unternehmen, Marken und Produkte professionell präsentiert und Vertrauen schafft.", imageUrl: "/images/Download.jpeg" }
     ];
 
-     const nextSlide = () => {
-    setCurrentIndex((prev) => (prev + 1) % portfolioItems.length);
-     };
-
-     const prevSlide = () => {
-         setCurrentIndex((prev) => (prev - 1 + portfolioItems.length) % portfolioItems.length);
-     };
+    const nextSlide = () => setCurrentIndex((prev) => (prev + 1) % portfolioItems.length);
+    const prevSlide = () => setCurrentIndex((prev) => (prev - 1 + portfolioItems.length) % portfolioItems.length);
 
      const goToSlide = (index: number ) => {
         setCurrentIndex(index);
      };
 
     useEffect(() => {
-        const handleScroll = () => {
-            const currentScrollY = window.scrollY;
-            setScrollY(currentScrollY);
-            setIsScrolled(currentScrollY > 200);
-        };
-
+        const handleScroll = () => setScrollY(window.scrollY);
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
     const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
-        setFormData(prev => ({
-            ...prev,
-            [name]: value
-        }));
-        if (errors[name as keyof typeof errors]) {
-            setErrors(prev => ({
-                ...prev,
-                [name]: ''
-            }));
-        }
+        setFormData(prev => ({ ...prev, [name]: value }));
+        if (errors[name as keyof typeof errors]) setErrors(prev => ({ ...prev, [name]: '' }));
     };
 
     const validateForm = () => {
-        const newErrors: {name?: string; email?: string; message?: string} = {};
-
-        if (!formData.name.trim()) {
-            newErrors.name = 'Name ist erforderlich';
-        }
-
-        if (!formData.email.trim()) {
-            newErrors.email = 'E-Mail ist erforderlich';
-        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-            newErrors.email = 'Ungültige E-Mail-Adresse';
-        }
-
-        if (!formData.message.trim()) {
-            newErrors.message = 'Nachricht ist erforderlich';
-        }
-
+        const newErrors: { name?: string; email?: string; message?: string } = {};
+        if (!formData.name.trim()) newErrors.name = 'Name ist erforderlich';
+        if (!formData.email.trim()) newErrors.email = 'E-Mail ist erforderlich';
+        else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) newErrors.email = 'Ungültige E-Mail-Adresse';
+        if (!formData.message.trim()) newErrors.message = 'Nachricht ist erforderlich';
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
 
     const sendEmail = async () => {
-        if (!validateForm()) {
-            return;
-        }
-
+        if (!validateForm()) return;
         setIsSubmitting(true);
         setSubmitStatus('');
-
         try {
-            // Hier deine API Integration
             const response = await fetch('http://localhost:8000/sendMail', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData)
             });
-
             if (response.ok) {
                 setSubmitStatus('success');
                 setFormData({ name: '', email: '', message: '' });
                 setTimeout(() => setSubmitStatus(''), 3000);
-            } else {
-                setSubmitStatus('error');
-            }
-        } catch (error) {
-            console.error('Fehler beim Senden:', error);
+            } else setSubmitStatus('error');
+        } catch {
             setSubmitStatus('error');
         } finally {
             setIsSubmitting(false);
         }
     };
 
-    const getSubtitleTransform = () => {
-        const progress = Math.min(scrollY / 300, 1);
-        const opacity = 1 - progress;
-        const translateY = -(scrollY * 0.3);
+    const calcLogoSizeWidth = () => {
+        if (scrollY > 800) return 120;
+        return 220;
+    }
 
-        return {
-            transform: `translateY(${translateY}px)`,
-            opacity: opacity
-        };
-    };
-
-    const maxScroll = 200;
-    const scale = Math.max(0.17, 1 - (scrollY / maxScroll));
+    const calcLogoSizeHeight = () => {
+        if (scrollY > 800) return 150;
+        return 330;
+    }
 
     return (
         <>
-            {/* Blue Light Gradient from Top Left */}
-            <div
-                className="fixed top-[-50px] left-[-50px] w-180 h-180 pointer-events-none z-52"
-                style={{
-                    background: 'radial-gradient(circle at 30% 30%, rgba(59, 130, 246, 0.3) 0%, rgba(59, 130, 246, 0.1) 40%, transparent 70%)',
-                    filter: 'blur(10px)'
-                }}
-            ></div>
+            <div id="home"></div>
+            <div className="nav">
+                <nav className="bg-black w-full fixed top-0 left-0 z-50 flex items-center justify-center px-6 py-3 shadow-md transition-all duration-500 ease-in-out">
+                    <div className="flex items-center w-full max-w-5xl justify-center relative mb-8">
 
-            {/* Sticky Header/Navbar */}
-            <div
-                className={`fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md shadow-sm transition-all duration-500 ${
-                    isScrolled ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-full'
-                }`}
-            >
-                <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-                    <h2 className="text-xl font-semibold">
-                        <a href="#start" className="hover:text-blue-600 transition-colors">
-                            Jelal Kasso
-                        </a>
-                    </h2>
-                    <nav className="flex items-center">
-                        <div className="flex space-x-6 justify-end">
-                            <a href="#start" className="text-sm font-medium text-gray-700 hover:text-gray-900 transition-colors">Start</a>
-                            <a href="#about" className="text-sm font-medium text-gray-700 hover:text-gray-900 transition-colors">Über mich</a>
-                            <a href="#projects" className="text-sm font-medium text-gray-700 hover:text-gray-900 transition-colors">Projekte</a>
-                            <a href="#contact" className="text-sm font-medium text-gray-700 hover:text-gray-900 transition-colors">Kontakt</a>
+                        {/* Linke Seite */}
+                        <ul className={`relative md:flex items-center gap-12 text-white font-medium transition-all duration-500 ease-in-out ${
+                            scrollY > 800 ? 'mt-5' : 'mt-40'
+                        }`}>
+                            {navItems.map(item => (
+                                <li key={item.id} className="relative">
+                                    <a
+                                        href={`#${item.id}`}
+                                        onClick={() => setActive(item.id)}
+                                        className="relative px-6 py-3 rounded-full"
+                                    >
+                                        {item.label}
+
+                                        {active === item.id && (
+                                            <motion.div
+                                                layoutId="highlight"
+                                                className="absolute inset-0 bg-white/10 rounded-full"
+                                                transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                                            />
+                                        )}
+                                    </a>
+                                </li>
+                            ))}
+                        </ul>
+
+                        {/* Logo */}
+                        <div className={`absolute left-1/2 top-[-8rem] pointer-events-none transition-all duration-500 ease-in-out ${
+                            scrollY > 800 ? '-translate-x-[40em] translate-y-15' : '-translate-x-1/2'
+                        }`}>
+                            <Image
+                                src={"/logo.svg"}
+                                alt="logo"
+                                className="filter brightness-0 invert h-auto pointer-events-none transition-all duration-500 ease-in-out"
+                                width={calcLogoSizeWidth()}
+                                height={calcLogoSizeHeight()}
+                                priority
+                            />
                         </div>
-                    </nav>
+
+                        {/* Rechte Seite */}
+                        <ul className={`relative md:flex items-center gap-12 text-white font-medium ml-[43px] transition-all duration-500 ease-in-out ${
+                            scrollY > 800 ? 'mt-5' : 'mt-40'
+                        }`}>
+                            {navItemsRight.map(item => (
+                                <li key={item.id} className="relative">
+                                    <a
+                                        href={`#${item.id}`}
+                                        onClick={() => setActive(item.id)}
+                                        className="relative px-6 py-3 rounded-full"
+                                    >
+                                        {item.label}
+
+                                        {active === item.id && (
+                                            <motion.div
+                                                layoutId="highlight"
+                                                className="absolute inset-0 bg-white/10 rounded-full"
+                                                transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                                            />
+                                        )}
+                                    </a>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+
+            <div id="intro" className="min-h-screen flex flex-col items-center justify-center bg-white text-black px-6 py-20 relative">
+                Video
+
+                {/* Instagram Button - unten rechts fixiert */}
+                <div className="fixed bottom-8 right-8 z-40">
+                    <a
+                        href="https://www.instagram.com/jk_fotovideo/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group relative w-16 h-16 backdrop-blur-md bg-white/10 rounded-full flex items-center
+                                   justify-center transition-all duration-300  border-0
+                                   hover:shadow-xl hover:ring-2 hover:ring-white/30 active:scale-95
+                                   before:absolute before:inset-[-10px] before:rounded-full before:backdrop-blur-sm before:-z-10"
+                    >
+                        <Instagram
+                            width={32}
+                            height={32}
+                            className="text-white transition-transform duration-300 mix-blend-difference"
+                        />
+
+                    </a>
                 </div>
             </div>
 
-            <div className="flex min-h-screen flex-col justify-between pl-30 mt-50 text-[#ededed]  ">
-                <h1
-                    className={`text-[10rem] font-bold sticky top-1 z-51`}
-                    style={{
-                        transform: `scale(${scale})`,
-                        transformOrigin: 'top left',
-                        transition: 'transform .2s linear',
-                    }}
-                >
-                    Jelal Kasso
-                </h1>
-                <div className="flex items-start justify-between">
-                    <div>
-                        <section id="start" className="relative">
-                            <div>
-                                <div
-                                    className="transition-all duration-200 ease-out"
-                                    style={getSubtitleTransform()}
-                                >
-                                    <p className="text-2xl mt-4">Photographer | Videographer | Filmmaker</p>
-                                </div>
+            <div id="about" className="mb-20"></div>
 
-                                <div
-                                    className="mt-10 flex transition-all duration-300"
-                                    style={{
-                                        opacity: Math.max(0, 1 - (scrollY / 300)),
-                                        transform: `translateY(${scrollY * 0.2}px)`
-                                    }}
-                                >
-                                    <a
-                                        href="https://www.instagram.com/jk_fotovideo/"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="group relative w-15 h-15 bg-gradient-to-br rounded-full flex items-center
-                                                   justify-center transition-all duration-300 shadow-lg border-1 border-gray-500
-                                                   hover:border-gray-300"
-                                    >
-                                        <Image
-                                            src="/instagram.svg"
-                                            alt="Instagram"
-                                            width={32}
-                                            height={32}
-                                            className="filter brightness-0 invert transition-transform duration-300"
-                                        />
-                                    </a>
-                                </div>
-                            </div>
-                        </section>
-                        <section id="about" className="min-h-screen">
-                            <div
-                                className="mt-150 mb-10 px-12"
-                                style={{
-                                    transform: `translateY(${scrollY * 0.1}px)`
-                                }}
-                            >
-                                <h2 className="text-7xl font-semibold mb-4">Über mich</h2>
-                                <p className="text-4xl max-w-3xl">
-                                    Hi, ich bin Jelal Kasso – leidenschaftlicher Fotograf und Videograf. Ich liebe es, besondere Momente
-                                    einzufangen und Geschichten durch Bilder und Videos zu erzählen. Jedes Projekt ist für mich
-                                    eine neue Gelegenheit, Kreativität mit Technik zu verbinden und einzigartige Erinnerungen zu
-                                    schaffen.
-                                </p>
-                                <br/>
-                                <p className="text-3xl max-w-3xl text-gray-500">
-                                    In den letzten Jahren durfte ich mit Menschen aus den unterschiedlichsten Bereichen arbeiten
-                                    – von persönlichen Shootings über Hochzeiten bis hin zu kreativen Projekten und Events.
-                                    Jedes Projekt ist für mich einzigartig, und ich lege großen Wert darauf, meine Arbeit
-                                    individuell auf die Wünsche und Persönlichkeit meiner Kunden abzustimmen. <br/><br/>
+            <section className="min-h-screen flex flex-col items-center px-6 py-20">
+                <h1 className="text-6xl mb-8">Über mich</h1>
+                <p className="text-4xl max-w-3xl">
+                    Hi, ich bin Jelal Kasso – leidenschaftlicher Fotograf und Videograf. Ich liebe es, besondere Momente
+                    einzufangen und Geschichten durch Bilder und Videos zu erzählen. Jedes Projekt ist für mich
+                    eine neue Gelegenheit, Kreativität mit Technik zu verbinden und einzigartige Erinnerungen zu
+                    schaffen.
+                </p>
+                <br/>
+                <p className="text-3xl max-w-3xl text-gray-500">
+                    In den letzten Jahren durfte ich mit Menschen aus den unterschiedlichsten Bereichen arbeiten
+                    – von persönlichen Shootings über Hochzeiten bis hin zu kreativen Projekten und Events.
+                    Jedes Projekt ist für mich einzigartig, und ich lege großen Wert darauf, meine Arbeit
+                    individuell auf die Wünsche und Persönlichkeit meiner Kunden abzustimmen. <br/><br/>
 
-                                    Mit Kreativität, technischer Präzision und einem Auge für Details schaffe ich Bilder und
-                                    Videos, die nicht nur ästhetisch überzeugen, sondern auch Gefühle wecken. Mein Ziel ist es,
-                                    Erinnerungen zu gestalten, die Menschen bewegen und eine Geschichte erzählen, die noch lange
-                                    nachwirkt.
-                                </p>
-                            </div>
-                        </section>
-                    </div>
+                    Mit Kreativität, technischer Präzision und einem Auge für Details schaffe ich Bilder und
+                    Videos, die nicht nur ästhetisch überzeugen, sondern auch Gefühle wecken. Mein Ziel ist es,
+                    Erinnerungen zu gestalten, die Menschen bewegen und eine Geschichte erzählen, die noch lange
+                    nachwirkt.
+                </p>
+            </section>
 
-                    {/* Box rechts neben dem Namen */}
-                    <aside className="sticky top-24 self-start z-40">
-                        <div className="w-96 h-100 border-4 border-red-500 rounded-3xl bg-white shadow-lg overflow-hidden">
-                            <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200">
-                                <p className="text-gray-400 text-center text-xl">Profilbild</p>
-                            </div>
-                        </div>
-                    </aside>
-                </div>
-
-                <section id="projects" className="min-h-screen flex flex-col mt-100">
-                    <div className="w-full px-8 py-20">
-                        <h2 className="text-7xl font-semibold mb-16 ">Portfolio</h2>
+            <section id="projects" className=" flex flex-col mt-100">
+                    <div className="min-h-screen w-full px-8 py-20 ">
+                        <h2 className="text-7xl font-semibold mb-16 text-center">Portfolio</h2>
 
                         <div className="relative">
-                            <div className="relative overflow-hidden rounded-3xl shadow-2xl bg-white">
+                            <div className="relative overflow-hidden rounded-3xl shadow-2xl ">
                                 <div
                                     className="flex transition-transform duration-500 ease-out"
                                     style={{ transform: `translateX(-${currentIndex * 100}%)` }}
@@ -299,11 +242,20 @@ export default function Home() {
                                                     <h3 className="text-5xl font-bold  mb-4">{item.title}</h3>
                                                     <p className="text-2xl text-gray-600 leading-relaxed">{item.description}</p>
                                                 </div>
+
                                             </div>
+
                                         </div>
+
                                     ))}
+
                                 </div>
+
+
                             </div>
+
+
+
 
                             {/* Navigation Buttons */}
                             <button
@@ -330,22 +282,41 @@ export default function Home() {
                                         onClick={() => goToSlide(index)}
                                         className={`cursor-pointer transition-all duration-300 rounded-full ${
                                             currentIndex === index
-                                                ? 'w-12 h-3 bg-gray-800'
+                                                ? 'w-12 h-3 bg-white/10'
                                                 : 'w-3 h-3 bg-gray-400 hover:bg-gray-600'
                                         }`}
                                         aria-label={`Gehe zu Projekt ${index + 1}`}
                                     />
                                 ))}
                             </div>
+
                         </div>
                     </div>
                 </section>
 
+            <section className="min-h-screen flex flex-col items-center px-6 py-20">
+                <h1 className="text-6xl mb-8">Speaking & Workshops</h1>
+                <p className="text-4xl max-w-6xl">
+                    Fotografie und Videografie sind für mich nicht nur ein Beruf, sondern auch eine Leidenschaft,
+                    die ich gerne mit anderen teile. Neben meiner Arbeit an Projekten halte ich regelmäßig Vorträge und
+                    Workshops, in denen ich mein Wissen und meine Erfahrungen weitergebe. Dabei geht es um Themen wie
+                    Bildgestaltung, Storytelling mit der Kamera, den kreativen Prozess hinter einem Projekt sowie den
+                    Einsatz moderner Technik und Tools.
+                    <br/>
+                    <br/>
 
+                    Mir ist es wichtig, nicht nur theoretisches Wissen zu vermitteln, sondern auch praktische Einblicke
+                    zu geben, die sofort angewendet werden können. Ob in kleinen Gruppen, bei Events oder in
+                    individuellen Sessions – mein Ziel ist es, Menschen zu inspirieren, ihre eigene Kreativität zu
+                    entdecken und neue Wege in der Fotografie und Videografie zu gehen.
+                </p>
+            </section>
 
-                <section id="contact" className="min-h-screen">
-                    <div className="mt-20 mb-20">
-                        <div className="h-screen bg-gradient-to-b from-gray-50 to-gray-100 flex items-center px-12 gap-8">
+            <div id={"contact"} className="mb-20"></div>
+
+            <section className="min-h-screen">
+                    <div className=" mb-20">
+                        <div className="h-screen bg-gradient-to-b  flex items-center px-50 gap-8">
                             <div className="w-1/3">
                                 <h2 className="text-5xl font-bold mb-4">Lass uns zusammenarbeiten.</h2>
                                 <p className="text-lg">
@@ -361,7 +332,7 @@ export default function Home() {
                                             Name*
                                         </label>
                                         <input
-                                            className={`shadow appearance-none border ${errors.name ? 'border-red-500' : 'border'} rounded-2xl w-full p-5 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all`}
+                                            className={`shadow appearance-none border ${errors.name ? 'border-red-500' : 'border'} rounded-2xl w-full p-5 text-gray-700 leading-tight focus:outline-none focus:ring-2  transition-all`}
                                             id="name"
                                             name="name"
                                             type="text"
@@ -378,7 +349,7 @@ export default function Home() {
                                             E-Mail*
                                         </label>
                                         <input
-                                            className={`shadow appearance-none border ${errors.email ? 'border-red-500' : 'border'} rounded-2xl w-full p-5 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all`}
+                                            className={`shadow appearance-none border ${errors.email ? 'border-red-500' : 'border'} rounded-2xl w-full p-5 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-whitetransition-all`}
                                             id="email"
                                             name="email"
                                             type="email"
@@ -395,7 +366,7 @@ export default function Home() {
                                             Nachricht*
                                         </label>
                                         <textarea
-                                            className={`shadow appearance-none border ${errors.message ? 'border-red-500' : 'border'} rounded-2xl w-full p-5 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none transition-all`}
+                                            className={`shadow appearance-none border ${errors.message ? 'border-red-500' : 'border'} rounded-2xl w-full p-5 text-gray-700 leading-tight focus:outline-none focus:ring-2  resize-none transition-all`}
                                             id="message"
                                             name="message"
                                             rows={8}
@@ -407,12 +378,9 @@ export default function Home() {
                                             <p className="text-red-500 text-sm mt-1">{errors.message}</p>
                                         )}
                                     </div>
-                                    <div className="flex items-center justify-between ">
+                                    <div className="flex items-center justify-between">
                                         <button
-                                            className="bg-[#2758a8] hover:bg-[#2b64c2] text-white font-bold p-3
-                                                       px-6 rounded-xl focus:outline-none transition-all duration-270
-                                                        disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer
-                                                        hover:shadow-[0_0_20px_rgba(39,88,168,0.5)]"
+                                            className="bg-white/10 hover:bg-gray-900 text-white font-bold p-3 px-6 rounded-xl focus:outline-none focus:shadow-outline transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                                             type="button"
                                             onClick={sendEmail}
                                             disabled={isSubmitting}
@@ -436,8 +404,22 @@ export default function Home() {
                             </div>
                         </div>
                     </div>
-                </section>
-            </div>
+            </section>
+
+
+
+            <section>
+                <div className="w-full bg-black text-white py-6 flex flex-col items-center">
+                    <div className="flex items-center gap-4 mb-4">
+                        <Instagram className="w-6 h-6"/>
+                        <a href="https://www.instagram.com/jelal.kasso/" target="_blank" rel="noopener noreferrer" className="hover:underline">
+                            @jelal.kasso
+                        </a>
+                    </div>
+                    <p className="text-sm">&copy; {new Date().getFullYear()} Jelal Kasso. Alle Rechte vorbehalten.</p>
+                </div>
+            </section>
+
         </>
     );
 }
