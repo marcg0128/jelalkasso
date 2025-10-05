@@ -282,7 +282,7 @@ export default function Home() {
                         href="https://www.instagram.com/jk_fotovideo/"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="group relative w-16 h-16 backdrop-blur-md bg-white/10 rounded-full flex items-center justify-center transition-all duration-300 border-0 hover:shadow-xl hover:ring-2 hover:ring-white/30 active:scale-95 before:absolute before:inset-[-10px] before:rounded-full before:backdrop-blur-sm before:-z-10"
+                        className="group relative w-16 h-16 z-50 backdrop-blur-md bg-white/10 rounded-full flex items-center justify-center transition-all duration-300 border-0 hover:shadow-xl hover:ring-2 hover:ring-white/30 active:scale-95 before:absolute before:inset-[-10px] before:rounded-full before:backdrop-blur-sm before:-z-10"
                     >
                         <Instagram
                             width={32}
@@ -328,7 +328,9 @@ export default function Home() {
                 <div className="flex items-center justify-center gap-8 mb-16 px-8">
                     <button
                         onClick={prevSlide}
-                        className="bg-white/10 hover:bg-white/20 backdrop-blur-sm p-3 rounded-full transition-all hover:scale-110 cursor-pointer"
+                        className={`bg-white/10 hover:bg-white/20 backdrop-blur-sm p-3 rounded-full transition-all hover:scale-110 cursor-pointer ${
+                            windowWidth < 768 ? 'translate-y-50' : ''
+                        }`}
                         aria-label="Vorheriges Projekt"
                     >
                         <ChevronLeft className="w-8 h-8 text-white" />
@@ -344,7 +346,9 @@ export default function Home() {
 
                     <button
                         onClick={nextSlide}
-                        className="bg-white/10 hover:bg-white/20 backdrop-blur-sm p-3 rounded-full transition-all hover:scale-110 cursor-pointer"
+                        className={`bg-white/10 hover:bg-white/20 backdrop-blur-sm p-3 rounded-full transition-all hover:scale-110 cursor-pointer ${
+                            windowWidth < 768 ? 'translate-y-50' : ''
+                        }`}
                         aria-label="Nächstes Projekt"
                     >
                         <ChevronRight className="w-8 h-8 text-white" />
@@ -352,24 +356,30 @@ export default function Home() {
                 </div>
 
                 {/* Smooth Stacked Cards */}
+                {/* Smooth Stacked Cards */}
+                {/* Smooth Stacked Cards */}
                 <div className="relative flex justify-center items-center h-[550px] overflow-hidden">
                     <div className="relative w-full h-full flex justify-center items-center">
                         {portfolioItems.map((item, idx) => {
-                            const totalItems = portfolioItems.length;
-                            let relativePosition = idx - currentIndex;
+                            const isMobile = windowWidth < 768;
+                            const visibleItems = isMobile ? 3 : portfolioItems.length;
 
-                            if (relativePosition < -Math.floor(totalItems / 2)) {
-                                relativePosition += totalItems;
-                            } else if (relativePosition > Math.floor(totalItems / 2)) {
-                                relativePosition -= totalItems;
+                            // Berechnung relative Position mit Loop
+                            let relativePosition = ((idx - currentIndex + portfolioItems.length) % portfolioItems.length);
+                            if (relativePosition > Math.floor(portfolioItems.length / 2)) {
+                                relativePosition -= portfolioItems.length;
                             }
 
                             const baseOffset = 320;
-                            const offsetX = relativePosition * baseOffset;
-                            const scale = 1 - 0.15 * Math.abs(relativePosition);
-                            const zIndex = 40 - Math.abs(relativePosition) * 10;
+                            const offsetX = isMobile
+                                ? relativePosition * (baseOffset / 1.5)
+                                : relativePosition * baseOffset;
+                            const scale = isMobile
+                                ? 1 - 0.2 * Math.abs(relativePosition)
+                                : 1 - 0.15 * Math.abs(relativePosition);
+                            // zIndex max. 40, damit Instagram-Button darüber liegt
+                            const zIndex = Math.min(40, 40 - Math.abs(relativePosition) * 10);
                             const opacity = Math.max(0, 1 - 0.35 * Math.abs(relativePosition));
-
                             const transform = `translateX(${offsetX}px) scale(${scale})`;
 
                             return (
@@ -382,9 +392,9 @@ export default function Home() {
                                         opacity,
                                         transformStyle: 'preserve-3d',
                                     }}
-                                    onClick={() => {if (relativePosition !== 0) setCurrentIndex(idx);}}
+                                    onClick={() => { if (relativePosition !== 0) setCurrentIndex(idx); }}
                                 >
-                                    <div className="group relative w-[450px] h-[500px] rounded-2xl overflow-hidden cursor-pointer shadow-2xl">
+                                    <div className="group relative w-[300px] md:w-[450px] h-[400px] md:h-[500px] rounded-2xl overflow-hidden cursor-pointer shadow-2xl">
                                         <img
                                             src={item.imageUrl}
                                             alt={item.title}
@@ -401,19 +411,19 @@ export default function Home() {
 
                                         {/* Smooth Content */}
                                         <div
-                                            className={`absolute inset-0 flex flex-col justify-end p-8 transition-all duration-700 ease-in-out`}
+                                            className={`absolute inset-0 flex flex-col justify-end p-6 md:p-8 transition-all duration-700 ease-in-out`}
                                             style={{
                                                 opacity: relativePosition === 0 ? 1 : 0,
                                                 transform: `translateY(${relativePosition === 0 ? '0' : '20px'})`,
                                             }}
                                         >
-                                            <h3 className="text-3xl font-bold text-white mb-3">{item.title}</h3>
-                                            <p className="text-white/90 text-base mb-4">{item.description}</p>
+                                            <h3 className="text-2xl md:text-3xl font-bold text-white mb-3">{item.title}</h3>
+                                            <p className="text-white/90 text-sm md:text-base mb-4">{item.description}</p>
                                             <div className="flex gap-2 flex-wrap">
                                                 {item.tags.map((tag, i) => (
                                                     <span
                                                         key={i}
-                                                        className="px-4 py-1.5 bg-white/20 backdrop-blur-sm rounded-full text-white text-sm"
+                                                        className="px-3 py-1 bg-white/20 backdrop-blur-sm rounded-full text-white text-xs md:text-sm"
                                                     >
                                                         {tag}
                                                     </span>
@@ -423,8 +433,8 @@ export default function Home() {
 
                                         {/* Arrow Icon */}
                                         {relativePosition === 0 && (
-                                            <div className="absolute bottom-8 right-8 w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center transition-opacity duration-700">
-                                                <ArrowUpRight className="w-6 h-6 text-white" />
+                                            <div className="absolute bottom-6 right-6 w-10 h-10 md:w-12 md:h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center transition-opacity duration-700">
+                                                <ArrowUpRight className="w-5 h-5 md:w-6 md:h-6 text-white" />
                                             </div>
                                         )}
                                     </div>
@@ -433,6 +443,7 @@ export default function Home() {
                         })}
                     </div>
                 </div>
+
             </section>
 
 
