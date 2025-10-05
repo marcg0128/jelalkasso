@@ -2,7 +2,7 @@
 import React, {useEffect, useState} from 'react';
 import Image from 'next/image';
 import {motion, useAnimation} from "framer-motion";
-import {ChevronLeft, ChevronRight, Instagram, Menu, X} from 'lucide-react';
+import {ChevronLeft, ChevronRight, Instagram, Menu, X, ArrowUpRight} from 'lucide-react';
 import {useInView} from "react-intersection-observer";
 
 // Animations-Wrapper
@@ -50,6 +50,7 @@ const navItems = [
 
 const navItemsRight = [
     {id: "portfolio", label: "Portfolio"},
+    {id: "speaking", label: "Speaking"},
     {id: "contact", label: "Kontakt"},
 ];
 
@@ -65,34 +66,45 @@ export default function Home() {
 
     const portfolioItems = [
         {
-            id: 1,
-            title: "Hochzeitsmomente",
-            description: "Eine Foto- und Videoreportage, die Emotionen authentisch einfängt und den Tag in einzigartigen Bildern erzählt.",
-            imageUrl: "/images/Download.jpeg"
+          imageUrl: "https://images.unsplash.com/photo-1511578314322-379afb476865?w=800&q=80",
+          title: "Event Highlights",
+          description: "Besondere Momente und Atmosphäre professionell festgehalten.",
+          tags: ["Eventfotografie", "Schnitt"]
         },
         {
-            id: 2,
-            title: "Event-Highlights",
-            description: "Professionelle Aufnahmen, die Atmosphäre, Energie und besondere Momente eines Events eindrucksvoll festhalten.",
-            imageUrl: "/images/Download.jpeg"
+          imageUrl: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800&q=80",
+          title: "Portrait Serie",
+          description: "Authentische Portraits die Persönlichkeit einfangen.",
+          tags: ["Photography", "Art Direction"]
         },
         {
-            id: 3,
-            title: "Porträtserie",
-            description: "Kreative Porträts mit Fokus auf Persönlichkeit und Ausdruck, die modern und authentisch inszeniert sind.",
-            imageUrl: "/images/Download.jpeg"
+          imageUrl: "https://images.unsplash.com/photo-1478147427282-58a87a120781?w=800&q=80",
+          title: "Urban Stories",
+          description: "Stadtleben durch die Linse eingefangen.",
+          tags: ["Photography", "Storytelling"]
         },
         {
-            id: 4,
-            title: "Imagefilm & Business",
-            description: "Ein visueller Auftritt, der Unternehmen, Marken und Produkte professionell präsentiert und Vertrauen schafft.",
-            imageUrl: "/images/Download.jpeg"
+          imageUrl: "https://images.unsplash.com/photo-1515378960530-7c0da6231fb1?w=800&q=80",
+          title: "Fashion Shoot",
+          description: "Kreative Mode-Fotografie mit einzigartigem Stil.",
+          tags: ["Fashion", "Editorial"]
+        },
+        {
+          imageUrl: "https://images.unsplash.com/photo-1515378960530-7c0da6231fb1?w=800&q=80",
+          title: "Fashion Shoot",
+          description: "Kreative Mode-Fotografie mit einzigartigem Stil.",
+          tags: ["Fashion", "Editorial"]
         }
-    ];
+      ];
 
-    const nextSlide = () => setCurrentIndex((prev) => (prev + 1) % portfolioItems.length);
-    const prevSlide = () => setCurrentIndex((prev) => (prev - 1 + portfolioItems.length) % portfolioItems.length);
-    const goToSlide = (index: number) => setCurrentIndex(index);
+
+    const prevSlide = () => {
+        setCurrentIndex((prev) => (prev === 0 ? portfolioItems.length - 1 : prev - 1));
+    };
+
+    const nextSlide = () => {
+        setCurrentIndex((prev) => (prev === portfolioItems.length - 1 ? 0 : prev + 1));
+    };
 
     useEffect(() => {
         const handleScroll = () => setScrollY(window.scrollY);
@@ -154,7 +166,7 @@ export default function Home() {
     };
 
     const calcLogoSizeHeight = () => {
-        if (windowWidth < 640) return 200;
+        if (windowWidth < 640) return  200;
         if (windowWidth < 1024) return scrollY > 800 ? 120 : 260;
         return scrollY > 800 ? 150 : 330;
     };
@@ -309,69 +321,123 @@ export default function Home() {
                 </FadeInWhenVisible>
             </section>
 
-            {/* Portfolio */}
-            <section id="projects" className="flex flex-col mt-100">
-                <div className="min-h-screen w-full px-8 py-20 ">
-                    <FadeInWhenVisible direction="left">
-                        <h2 className="text-5xl md:text-7xl font-semibold mb-16 text-center">Portfolio</h2>
-                    </FadeInWhenVisible>
+            <div id="portfolio" className="mb-8"></div>
 
-                    <div className="relative">
-                        <div className="relative overflow-hidden rounded-3xl shadow-2xl">
-                            <div className="flex transition-transform duration-500 ease-out"
-                                 style={{transform: `translateX(-${currentIndex * 100}%)`}}>
-                                {portfolioItems.map((item) => (
-                                    <div key={item.id} className="min-w-full">
-                                        <FadeInWhenVisible direction="right">
-                                            <div className="flex flex-col h-full">
-                                                <div className="w-full flex-1">
-                                                    <div className="relative h-[50vh] md:h-[70vh] overflow-hidden">
-                                                        <img src={item.imageUrl} alt={item.title}
-                                                             className="w-full h-full object-cover"/>
-                                                    </div>
-                                                </div>
-                                                <div className="w-full py-12 px-6 md:px-16">
-                                                    <h3 className="text-3xl md:text-5xl font-bold mb-4">{item.title}</h3>
-                                                    <p className="text-lg md:text-2xl text-gray-600 leading-relaxed">{item.description}</p>
-                                                </div>
+            <section className="min-h-screen w-full py-20 bg-black">
+                {/* Header with Navigation */}
+                <div className="flex items-center justify-center gap-8 mb-16 px-8">
+                    <button
+                        onClick={prevSlide}
+                        className="bg-white/10 hover:bg-white/20 backdrop-blur-sm p-3 rounded-full transition-all hover:scale-110 cursor-pointer"
+                        aria-label="Vorheriges Projekt"
+                    >
+                        <ChevronLeft className="w-8 h-8 text-white" />
+                    </button>
+
+                    <div className="text-center">
+                        <h2 className="text-5xl md:text-7xl font-bold mb-6 text-white">Meine Projekte</h2>
+                        <p className="text-gray-400 max-w-2xl mx-auto text-lg">
+                            Ich setze kreative Ideen in Bilder und Videos um – von Events über Portraits bis hin zu
+                            individuellen Aufträgen. Jedes Projekt erzählt seine eigene Geschichte.
+                        </p>
+                    </div>
+
+                    <button
+                        onClick={nextSlide}
+                        className="bg-white/10 hover:bg-white/20 backdrop-blur-sm p-3 rounded-full transition-all hover:scale-110 cursor-pointer"
+                        aria-label="Nächstes Projekt"
+                    >
+                        <ChevronRight className="w-8 h-8 text-white" />
+                    </button>
+                </div>
+
+                {/* Smooth Stacked Cards */}
+                <div className="relative flex justify-center items-center h-[550px] overflow-hidden">
+                    <div className="relative w-full h-full flex justify-center items-center">
+                        {portfolioItems.map((item, idx) => {
+                            const totalItems = portfolioItems.length;
+                            let relativePosition = idx - currentIndex;
+
+                            if (relativePosition < -Math.floor(totalItems / 2)) {
+                                relativePosition += totalItems;
+                            } else if (relativePosition > Math.floor(totalItems / 2)) {
+                                relativePosition -= totalItems;
+                            }
+
+                            const baseOffset = 320;
+                            const offsetX = relativePosition * baseOffset;
+                            const scale = 1 - 0.15 * Math.abs(relativePosition);
+                            const zIndex = 40 - Math.abs(relativePosition) * 10;
+                            const opacity = Math.max(0, 1 - 0.35 * Math.abs(relativePosition));
+
+                            const transform = `translateX(${offsetX}px) scale(${scale})`;
+
+                            return (
+                                <div
+                                    key={idx}
+                                    className="absolute transition-transform duration-700 ease-in-out"
+                                    style={{
+                                        transform,
+                                        zIndex,
+                                        opacity,
+                                        transformStyle: 'preserve-3d',
+                                    }}
+                                    onClick={() => {if (relativePosition !== 0) setCurrentIndex(idx);}}
+                                >
+                                    <div className="group relative w-[450px] h-[500px] rounded-2xl overflow-hidden cursor-pointer shadow-2xl">
+                                        <img
+                                            src={item.imageUrl}
+                                            alt={item.title}
+                                            className="w-full h-full object-cover"
+                                        />
+                                        <div
+                                            className="absolute inset-0 bg-black transition-opacity duration-700"
+                                            style={{ opacity: relativePosition === 0 ? 0.4 : 0.6 }}
+                                        />
+                                        <div
+                                            className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent group-hover:opacity-80 transition-opacity duration-700"
+                                            style={{ opacity: relativePosition === 0 ? 0.3 : 0.6 }}
+                                        />
+
+                                        {/* Smooth Content */}
+                                        <div
+                                            className={`absolute inset-0 flex flex-col justify-end p-8 transition-all duration-700 ease-in-out`}
+                                            style={{
+                                                opacity: relativePosition === 0 ? 1 : 0,
+                                                transform: `translateY(${relativePosition === 0 ? '0' : '20px'})`,
+                                            }}
+                                        >
+                                            <h3 className="text-3xl font-bold text-white mb-3">{item.title}</h3>
+                                            <p className="text-white/90 text-base mb-4">{item.description}</p>
+                                            <div className="flex gap-2 flex-wrap">
+                                                {item.tags.map((tag, i) => (
+                                                    <span
+                                                        key={i}
+                                                        className="px-4 py-1.5 bg-white/20 backdrop-blur-sm rounded-full text-white text-sm"
+                                                    >
+                                                        {tag}
+                                                    </span>
+                                                ))}
                                             </div>
-                                        </FadeInWhenVisible>
+                                        </div>
+
+                                        {/* Arrow Icon */}
+                                        {relativePosition === 0 && (
+                                            <div className="absolute bottom-8 right-8 w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center transition-opacity duration-700">
+                                                <ArrowUpRight className="w-6 h-6 text-white" />
+                                            </div>
+                                        )}
                                     </div>
-                                ))}
-                            </div>
-                        </div>
-
-                        <button
-                            onClick={prevSlide}
-                            className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white p-4 rounded-full shadow-lg transition-all hover:scale-110 z-10 cursor-pointer"
-                            aria-label="Vorheriges Projekt"
-                        >
-                            <ChevronLeft className="w-6 h-6 text-gray-800"/>
-                        </button>
-
-                        <button
-                            onClick={nextSlide}
-                            className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white p-4 rounded-full shadow-lg transition-all hover:scale-110 z-10 cursor-pointer"
-                            aria-label="Nächstes Projekt"
-                        >
-                            <ChevronRight className="w-6 h-6 text-gray-800"/>
-                        </button>
-
-                        <div className="flex justify-center gap-3 mt-8">
-                            {portfolioItems.map((_, index) => (
-                                <button
-                                    key={index}
-                                    onClick={() => goToSlide(index)}
-                                    className={`cursor-pointer transition-all duration-300 rounded-full ${currentIndex === index ? 'w-12 h-3 bg-white/10' : 'w-3 h-3 bg-gray-400 hover:bg-gray-600'}`}
-                                    aria-label={`Gehe zu Projekt ${index + 1}`}
-                                />
-                            ))}
-                        </div>
+                                </div>
+                            );
+                        })}
                     </div>
                 </div>
             </section>
 
-            {/* Speaking & Workshops */}
+
+            <div id="speaking" className="mb-8"></div>
+
             <section className="min-h-screen flex flex-col items-center px-6 py-20">
                 <FadeInWhenVisible direction="left">
                     <h1 className="text-4xl md:text-6xl mb-8 text-center">Speaking & Workshops</h1>
