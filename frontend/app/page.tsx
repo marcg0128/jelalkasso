@@ -66,34 +66,39 @@ export default function Home() {
 
     const portfolioItems = [
         {
-          imageUrl: "https://images.unsplash.com/photo-1511578314322-379afb476865?w=800&q=80",
-          title: "Event Highlights",
-          description: "Besondere Momente und Atmosphäre professionell festgehalten.",
-          tags: ["Eventfotografie", "Schnitt"]
+            imageUrl: "https://images.unsplash.com/photo-1511578314322-379afb476865?w=800&q=80",
+            title: "Event Highlights",
+            description: "Besondere Momente und Atmosphäre professionell festgehalten.",
+            tags: ["Eventfotografie", "Schnitt"],
+            redirectUrl: "https://www.instagram.com/jk_fotovideo/"
         },
         {
-          imageUrl: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800&q=80",
-          title: "Portrait Serie",
-          description: "Authentische Portraits die Persönlichkeit einfangen.",
-          tags: ["Photography", "Art Direction"]
+            imageUrl: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800&q=80",
+            title: "Portrait Serie",
+            description: "Authentische Portraits die Persönlichkeit einfangen.",
+            tags: ["Photography", "Art Direction"],
+            redirectUrl: "https://www.instagram.com/jk_fotovideo/"
         },
         {
-          imageUrl: "https://images.unsplash.com/photo-1478147427282-58a87a120781?w=800&q=80",
-          title: "Urban Stories",
-          description: "Stadtleben durch die Linse eingefangen.",
-          tags: ["Photography", "Storytelling"]
+            imageUrl: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800&q=80",
+            title: "Hochzeitserinnerung",
+            description: "Stadtleben durch die Linse eingefangen.",
+            tags: ["Photography", "Storytelling"],
+            redirectUrl: "https://www.instagram.com/stories/highlights/17951190092844464/"
         },
         {
-          imageUrl: "https://images.unsplash.com/photo-1515378960530-7c0da6231fb1?w=800&q=80",
-          title: "Fashion Shoot",
-          description: "Kreative Mode-Fotografie mit einzigartigem Stil.",
-          tags: ["Fashion", "Editorial"]
+            imageUrl: "https://images.unsplash.com/photo-1515378960530-7c0da6231fb1?w=800&q=80",
+            title: "Fashion Shoot",
+            description: "Kreative Mode-Fotografie mit einzigartigem Stil.",
+            tags: ["Fashion", "Editorial"],
+            redirectUrl: "https://www.instagram.com/jk_fotovideo/"
         },
         {
-          imageUrl: "https://images.unsplash.com/photo-1515378960530-7c0da6231fb1?w=800&q=80",
-          title: "Fashion Shoot",
-          description: "Kreative Mode-Fotografie mit einzigartigem Stil.",
-          tags: ["Fashion", "Editorial"]
+            imageUrl: "https://images.unsplash.com/photo-1515378960530-7c0da6231fb1?w=800&q=80",
+            title: "Fashion Shoot",
+            description: "Kreative Mode-Fotografie mit einzigartigem Stil.",
+            tags: ["Fashion", "Editorial"],
+            redirectUrl: "https://www.instagram.com/jk_fotovideo/"
         }
       ];
 
@@ -433,8 +438,12 @@ export default function Home() {
 
                                         {/* Arrow Icon */}
                                         {relativePosition === 0 && (
-                                            <div className="absolute bottom-6 right-6 w-10 h-10 md:w-12 md:h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center transition-opacity duration-700">
-                                                <ArrowUpRight className="w-5 h-5 md:w-6 md:h-6 text-white" />
+                                            <div className="absolute bottom-6 right-6 w-10 h-10 md:w-12 md:h-12
+                                            bg-white/20 backdrop-blur-sm rounded-full flex items-center
+                                            justify-center transition-all duration-300 hover:scale-110">
+                                                <a href={item.redirectUrl} target="_blank" rel="noopener noreferrer">
+                                                    <ArrowUpRight className="w-5 h-5 md:w-6 md:h-6 text-white" />
+                                                </a>
                                             </div>
                                         )}
                                     </div>
@@ -475,8 +484,9 @@ export default function Home() {
                 <FadeInWhenVisible direction={"up"}>
                     <div className="flex flex-col md:flex-row items-center gap-8 w-full max-w-6xl">
                         <div className="w-full md:w-1/3">
-                            <h2 className="text-4xl md:text-5xl font-bold mb-4 text-center md:text-left">Lass uns
-                                zusammenarbeiten.</h2>
+                            <h2 className="text-4xl md:text-5xl font-bold mb-4 text-center md:text-left">
+                                Lass uns starten
+                            </h2>
                             <p className="text-lg md:text-xl text-center md:text-left">
                                 Ob für ein Shooting, ein Event oder ein individuelles Projekt – ich freue mich
                                 darauf, deine Ideen in Bildern und Videos zum Leben zu erwecken. Schreib mir
