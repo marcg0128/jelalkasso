@@ -166,7 +166,7 @@ export default function Home() {
     };
 
     const calcLogoSizeHeight = () => {
-        if (windowWidth < 640) return 200;
+        if (windowWidth < 640) return  200;
         if (windowWidth < 1024) return scrollY > 800 ? 120 : 260;
         return scrollY > 800 ? 150 : 330;
     };
