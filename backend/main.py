@@ -27,9 +27,9 @@ class ContactRequest(BaseModel):
 # Email Konfiguration (WICHTIG: Setze diese als Umgebungsvariablen!)
 SMTP_SERVER = "smtp.gmail.com"  # Für Gmail
 SMTP_PORT = 587
-SENDER_EMAIL = "deine-email@gmail.com"  # Deine Email
-SENDER_PASSWORD = "dein-app-passwort"  # Gmail App-Passwort (nicht dein normales Passwort!)
-RECEIVER_EMAIL = "empfaenger@email.com"  # Wohin die Kontaktanfragen gehen sollen
+SENDER_EMAIL = "marcg010208@gmail.com"  # Deine Email
+SENDER_PASSWORD = "autjltelqpxmhmiw"  # Gmail App-Passwort (nicht dein normales Passwort!)
+RECEIVER_EMAIL = "marcg010208@gmail.com"  # Wohin die Kontaktanfragen gehen sollen
 
 
 @app.post("/sendMail")
@@ -54,11 +54,14 @@ async def send_mail(contact: ContactRequest):
 
         msg.attach(MIMEText(body, 'plain'))
 
+
         # Email versenden
-        with smtplib.SMTP(SMTP_SERVER, SMTP_PORT) as server:
+        with smtplib.SMTP_SSL(SMTP_SERVER, SMTP_PORT) as server:
+            server.ehlo()
             server.starttls()
             server.login(SENDER_EMAIL, SENDER_PASSWORD)
-            server.send_message(msg)
+            server.sendmail(SENDER_EMAIL, RECEIVER_EMAIL, msg.as_string())
+            server.quit()
 
         print(f"✅ Mail erfolgreich gesendet von {contact.name} ({contact.email})")
         return {

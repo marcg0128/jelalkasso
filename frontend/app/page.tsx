@@ -44,12 +44,12 @@ const FadeInWhenVisible = ({children, direction = "up"}: {
 };
 
 const navItems = [
-    {id: "home", label: "Start"},
     {id: "about", label: "Über mich"},
+    {id: "portfolio", label: "Portfolio"},
 ];
 
 const navItemsRight = [
-    {id: "portfolio", label: "Portfolio"},
+
     {id: "speaking", label: "Speaking"},
     {id: "contact", label: "Kontakt"},
 ];
@@ -176,6 +176,18 @@ export default function Home() {
         return scrollY > 800 ? 150 : 330;
     };
 
+    const scrollToSection = (id: string) => {
+        const section = document.getElementById(id);
+        if (section) {
+            section.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+        }
+    };
+
+
+
     return (
         <>
             {/* Navbar */}
@@ -210,10 +222,11 @@ export default function Home() {
                         </ul>
 
                         {/* Logo */}
-                        <div className={`absolute top-[-8rem] left-1/2 pointer-events-none transition-transform duration-500 ease-in-out
+                        <div className={`absolute top-[-8rem] left-1/2 pointer-events-auto transition-transform duration-500 ease-in-out
                                         ${scrollY > 800 ? '-translate-x-1/2 translate-y-6 md:-translate-x-[40em] md:translate-y-15' : '-translate-x-1/2 translate-y-6 md:translate-y-0'}`}
+                             onClick={() => scrollToSection("home")}
+                             style={{cursor: "pointer"}}
                         >
-
                             <Image
                                 src={"/logo.svg"}
                                 alt="logo"
@@ -223,6 +236,7 @@ export default function Home() {
                                 priority
                             />
                         </div>
+
 
                         {/* Desktop Right Menu */}
                         <ul className={`hidden md:flex relative items-center gap-12 text-white font-medium ml-[43px] transition-all duration-500 ease-in-out ${scrollY > 800 ? 'md:mt-5' : 'md:mt-40'}`}>
