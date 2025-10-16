@@ -2,11 +2,23 @@ import fastapi
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, EmailStr
 import uvicorn
-import smtplib
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
+from sib_api_v3_sdk.rest import ApiException
+import sib_api_v3_sdk
+import os
+from dotenv import load_dotenv
+import requests
+
+
+load_dotenv()
+
+BREVO_API_KEY = os.getenv("BREVO_API_KEY")
+SENDER_EMAIL = os.getenv("SENDER_EMAIL")
+SENDER_NAME = os.getenv("SENDER_NAME")
+
 
 app = fastapi.FastAPI()
+
+
 
 app.add_middleware(
     CORSMiddleware,
@@ -16,65 +28,85 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+configuration = sib_api_v3_sdk.Configuration()
+configuration.api_key['api-key'] = BREVO_API_KEY
 
-# Pydantic Model für die Request Body Validierung
-class ContactRequest(BaseModel):
-    name: str
-    email: EmailStr
-    message: str
+@app.post("/sendEmailTest")
+async def send_email():
+    api_instance = sib_api_v3_sdk.TransactionalEmailsApi(sib_api_v3_sdk.ApiClient(configuration))
 
-
-# Email Konfiguration (WICHTIG: Setze diese als Umgebungsvariablen!)
-SMTP_SERVER = "smtp.gmail.com"  # Für Gmail
-SMTP_PORT = 587
-SENDER_EMAIL = "marcg010208@gmail.com"  # Deine Email
-SENDER_PASSWORD = "autjltelqpxmhmiw"  # Gmail App-Passwort (nicht dein normales Passwort!)
-RECEIVER_EMAIL = "marcg010208@gmail.com"  # Wohin die Kontaktanfragen gehen sollen
-
-
-@app.post("/sendMail")
-async def send_mail(contact: ContactRequest):
-    try:
-        # Email erstellen
-        msg = MIMEMultipart()
-        msg['From'] = SENDER_EMAIL
-        msg['To'] = RECEIVER_EMAIL
-        msg['Subject'] = f"Neue Kontaktanfrage von {contact.name}"
-
-        # Email Body
-        body = f"""
-        Neue Kontaktanfrage über die Website:
-
-        Name: {contact.name}
-        Email: {contact.email}
-
-        Nachricht:
-        {contact.message}
+    send_smtp_email_to_log = sib_api_v3_sdk.SendSmtpEmail(
+        to=[{"email": 'marcg010208@gmail.com', "name": SENDER_NAME}],
+        sender={"email": SENDER_EMAIL, "name": SENDER_NAME},
+        subject=f"Reservierungsanfrage: test",
+        html_content=f"""
+            <div style='font-family:Arial,sans-serif;max-width:600px;margin:auto;padding:24px;background:#f9f9f9;border-radius:8px;'>
+                <h2 style='color:#222;margin-bottom:16px;'>Neue Reservierung</h2>
+                <table style='width:100%;border-collapse:collapse;'>
+                    <tr><td style='padding:8px 0;'><strong>Vorname:</strong></td><td>d</td></tr>
+                    <tr><td style='padding:8px 0;'><strong>Nachname:</strong></td><td>dff</td></tr>
+                    <tr><td style='padding:8px 0;'><strong>Email:</strong></td><td>dfdf</td></tr>
+                    <tr><td style='padding:8px 0;'><strong>Anzahl:</strong></td><td>ddff</td></tr>
+                    <tr><td style='padding:8px 0;'><strong>Option:</strong></td><td>dfdff</td></tr>
+                    <tr><td style='padding:8px 0;'><strong>Kommentar:</strong></td><td>dfggf</td></tr>
+                    <tr><td style='padding:8px 0;'><strong>Datum:</strong></td><td>daaff</td></tr>
+                </table>
+            </div>
         """
+    )
 
-        msg.attach(MIMEText(body, 'plain'))
+    try:
+        response = api_instance.send_transac_email(send_smtp_email_to_log)
+        print("RESPONSE:", response)
+        return {"message": "Email verschickt"}
+    except ApiException as e:
+        print("BREVO ERROR:", e.body)
+        raise Exception(str(e))
 
 
-        # Email versenden
-        with smtplib.SMTP_SSL(SMTP_SERVER, SMTP_PORT) as server:
-            server.ehlo()
-            server.starttls()
-            server.login(SENDER_EMAIL, SENDER_PASSWORD)
-            server.sendmail(SENDER_EMAIL, RECEIVER_EMAIL, msg.as_string())
-            server.quit()
-
-        print(f"✅ Mail erfolgreich gesendet von {contact.name} ({contact.email})")
-        return {
-            "status": "success",
-            "message": "Mail sent successfully"
-        }
-
-    except Exception as e:
-        print(f"❌ Fehler beim Senden: {str(e)}")
-        raise fastapi.HTTPException(
-            status_code=500,
-            detail=f"Failed to send email: {str(e)}"
-        )
+# @app.post("/sendMail")
+# async def send_mail(contact: ContactRequest):
+#     try:
+#         # Email erstellen
+#         msg = MIMEMultipart()
+#         msg['From'] = SENDER_EMAIL
+#         msg['To'] = RECEIVER_EMAIL
+#         msg['Subject'] = f"Neue Kontaktanfrage von {contact.name}"
+#
+#         # Email Body
+#         body = f"""
+#         Neue Kontaktanfrage über die Website:
+#
+#         Name: {contact.name}
+#         Email: {contact.email}
+#
+#         Nachricht:
+#         {contact.message}
+#         """
+#
+#         msg.attach(MIMEText(body, 'plain'))
+#
+#
+#         # Email versenden
+#         with smtplib.SMTP_SSL(SMTP_SERVER, SMTP_PORT) as server:
+#             server.ehlo()
+#             server.starttls()
+#             server.login(SENDER_EMAIL, SENDER_PASSWORD)
+#             server.sendmail(SENDER_EMAIL, RECEIVER_EMAIL, msg.as_string())
+#             server.quit()
+#
+#         print(f"✅ Mail erfolgreich gesendet von {contact.name} ({contact.email})")
+#         return {
+#             "status": "success",
+#             "message": "Mail sent successfully"
+#         }
+#
+#     except Exception as e:
+#         print(f"❌ Fehler beim Senden: {str(e)}")
+#         raise fastapi.HTTPException(
+#             status_code=500,
+#             detail=f"Failed to send email: {str(e)}"
+#         )
 
 
 # Health Check Endpoint
