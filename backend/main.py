@@ -52,7 +52,7 @@ async def send_mail(contact: ContactRequest):
                         <table style='width:100%;border-collapse:collapse;'>
                             <tr><td style='padding:8px 0;'><strong>Vorname:</strong></td><td>{contact.name}</td></tr>
                             <tr><td style='padding:8px 0;'><strong>Email:</strong></td><td>{contact.email}</td></tr>
-                            <tr>
+                            <tr>  
                                 <td style='padding:8px 0; vertical-align: top;'><strong>Kommentar:</strong></td>
                                 <td style='padding:8px 0; white-space: pre-wrap;'>{contact.message}</td>
                             </tr>
