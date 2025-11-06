@@ -138,7 +138,7 @@ export default function Home() {
 
             </div>
 
-            <h1 className="text-9xl flex items-center justify-center h-full mt-100 mb-100">Work in Progress...</h1>
+            <h1 className="text-3xl md:text-9xl flex items-center justify-center h-full mt-100 mb-100">Work in Progress...</h1>
 
 
             {/* Intro */}
