@@ -113,16 +113,6 @@ export default function Home() {
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
-    const calcLogoSizeWidth = () => {
-        if (windowWidth < 640) return 90;
-        if (windowWidth < 1024) return  180;
-
-    };
-
-    const calcLogoSizeHeight = () => {
-        if (windowWidth < 640) return  90;
-        if (windowWidth < 1024) return  260;
-    };
 
     const scrollToSection = (id: string) => {
         const section = document.getElementById(id);
@@ -138,70 +128,50 @@ export default function Home() {
 
     return (
         <>
+
             {/* Navbar */}
             <div id="home"></div>
-            <div>
-                <Image src="" alt="Logo" width="180" height="260"
-                       className="mx-auto mt-10 mb-4"/>
+            <div className="flex items-center justify-between px-[10%] py-4 fixed top-0 left-0 w-full  z-50 ">
+                <Image src={"/logo.svg"} alt="Logo" width="90" height="90"
+                       className=""/>
                 <NavBar></NavBar>
 
             </div>
 
+            <h1 className="text-9xl flex items-center justify-center h-full mt-100 mb-100">Work in Progress...</h1>
+
+
             {/* Intro */}
 
 
-            {/* Über mich */}
-            <div id="about" className="mb-60"></div>
-            <section className="min-h-screen flex flex-col items-center px-6 py-20">
-                <FadeInWhenVisible direction="up">
-                    <h1 className="text-4xl md:text-6xl mb-8 ">Über mich</h1>
-                </FadeInWhenVisible>
-                <FadeInWhenVisible direction="up">
-                    <p className="text-xl md:text-4xl max-w-3xl ">
-                        Hi, ich bin Jelal Kasso – leidenschaftlicher Fotograf und Videograf. Ich liebe es, besondere
-                        Momente einzufangen und Geschichten durch Bilder und Videos zu erzählen. Jedes Projekt ist für
-                        mich eine neue Gelegenheit, Kreativität mit Technik zu verbinden und einzigartige Erinnerungen
-                        zu schaffen.
-                    </p>
-                </FadeInWhenVisible>
-                <FadeInWhenVisible direction="up">
-                    <p className="text-lg md:text-3xl max-w-3xl text-gray-500 mt-8 ">
-                        In den letzten Jahren durfte ich mit Menschen aus den unterschiedlichsten Bereichen arbeiten –
-                        von persönlichen Shootings über Hochzeiten bis hin zu kreativen Projekten und Events. Jedes
-                        Projekt ist für mich einzigartig, und ich lege großen Wert darauf, meine Arbeit individuell auf
-                        die Wünsche und Persönlichkeit meiner Kunden abzustimmen.
-                        <br/><br/>
-                        Mit Kreativität, technischer Präzision und einem Auge für Details schaffe ich Bilder und Videos,
-                        die nicht nur ästhetisch überzeugen, sondern auch Gefühle wecken. Mein Ziel ist es, Erinnerungen
-                        zu gestalten, die Menschen bewegen und eine Geschichte erzählen, die noch lange nachwirkt.
-                    </p>
-                </FadeInWhenVisible>
-            </section>
+            {/*/!* Über mich *!/*/}
+            {/*<div id="about" className="mb-60"></div>*/}
+            {/*<section className="min-h-screen flex flex-col items-center px-6 py-20">*/}
+            {/*    <FadeInWhenVisible direction="up">*/}
+            {/*        <h1 className="text-4xl md:text-6xl mb-8 ">Über mich</h1>*/}
+            {/*    </FadeInWhenVisible>*/}
+            {/*    <FadeInWhenVisible direction="up">*/}
+            {/*        <p className="text-xl md:text-4xl max-w-3xl ">*/}
+            {/*            Hi, ich bin Jelal Kasso – leidenschaftlicher Fotograf und Videograf. Ich liebe es, besondere*/}
+            {/*            Momente einzufangen und Geschichten durch Bilder und Videos zu erzählen. Jedes Projekt ist für*/}
+            {/*            mich eine neue Gelegenheit, Kreativität mit Technik zu verbinden und einzigartige Erinnerungen*/}
+            {/*            zu schaffen.*/}
+            {/*        </p>*/}
+            {/*    </FadeInWhenVisible>*/}
+            {/*    <FadeInWhenVisible direction="up">*/}
+            {/*        <p className="text-lg md:text-3xl max-w-3xl text-gray-500 mt-8 ">*/}
+            {/*            In den letzten Jahren durfte ich mit Menschen aus den unterschiedlichsten Bereichen arbeiten –*/}
+            {/*            von persönlichen Shootings über Hochzeiten bis hin zu kreativen Projekten und Events. Jedes*/}
+            {/*            Projekt ist für mich einzigartig, und ich lege großen Wert darauf, meine Arbeit individuell auf*/}
+            {/*            die Wünsche und Persönlichkeit meiner Kunden abzustimmen.*/}
+            {/*            <br/><br/>*/}
+            {/*            Mit Kreativität, technischer Präzision und einem Auge für Details schaffe ich Bilder und Videos,*/}
+            {/*            die nicht nur ästhetisch überzeugen, sondern auch Gefühle wecken. Mein Ziel ist es, Erinnerungen*/}
+            {/*            zu gestalten, die Menschen bewegen und eine Geschichte erzählen, die noch lange nachwirkt.*/}
+            {/*        </p>*/}
+            {/*    </FadeInWhenVisible>*/}
+            {/*</section>*/}
 
-
-
-
-            <div id="speaking" className="mb-8"></div>
-
-            <section className="min-h-screen flex flex-col items-center px-6 py-20">
-                <FadeInWhenVisible direction="left">
-                    <h1 className="text-4xl md:text-6xl mb-8 text-center">Speaking & Workshops</h1>
-                </FadeInWhenVisible>
-                <FadeInWhenVisible direction="right">
-                    <p className="text-lg md:text-4xl max-w-6xl text-center">
-                        Fotografie und Videografie sind für mich nicht nur ein Beruf, sondern auch eine Leidenschaft,
-                        die ich gerne mit anderen teile. Neben meiner Arbeit an Projekten halte ich regelmäßig Vorträge
-                        und Workshops, in denen ich mein Wissen und meine Erfahrungen weitergebe. Dabei geht es um
-                        Themen wie Bildgestaltung, Storytelling mit der Kamera, den kreativen Prozess hinter einem
-                        Projekt sowie den Einsatz moderner Technik und Tools.
-                        <br/><br/>
-                        Mir ist es wichtig, nicht nur theoretisches Wissen zu vermitteln, sondern auch praktische
-                        Einblicke zu geben, die sofort angewendet werden können. Ob in kleinen Gruppen, bei Events oder
-                        in individuellen Sessions – mein Ziel ist es, Menschen zu inspirieren, ihre eigene Kreativität
-                        zu entdecken und neue Wege in der Fotografie und Videografie zu gehen.
-                    </p>
-                </FadeInWhenVisible>
-            </section>
 
             {/* Kontakt */}
             <div id="contact" className="mb-20"></div>
