@@ -1,4 +1,5 @@
 import fastapi
+from fastapi import Depends, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, EmailStr
 import uvicorn
@@ -7,6 +8,11 @@ import sib_api_v3_sdk
 import os
 from dotenv import load_dotenv
 import datetime
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from jose import JWTError, jwt
+from passlib.context import CryptContext
+
+import helper
 
 
 
@@ -19,6 +25,7 @@ RECEIVER_EMAIL = os.getenv("RECEIVER_EMAIL")
 
 
 app = fastapi.FastAPI()
+db = helper.database.Database()
 
 
 app.add_middleware(
@@ -31,6 +38,10 @@ app.add_middleware(
 
 configuration = sib_api_v3_sdk.Configuration()
 configuration.api_key['api-key'] = BREVO_API_KEY
+
+@app.get("/")
+async def root():
+    return {"status": "API is running"}
 
 class ContactRequest(BaseModel):
     name: str
@@ -76,62 +87,51 @@ async def send_mail(contact: ContactRequest):
             detail=f"Failed to send email: {str(e)}"
         )
 
+# ================ Authentication Section ================
 
-# @app.post("/sendMail")
-# async def send_mail(contact: ContactRequest):
-#     try:
-#         # Email erstellen
-#         msg = MIMEMultipart()
-#         msg['From'] = SENDER_EMAIL
-#         msg['To'] = RECEIVER_EMAIL
-#         msg['Subject'] = f"Neue Kontaktanfrage von {contact.name}"
-#
-#         # Email Body
-#         body = f"""
-#         Neue Kontaktanfrage über die Website:
-#
-#         Name: {contact.name}
-#         Email: {contact.email}
-#
-#         Nachricht:
-#         {contact.message}
-#         """
-#
-#         msg.attach(MIMEText(body, 'plain'))
-#
-#
-#         # Email versenden
-#         with smtplib.SMTP_SSL(SMTP_SERVER, SMTP_PORT) as server:
-#             server.ehlo()
-#             server.starttls()
-#             server.login(SENDER_EMAIL, SENDER_PASSWORD)
-#             server.sendmail(SENDER_EMAIL, RECEIVER_EMAIL, msg.as_string())
-#             server.quit()
-#
-#         print(f"✅ Mail erfolgreich gesendet von {contact.name} ({contact.email})")
-#         return {
-#             "status": "success",
-#             "message": "Mail sent successfully"
-#         }
-#
-#     except Exception as e:
-#         print(f"❌ Fehler beim Senden: {str(e)}")
-#         raise fastapi.HTTPException(
-#             status_code=500,
-#             detail=f"Failed to send email: {str(e)}"
-#         )
+SECRET_KEY = os.environ.get("SECRET_AUTH_KEY")
+if not SECRET_KEY:
+    raise ValueError("SECRET_KEY is not set!")
+
+ALGORITHM = "HS256"
+ACCESS_TOKEN_EXPIRE_MINUTES = 60
+
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 
 
-# Health Check Endpoint
-@app.get("/")
-async def root():
-    return {"status": "API is running"}
+def verify_password(plain, hashed):
+    return pwd_context.verify(plain, hashed)
 
+def create_access_token(data: dict, expires_delta=None):
+    to_encode = data.copy()
+    expire = datetime.datetime.utcnow() + (expires_delta or datetime.timedelta(minutes=15))
+    to_encode.update({"exp": expire})
+    return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
 
-# Test Endpoint
-@app.get("/test")
-async def test():
-    return {"message": "FastAPI Backend is working!"}
+@app.post("/login")
+def login(form_data: OAuth2PasswordRequestForm = Depends()):
+    users = db.get_user(form_data.username)
+    if  not verify_password(form_data.password, users["password"]):
+        raise HTTPException(status_code=400, detail="Invalid credentials")
+    token = create_access_token({"sub": form_data.username})
+    return {"access_token": token, "token_type": "bearer"}
+
+@app.get("/protected")
+def read_protected(token: str = Depends(oauth2_scheme)):
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+    except JWTError:
+        raise HTTPException(status_code=401, detail="Invalid token")
+    return {"message": f"Hello, {payload['sub']}"}
+
+# ========================= Other =================
+
+@app.post("/add_user")
+def add_user(username: str, password: str):
+    hashed_password = pwd_context.hash(password)
+    db.add_user(username, hashed_password)
+    return {"status": "user added"}
 
 
 if __name__ == "__main__":
