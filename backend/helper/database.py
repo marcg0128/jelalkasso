@@ -41,7 +41,8 @@ class Database:
                             (
                                 id        INTEGER PRIMARY KEY AUTO_INCREMENT,
                                 name      VARCHAR(255) NOT NULL,
-                                path     VARCHAR(255) NOT NULL
+                                path     VARCHAR(255) NOT NULL,
+                                place     VARCHAR(255)
                             );
                             """)
 
@@ -89,6 +90,13 @@ class Database:
             (name, path,  media_id)
         )
         self.connection.commit()
+
+    def get_media(self, media_place):
+        self.cursor.execute(
+            "SELECT * FROM media WHERE place = %s",
+            (media_place,)
+        )
+        return self.cursor.fetchall()
 
     def delete_media(self, media_id):
         self.cursor.execute(

@@ -133,6 +133,11 @@ def add_user(username: str, password: str):
     db.add_user(username, hashed_password)
     return {"status": "user added"}
 
+@app.get("/get_media")
+def get_media(media_place: str):
+    media = db.get_media(media_place)
+    return {"media": media_place}
+
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)

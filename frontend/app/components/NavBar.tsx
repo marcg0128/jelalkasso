@@ -32,13 +32,15 @@ export default function NavBar() {
         return () => window.removeEventListener('resize', updateIndicator);
     }, [activePath]);
 
+    // #AF8A3A
+
     return (
-        <nav className="px-6 py-3 bg-white/60 text-black rounded-[64px] backdrop-blur-sm">
+        <nav className="px-6 py-3 bg-white/90 text-black rounded-[64px] backdrop-blur-sm">
             {/* Desktop Menu */}
             <div className="hidden md:block relative" ref={navRef}>
                 {/* Animated Background Indicator */}
                 <div
-                    className="absolute top-0 h-full bg-[#AF8A3A] rounded-4xl transition-all duration-300 ease-out"
+                    className="absolute top-0 h-full bg-[#DAA520] rounded-4xl transition-all duration-500 ease-out"
                     style={indicatorStyle}
                 />
 

@@ -6,6 +6,8 @@ import {ChevronLeft, ChevronRight, Instagram, Menu, X, ArrowUpRight} from 'lucid
 import {useInView} from "react-intersection-observer";
 
 import NavBar from "./components/NavBar";
+import Start from "./components/Start";
+import Portfolio from "@/app/components/Portfolio";
 
 // Animations-Wrapper
 const FadeInWhenVisible = ({children, direction = "up"}: {
@@ -138,6 +140,10 @@ export default function Home() {
 
             </div>
 
+            <Start></Start>
+
+            <Portfolio></Portfolio>
+
             <h1 className="text-3xl md:text-9xl flex items-center justify-center h-full mt-100 mb-100">Work in Progress...</h1>
 
 
@@ -236,7 +242,7 @@ export default function Home() {
                                 </div>
                                 <div className="flex items-center justify-between">
                                     <button
-                                        className="bg-white/10 hover:bg-gray-900 text-white font-bold p-3 px-6 rounded-xl focus:outline-none focus:shadow-outline transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                                        className="bg-[#DAA520]/50 hover:bg-[#DAA520]/30 text-white font-bold p-3 px-6 rounded-xl focus:outline-none focus:shadow-outline transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                                         type="button"
                                         onClick={sendEmail}
                                         disabled={isSubmitting}
