@@ -41,7 +41,7 @@ export default function CountUp({
   const isInView = useInView(ref, {
     once: true,
     margin: '0px',
-    amount: 0.3 // Element muss zu 30% sichtbar sein
+    amount: 0.3 // element is considered in view when 30% is visible
   });
 
   const getDecimalPlaces = (num: number): number => {
@@ -81,7 +81,7 @@ export default function CountUp({
   }, [from, to, direction, formatValue]);
 
   useEffect(() => {
-    // Nur starten wenn Element sichtbar ist UND noch nicht gestartet wurde
+    // only start the animation if the element is in view and hasn't started yet
     if (isInView && startWhen && !hasStartedRef.current) {
       hasStartedRef.current = true;
 

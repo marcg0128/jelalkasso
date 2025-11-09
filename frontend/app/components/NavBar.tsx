@@ -4,7 +4,7 @@ export default function NavBar() {
     const [isOpen, setIsOpen] = useState(false);
     const [activePath, setActivePath] = useState('#about');
     const [indicatorStyle, setIndicatorStyle] = useState({});
-    const navRef = useRef(null);
+    const navRef = useRef<HTMLDivElement>(null);
 
     const menuItems = [
         { href: '#about', label: 'Über uns' },
@@ -16,7 +16,7 @@ export default function NavBar() {
     useEffect(() => {
         const updateIndicator = () => {
             if (navRef.current) {
-                const activeLink = navRef.current.querySelector(`a[href="${activePath}"]`);
+                const activeLink = navRef.current.querySelector(`a[href="${activePath}"]`) as HTMLElement;
                 if (activeLink) {
                     const { offsetLeft, offsetWidth } = activeLink;
                     setIndicatorStyle({
