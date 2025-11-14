@@ -19,5 +19,10 @@ body {
 
 }
 
+body::selection {
+    background: #DAA520;
+    color: #121212;
+}
+
 /*---break---*/
 
