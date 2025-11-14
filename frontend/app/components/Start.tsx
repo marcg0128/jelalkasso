@@ -17,8 +17,11 @@ export default function Start() {
 
             <div className="min-h-screen md:flex flex-col  items-center justify-center mt-10 relative">
 
-                <div className="self-start flex items-start justify-between w-full  ">
-                    <div className="bg-[#1C1C1C] max-w-80 p-5 h-auto flex flex-col items-center justify-center rounded-4xl translate-y-13">
+                <div className="self-start flex items-start justify-between w-full">
+                    <div className="bg-[#1C1C1C] max-w-80 p-5 h-auto flex flex-col items-center justify-center
+                                    rounded-4xl translate-y-13 hover:cursor-pointer hover:scale-105 transition-transform duration-300
+                                    cursor-pointer relative"
+                        onClick={() => window.open('https://www.instagram.com/jk_fotovideo/', '_blank')}>
                         <Image
                             src="/images/start_foto_sub.jpeg"
                             alt="Jelal Kasso Logo"
@@ -30,6 +33,17 @@ export default function Start() {
                         <div>
                             <p className="text-[1.2vw] text-[#EAEAEA]/85  mt-3">Ich erschaffe Bilder & Videos, die Marken bewegen.  </p>
                         </div>
+                        <div className="absolute bottom-4 right-4">
+                            <div className="w-12 h-12 rounded-full bg-white/10  flex items-center justify-center hover:scale-105 transition-transform duration-300">
+                                <Image
+                                    src="/icons/pfeil-oben-rechts.svg"
+                                    alt="Arrow Icon"
+                                    width={20}
+                                    height={20}
+                                    className="object-contain"
+                                />
+                            </div>
+                        </div>
                     </div>
                     <div className="self-end ml-10 max-w-xs translate-y-7">
                         <p className="text-3xl  text-white">
@@ -40,7 +54,7 @@ export default function Start() {
                 </div>
 
                  <div
-                    style={{ display: "inline-block", cursor: "pointer" }}
+                    style={{ display: "inline-block", cursor: "default" }}
                 >
 
 
