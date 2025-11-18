@@ -3,14 +3,15 @@
 import CountUp from "@/components/CountUp";
 import React from "react";
 import { useState, useEffect, useRef } from "react";
+import Image from "next/image";
 
 const portfolioItems = [
-        { title: "Projekt A", description: "Beschreibung A", imageName: "/images/projekt-a.jpg" },
-        { title: "Projekt B", description: "Beschreibung B", imageName: "/images/projekt-b.jpg" },
-        { title: "Projekt C", description: "Beschreibung C", imageName: "/images/projekt-c.jpg" },
-        { title: "Projekt D", description: "Beschreibung D", imageName: "/images/projekt-a.jpg" },
-        { title: "Projekt E", description: "Beschreibung E", imageName: "/images/projekt-b.jpg" },
-        { title: "Projekt F", description: "Beschreibung F", imageName: "/images/projekt-c.jpg" }
+        { title: "Projekt A", description: "Beschreibung A", imageName: "/images/projects/1.png" },
+        { title: "Projekt B", description: "Beschreibung B", imageName: "/images/projects/2.png" },
+        { title: "Projekt C", description: "Beschreibung C", imageName: "/images/projects/3.png" },
+        { title: "Projekt D", description: "Beschreibung D", imageName: "/images/projects/4.png" },
+        { title: "Projekt E", description: "Beschreibung E", imageName: "/images/projects/5.png" },
+        { title: "Projekt F", description: "Beschreibung F", imageName: "/images/projects/6.png" }
     ];
 
 export default function Portfolio() {
@@ -104,11 +105,11 @@ export default function Portfolio() {
 
             const r2 = el.getBoundingClientRect();
             const elementCenterY = r2.top + r2.height / 2;
-            const TARGET_OFFSET = -15; // negativ = höher, positiv = tiefer
+            const TARGET_OFFSET = -20; // negativ = höher, positiv = tiefer
             const offset = elementCenterY + TARGET_OFFSET - lineY;
 
             const MIN_OFFSET = 20; // minimaler Abstand, ab dem wir zentrieren
-            const DEBOUNCE_MS = 150;
+            const DEBOUNCE_MS = 1000; // wartezeit um scroll-events zu gruppieren
             const AUTO_SCROLL_END_MS = 500; // wie lange wir Auto-Scroll als aktiv betrachten
 
             if (Math.abs(offset) > MIN_OFFSET) {
@@ -152,8 +153,8 @@ export default function Portfolio() {
     return (
 
 
-            <div className="flex  items-center justify-between gap-4 h-full  ">
-                <div className="flex  items-start justify-center gap-4 h-full ml-47">
+            <div className="flex  items-start justify-between gap-4 h-[83vh]  mt-70 mb-300">
+                <div className="flex items-start justify-center gap-4 h-[97vh] ml-47 mt-60">
                     <div className="sticky top-40">
                         <h1
                             id="portfolio-title"
@@ -198,6 +199,15 @@ export default function Portfolio() {
                                 </p>
 
                             </div>
+                            <div>
+                                <Image
+                                    src="/icons/marker.svg"
+                                    alt="marker"
+                                    width={20}
+                                    height={20}
+                                    className="object-contain"
+                                />
+                            </div>
 
 
                         </div>
@@ -206,7 +216,7 @@ export default function Portfolio() {
 
 
 
-                    <div className="flex flex-col items-end ml-20 mb-50">
+                    <div className="flex flex-col items-start justify-start ml-10 mr-10">
                         {portfolioItems.map((item, index) => (
                             <div
                                 className="mb-15 cursor-pointer"
@@ -218,7 +228,7 @@ export default function Portfolio() {
                                 <h2
                                     className={`text-5xl font-bold mt-4 ${
                                         currentProjekt === item.title
-                                            ? "text-white"
+                                            ? "text-[#EAEAEA]\""
                                             : "text-[#888888]"
                                     }`}
                                 >
@@ -240,7 +250,33 @@ export default function Portfolio() {
 
                     {/*</ul>*/}
                 </div>
-                <div className="">
+                <div className="flex-1  flex items-start justify-center  sticky top-0     ">
+                    <div>
+                        {portfolioItems.map((item, index) => (
+                            <div
+                                key={index}
+                                className={`w-full h-screen top-0 left-0 absolute ${
+                                    currentProjekt === item.title ? "opacity-100 z-10" : "opacity-0 z-0"
+                                }`}
+                            >
+                                <img
+                                    src={item.imageName}
+                                    alt={item.title}
+                                    className="w-full h-full object-cover "
+                                />
+                                <div className="absolute bottom-[5%] left-[50%] w-[50%] translate-x-[-50%] py-6
+                                bg-[#121212] text-white p-4 rounded-4xl text-center
+                                flex gap-8 items-center justify-center text-[18px]">
+                                    <div className="text-[#888888] font-semibold">{item.description}</div>
+                                    <div className="text-[#EAEAEA] font-bold cursor-pointer relative group inline-block">
+                                      <span>Mehr Erfahren</span>
+                                      <span className="absolute left-0 -bottom-0.5 h-[1px] bg-[#EAEAEA] w-full transform scale-x-0 origin-left transition-transform duration-400 group-hover:scale-x-100" />
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
 
 
                 </div>
