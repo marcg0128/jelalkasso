@@ -16,6 +16,7 @@ const portfolioItems = [
 
 export default function Portfolio() {
     const [currentProjekt, setCurrentProjekt] = useState<string | null>(null);
+    const [moreDetailsProjekt, setMoreDetailsProject] = useState<string | null>(null);
 
 
     const itemRefs = useRef<Array<HTMLDivElement | null>>([]);
@@ -57,6 +58,13 @@ export default function Portfolio() {
         setCurrentProjekt(portfolioItems[index].title);
     }
 
+    function openLearnMore(projectTitle: string) {
+        if (moreDetailsProjekt) {
+            setMoreDetailsProject(null);
+            return;
+        }
+        setMoreDetailsProject(projectTitle);
+    }
 
     useEffect(() => {
         function cleanupTimeout(ref: React.MutableRefObject<number | null>) {
@@ -155,7 +163,9 @@ export default function Portfolio() {
 
             <div className="flex  items-start justify-between gap-4 h-[83vh]  mt-70 mb-300">
                 <div className="flex items-start justify-center gap-4 h-[97vh] ml-47 mt-60">
-                    <div className="sticky top-40">
+                    <div className={`sticky top-50 transition-all duration-700 ease-in-out ${
+                        moreDetailsProjekt ? '-translate-x-[200%] opacity-0' : 'translate-x-0 opacity-100'
+                    }`}>
                         <h1
                             id="portfolio-title"
                             className="text-5xl font-bold mb-6 inline-block after:inline-block
@@ -199,14 +209,18 @@ export default function Portfolio() {
                                 </p>
 
                             </div>
-                            <div>
+                            <div className="mt-5 flex items-center">
                                 <Image
                                     src="/icons/marker.svg"
                                     alt="marker"
-                                    width={20}
-                                    height={20}
+                                    width={23}
+                                    height={23}
                                     className="object-contain"
                                 />
+                                <span className="ml-3 text-[16px] text-[#EAEAEA]/55">
+                                    im Kreis Minden-Lübbecke
+                                </span>
+
                             </div>
 
 
@@ -219,7 +233,13 @@ export default function Portfolio() {
                     <div className="flex flex-col items-start justify-start ml-10 mr-10">
                         {portfolioItems.map((item, index) => (
                             <div
-                                className="mb-15 cursor-pointer"
+                                className={`mb-15 cursor-pointer transition-all duration-700 ease-in-out ${
+                                    moreDetailsProjekt 
+                                        ? currentProjekt === item.title
+                                            ? '-translate-x-[200%] -translate-y-[40%]'
+                                            : 'translate-x-[200%] opacity-0'
+                                        : ''
+                                }`}
                                 key={index}
                                 onClick={() => scrollToProject(index)}
                                 ref={(el) => { itemRefs.current[index] = el; }}
@@ -269,7 +289,7 @@ export default function Portfolio() {
                                 flex gap-8 items-center justify-center text-[18px]">
                                     <div className="text-[#888888] font-semibold">{item.description}</div>
                                     <div className="text-[#EAEAEA] font-bold cursor-pointer relative group inline-block">
-                                      <span>Mehr Erfahren</span>
+                                      <span onClick={() => openLearnMore(item.title)}>Mehr Erfahren</span>
                                       <span className="absolute left-0 -bottom-0.5 h-[1px] bg-[#EAEAEA] w-full transform scale-x-0 origin-left transition-transform duration-400 group-hover:scale-x-100" />
                                     </div>
                                 </div>

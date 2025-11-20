@@ -69,6 +69,15 @@ export default function Start() {
                         Jelal&nbsp;&nbsp;&nbsp;&nbsp;Kasso
                     </h1>
                 </div>
+                <div className="absolute bottom-4">
+                    <Image
+                        src="/images/mainImage.png"
+                        alt="Jelal Kasso Logo"
+                        width={800}
+                        height={400}
+                        className="grayscale"
+                    />
+                </div>
 
             </div>
 
