@@ -35,7 +35,7 @@ export default function NavBar() {
     // #AF8A3A
 
     return (
-        <nav className="px-6 py-3 bg-white/90 text-black rounded-[64px] backdrop-blur-sm">
+        <nav className="px-6 py-3 bg-white/80 text-black rounded-[64px] backdrop-blur-xl">
             {/* Desktop Menu */}
             <div className="hidden md:block relative" ref={navRef}>
                 {/* Animated Background Indicator */}
