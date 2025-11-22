@@ -42,6 +42,39 @@ function ReviewCard({ reviewer, rating, comment, media }: { reviewer: string; ra
     );
 }
 
+function ReviewsLoop() {
+    return (
+        <div className="overflow-hidden py-10">
+            <div className="flex w-max animate-marquee gap-8">
+                {reviews.map((review, index) => (
+                    <div key={index} className="w-[280px] flex-shrink-0">
+                        <ReviewCard
+                            reviewer={review.reviewer}
+                            rating={review.rating}
+                            comment={review.comment}
+                            media={review.media || undefined}
+                        />
+                    </div>
+                ))}
+
+                {/* zweite Kopie für nahtlosen Loop */}
+                {reviews.map((review, index) => (
+                    <div key={`dup-${index}`} className="w-[500px] flex-shrink-0">
+                        <ReviewCard
+                            reviewer={review.reviewer}
+                            rating={review.rating}
+                            comment={review.comment}
+                            media={review.media || undefined}
+                        />
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+}
+
+
+
 const reviews = [
     {
         reviewer: "Anna S.",
@@ -61,6 +94,26 @@ const reviews = [
         comment: "Ich bin begeistert von den Videos, die Jelal für unser Unternehmen erstellt hat. Absolut empfehlenswert!",
         media: null
     },
+    {
+        reviewer: "Lukas M.",
+        rating: 4,
+        comment: "Die Fotosession war super entspannt und die Ergebnisse sind großartig. Vielen Dank, Jelal!",
+        media: null
+    },
+    {
+        reviewer: "Maria K.",
+        rating: 5,
+        comment: "Jelal versteht es, Emotionen einzufangen und Geschichten zu erzählen. Ich bin sehr zufrieden mit den Ergebnissen.",
+        media: null
+
+    },
+    {
+        reviewer: "Tom H.",
+        rating: 5,
+        comment: "Professionell, kreativ und zuverlässig. Jelal hat unsere Erwartungen übertroffen!",
+        media: null
+    }
+
     // Additional reviews can be added here
 ];
 
@@ -68,21 +121,7 @@ export default function Reviews() {
     return (
         <div className="">
             <h2 className="text-4xl font-bold mb-8 ml-47">Kundenbewertungen</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-47">
-                {/* Review 1 */}
-                {reviews.map((review, index) => (
-                    <ReviewCard
-                        key={index}
-                        reviewer={review.reviewer}
-                        rating={review.rating}
-                        comment={review.comment}
-                        media={review.media || undefined}
-                    />
-                ))}
-
-                {/* Additional reviews can be added here */}
-            </div>
+            <ReviewsLoop />
         </div>
     );
-
 }
