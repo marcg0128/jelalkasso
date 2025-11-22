@@ -1,8 +1,9 @@
-function ReviewCard({ reviewer, rating, comment }: { reviewer: string; rating: number; comment: string }) {
+import Image from "next/image";
+
+function ReviewCard({ reviewer, rating, comment, media }: { reviewer: string; rating: number; comment: string; media?: string }) {
     return (
-        <div className="bg-[#1C1C1C] p-6 rounded-lg shadow-md">
-            <h3 className="text-xl font-semibold mb-2">{reviewer}</h3>
-            <div className="flex items-center mb-4">
+        <div className="bg-[#1C1C1C] p-6 rounded-4xl shadow-md ">
+            <div className="flex items-center mb-2">
                 {Array.from({ length: 5 }, (_, index) => (
                     <svg
                         key={index}
@@ -14,10 +15,54 @@ function ReviewCard({ reviewer, rating, comment }: { reviewer: string; rating: n
                     </svg>
                 ))}
             </div>
+            <h3 className="text-xl font-semibold mb-4">{reviewer}</h3>
             <p className="text-gray-300">{comment}</p>
+
+            {media && media.endsWith('.mp4') && (
+                <div className="bottom-4 mt-4 flex justify-center">
+                    <video controls className="w-[50%] rounded-4xl">
+                        <source src={media} type="video/mp4" />
+                    </video>
+                </div>
+            )}
+
+            {media && media.endsWith('.png') && (
+                <div className=" mt-4 flex justify-center ">
+                    <Image
+                        src={media}
+                        alt={`Media for review by ${reviewer}`}
+                        width={500}
+                        height={300}
+                        className="w-[50%] rounded-4xl"
+                    />
+                </div>
+            )}
+
         </div>
     );
 }
+
+const reviews = [
+    {
+        reviewer: "Anna S.",
+        rating: 5,
+        comment: "Jelal hat fantastische Arbeit geleistet! Die Fotos sind atemberaubend und haben unsere Erwartungen übertroffen.",
+        media: "/images/reviews/Kopie%20von%20Erik%20Jäger.mp4"
+    },
+    {
+        reviewer: "Markus T.",
+        rating: 4,
+        comment: "Sehr professionell und kreativ. Die Zusammenarbeit war angenehm und das Ergebnis spricht für sich.",
+        media: "/images/reviews/5.png"
+    },
+    {
+        reviewer: "Sophie L.",
+        rating: 5,
+        comment: "Ich bin begeistert von den Videos, die Jelal für unser Unternehmen erstellt hat. Absolut empfehlenswert!",
+        media: null
+    },
+    // Additional reviews can be added here
+];
 
 export default function Reviews() {
     return (
@@ -25,23 +70,15 @@ export default function Reviews() {
             <h2 className="text-4xl font-bold mb-8 ml-47">Kundenbewertungen</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-47">
                 {/* Review 1 */}
-                <ReviewCard
-                    reviewer="Anna S."
-                    rating={5}
-                    comment="Jelal hat fantastische Arbeit geleistet! Die Fotos sind atemberaubend und haben unsere Erwartungen übertroffen."
-                />
-                {/* Review 2 */}
-                <ReviewCard
-                    reviewer="Markus T."
-                    rating={4}
-                    comment="Sehr professionell und kreativ. Die Zusammenarbeit war angenehm und das Ergebnis spricht für sich."
-                />
-                {/* Review 3 */}
-                <ReviewCard
-                    reviewer="Sophie L."
-                    rating={5}
-                    comment="Ich bin begeistert von den Videos, die Jelal für unser Unternehmen erstellt hat. Absolut empfehlenswert!"
-                />
+                {reviews.map((review, index) => (
+                    <ReviewCard
+                        key={index}
+                        reviewer={review.reviewer}
+                        rating={review.rating}
+                        comment={review.comment}
+                        media={review.media || undefined}
+                    />
+                ))}
 
                 {/* Additional reviews can be added here */}
             </div>
