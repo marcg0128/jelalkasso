@@ -9,7 +9,8 @@ export default function NavBar() {
     const menuItems = [
         { href: '#about', label: 'Über uns' },
         { href: '#portfolio', label: 'Portfolio' },
-        { href: '#reviews', label: 'Bewertungen' },
+        { href: '#achievsment', label: 'Erfolg' },
+        { href: '#feedback', label: 'Feedback' },
         { href: '#contact', label: 'Kontakt' }
     ];
 

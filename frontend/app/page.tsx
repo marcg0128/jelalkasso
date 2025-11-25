@@ -134,6 +134,16 @@ export default function Home() {
 
             {/* Navbar */}
             <div id="home"></div>
+            {/* Goldener Orb unten rechts */}
+
+            <div className="fixed bottom-0 right-0 w-[800px] h-[800px] pointer-events-none z-10">
+                <div className="absolute -bottom-140 -right-0 w-full h-full">
+                    <div className="w-full h-full rounded-full bg-[#DAA520] opacity-40 blur-[120px]"></div>
+                </div>
+            </div>
+
+
+
             <div className="flex items-center justify-between px-[10%] py-4 fixed top-0 left-0 w-full  z-50 ">
                 <Image src={"/logo.svg"} alt="Logo" width="90" height="90"
                        className=""/>
