@@ -8,6 +8,7 @@ import {useInView} from "react-intersection-observer";
 import NavBar from "./components/NavBar";
 import Start from "./components/Start";
 import Portfolio from "@/app/components/Portfolio";
+import Reviews from "@/app/components/Reviews";
 
 // Animations-Wrapper
 const FadeInWhenVisible = ({children, direction = "up"}: {
@@ -133,6 +134,16 @@ export default function Home() {
 
             {/* Navbar */}
             <div id="home"></div>
+            {/* Goldener Orb unten rechts */}
+
+            <div className="fixed bottom-0 right-0 w-[800px] h-[800px] pointer-events-none z-10">
+                <div className="absolute -bottom-140 -right-0 w-full h-full">
+                    <div className="w-full h-full rounded-full bg-[#DAA520] opacity-40 blur-[120px]"></div>
+                </div>
+            </div>
+
+
+
             <div className="flex items-center justify-between px-[10%] py-4 fixed top-0 left-0 w-full  z-50 ">
                 <Image src={"/logo.svg"} alt="Logo" width="90" height="90"
                        className=""/>
@@ -143,6 +154,8 @@ export default function Home() {
             <Start></Start>
 
             <Portfolio></Portfolio>
+
+            <Reviews></Reviews>
 
             <h1 className="text-3xl md:text-9xl flex items-center justify-center h-full mt-100 mb-100">Work in Progress...</h1>
 
