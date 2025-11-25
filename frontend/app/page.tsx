@@ -8,6 +8,7 @@ import {useInView} from "react-intersection-observer";
 import NavBar from "./components/NavBar";
 import Start from "./components/Start";
 import Portfolio from "@/app/components/Portfolio";
+import Reviews from "@/app/components/Reviews";
 
 // Animations-Wrapper
 const FadeInWhenVisible = ({children, direction = "up"}: {
@@ -143,6 +144,8 @@ export default function Home() {
             <Start></Start>
 
             <Portfolio></Portfolio>
+
+            <Reviews></Reviews>
 
             <h1 className="text-3xl md:text-9xl flex items-center justify-center h-full mt-100 mb-100">Work in Progress...</h1>
 

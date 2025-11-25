@@ -12,7 +12,7 @@ export default function Start() {
         transition: `all 0.4s ease ${delay}s`
     });
     return (
-        <div className="w-full h-screen px-47">
+        <div className="w-full h-screen px-47 mb-30">
             {/*aligns perfect with the title "Jelal Kasso"*/}
 
             <div className="min-h-screen md:flex flex-col  items-center justify-center mt-10 relative">
@@ -68,6 +68,15 @@ export default function Start() {
                          onMouseLeave={() => setHover(false)}>
                         Jelal&nbsp;&nbsp;&nbsp;&nbsp;Kasso
                     </h1>
+                </div>
+                <div className="absolute bottom-4">
+                    <Image
+                        src="/images/mainImage.png"
+                        alt="Jelal Kasso Logo"
+                        width={800}
+                        height={400}
+                        className="grayscale"
+                    />
                 </div>
 
             </div>
