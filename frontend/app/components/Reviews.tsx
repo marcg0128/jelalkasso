@@ -1,57 +1,87 @@
 import Image from "next/image";
+import { useRef, useState } from "react";
 
-function ReviewCard({ reviewer, rating, comment, media }: { reviewer: string; rating: number; comment: string; media?: string }) {
+function ReviewCard({ reviewer, redirectUrl, media }: { reviewer: string; redirectUrl?: string,  media?: string }) {
+    const videoRef = useRef<HTMLVideoElement | null>(null);
+    const [isPlaying, setIsPlaying] = useState(false);
+
+    const togglePlay = () => {
+        if (!videoRef.current) return;
+
+        if (videoRef.current.paused) {
+            videoRef.current.play();
+            setIsPlaying(true);
+        } else {
+            videoRef.current.pause();
+            setIsPlaying(false);
+        }
+    };
+
+    const redirectTo = () => {
+        if (redirectUrl) {
+            window.open(redirectUrl, '_blank');
+        }
+    };
+
     return (
-        <div className="bg-[#1C1C1C] p-6 rounded-4xl shadow-md ">
-            <div className="flex items-center mb-2">
-                {Array.from({ length: 5 }, (_, index) => (
-                    <svg
-                        key={index}
-                        className={`w-5 h-5 ${index < rating ? 'text-yellow-400' : 'text-gray-600'}`}
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                    >
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.974a1 1 0 00.95.69h4.18c.969 0 1.371 1.24.588 1.81l-3.39 2.462a1 1 0 00-.364 1.118l1.286 3.974c.3.921-.755 1.688-1.54 1.118l-3.39-2.462a1 1 0 00-1.176 0l-3.39 2.462c-.784.57-1.838-.197-1.539-1.118l1.286-3.974a1 1 0 00-.364-1.118L2.034 9.4c-.783-.57-.38-1.81.588-1.81h4.18a1 1 0 00.95-.69l1.286-3.974z" />
-                    </svg>
-                ))}
-            </div>
-            <h3 className="text-xl font-semibold mb-4">{reviewer}</h3>
-            <p className="text-gray-300">{comment}</p>
+        <div className={`relative rounded-4xl shadow-md overflow-hidden h-[65vh] w-full ${
+            redirectUrl ? 'hover:cursor-pointer' : ''
+        }`}
+            onClick={() => redirectTo()}
+        >
 
-            {media && media.endsWith('.mp4') && (
-                <div className="bottom-4 mt-4 flex justify-center">
-                    <video controls className="w-[50%] rounded-4xl">
+            {media && (media.endsWith('.mp4') || media.endsWith('.MOV'))  && (
+                <>
+                    <video
+                        ref={videoRef}
+                        className="absolute inset-0 w-full h-full object-cover"
+                        controls={false}
+                        playsInline
+                        onEnded={() => setIsPlaying(false)}
+                    >
                         <source src={media} type="video/mp4" />
                     </video>
-                </div>
+
+                    {/* Custom Play/Pause Button */}
+                    <button
+                        onClick={(e) => {
+                            e.stopPropagation();   // verhindert Redirect
+                            togglePlay();
+                        }}
+                        className="absolute bottom-3 right-0 z-50 -translate-x-1/2 bg-black/50 px-6 py-3 rounded-full backdrop-blur-md hover:bg-black/70 transition-colors hover:cursor-pointer"
+                    >
+                        {!isPlaying && (
+                            <Image src="/icons/spielen.svg" alt="Play" width={20} height={20} />
+                        )}
+                        {isPlaying && (
+                            <Image src="/icons/pause.svg" alt="Pause" width={20} height={20} />
+                        )}
+                    </button>
+                </>
             )}
 
-            {media && media.endsWith('.png') && (
-                <div className=" mt-4 flex justify-center ">
-                    <Image
-                        src={media}
-                        alt={`Media for review by ${reviewer}`}
-                        width={500}
-                        height={300}
-                        className="w-[50%] rounded-4xl"
-                    />
-                </div>
-            )}
 
+            {/*shadow gradient*/}
+            <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-black/70 to-transparent z-40"></div>
+
+            <div className="absolute bottom-4 left-4 text-[#EAEAEA] text-xl font-semibold drop-shadow-lg z-50">
+                {reviewer}
+            </div>
         </div>
     );
 }
+
+
 
 function ReviewsLoop() {
     return (
         <div className="overflow-hidden py-10">
             <div className="flex w-max animate-marquee gap-8">
                 {reviews.map((review, index) => (
-                    <div key={index} className="w-[280px] flex-shrink-0">
+                    <div key={index} className="w-[500px] flex-shrink-0">
                         <ReviewCard
                             reviewer={review.reviewer}
-                            rating={review.rating}
-                            comment={review.comment}
+                            redirectUrl={review.redirect || undefined}
                             media={review.media || undefined}
                         />
                     </div>
@@ -62,8 +92,7 @@ function ReviewsLoop() {
                     <div key={`dup-${index}`} className="w-[500px] flex-shrink-0">
                         <ReviewCard
                             reviewer={review.reviewer}
-                            rating={review.rating}
-                            comment={review.comment}
+                            redirectUrl={review.redirect || undefined}
                             media={review.media || undefined}
                         />
                     </div>
@@ -77,41 +106,25 @@ function ReviewsLoop() {
 
 const reviews = [
     {
-        reviewer: "Anna S.",
-        rating: 5,
-        comment: "Jelal hat fantastische Arbeit geleistet! Die Fotos sind atemberaubend und haben unsere Erwartungen übertroffen.",
-        media: "/images/reviews/Kopie%20von%20Erik%20Jäger.mp4"
+        reviewer: "Erik J.",
+        media: "/images/reviews/Kopie%20von%20Erik%20Jäger.mp4",
+        redirect: null
     },
     {
-        reviewer: "Markus T.",
-        rating: 4,
-        comment: "Sehr professionell und kreativ. Die Zusammenarbeit war angenehm und das Ergebnis spricht für sich.",
-        media: "/images/reviews/5.png"
+        reviewer: "Duft Paradies",
+        media: "/images/reviews/Kopie%20von%20DuftParadies.mp4",
+        redirect: "https://www.duftparadies.online/"
     },
     {
-        reviewer: "Sophie L.",
-        rating: 5,
-        comment: "Ich bin begeistert von den Videos, die Jelal für unser Unternehmen erstellt hat. Absolut empfehlenswert!",
-        media: null
+        reviewer: "Kilian Fürstle",
+        media: "/images/reviews/Kilian%20Fürstle.MOV",
+        redirect: null
     },
     {
-        reviewer: "Lukas M.",
-        rating: 4,
-        comment: "Die Fotosession war super entspannt und die Ergebnisse sind großartig. Vielen Dank, Jelal!",
-        media: null
-    },
-    {
-        reviewer: "Maria K.",
-        rating: 5,
-        comment: "Jelal versteht es, Emotionen einzufangen und Geschichten zu erzählen. Ich bin sehr zufrieden mit den Ergebnissen.",
-        media: null
+        reviewer: "Sarah Lieblich",
+        media: "/images/reviews/Sarah Lieblich.mp4",
+        redirect: null
 
-    },
-    {
-        reviewer: "Tom H.",
-        rating: 5,
-        comment: "Professionell, kreativ und zuverlässig. Jelal hat unsere Erwartungen übertroffen!",
-        media: null
     }
 
     // Additional reviews can be added here
@@ -120,7 +133,7 @@ const reviews = [
 export default function Reviews() {
     return (
         <div className="">
-            <h2 className="text-4xl font-bold mb-8 ml-47">Kundenbewertungen</h2>
+            <h2 className="text-4xl font-bold mb-8 ml-47">Feedback</h2>
             <ReviewsLoop />
         </div>
     );
