@@ -9,6 +9,7 @@ import NavBar from "./components/NavBar";
 import Start from "./components/Start";
 import Portfolio from "@/app/components/Portfolio";
 import Reviews from "@/app/components/Reviews";
+import Achievments from "@/app/components/Achievments";
 
 // Animations-Wrapper
 const FadeInWhenVisible = ({children, direction = "up"}: {
@@ -154,6 +155,8 @@ export default function Home() {
             <Start></Start>
 
             <Portfolio></Portfolio>
+
+            <Achievments></Achievments>
 
             <Reviews></Reviews>
 

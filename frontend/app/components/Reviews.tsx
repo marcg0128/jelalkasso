@@ -133,7 +133,7 @@ const reviews = [
 export default function Reviews() {
     return (
         <div className="">
-            <h2 className="text-4xl font-bold mb-8 ml-47">Feedback</h2>
+            <h2 className="text-5xl font-bold mb-8 ml-47">Feedback</h2>
             <ReviewsLoop />
         </div>
     );
