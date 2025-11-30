@@ -209,19 +209,7 @@ export default function Portfolio() {
                                 </p>
 
                             </div>
-                            <div className="mt-5 flex items-center">
-                                <Image
-                                    src="/icons/marker.svg"
-                                    alt="marker"
-                                    width={23}
-                                    height={23}
-                                    className="object-contain"
-                                />
-                                <span className="ml-3 text-[16px] text-[#EAEAEA]/55">
-                                    im Kreis Minden-Lübbecke
-                                </span>
 
-                            </div>
 
 
                         </div>
