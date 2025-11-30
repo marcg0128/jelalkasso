@@ -28,6 +28,19 @@ function AchievmentsCards({title, number, icon}: {title: string; number: number;
 
                 </div>
                 <p className="text-5xl font-light text-center px-10 text-[#FFFFFF]/70">{title}</p>
+                <div className="bg-[#2C2C2C]">
+                    <button className=" ">
+                        <Image
+                            src="/icons/plus.svg"
+                            alt="Arrow Icon"
+                            width={40}
+                            height={40}
+                            className="object-contain mt-10 transform  hover:scale-105 transition-transform duration-300"
+
+                        />
+                    </button>
+                </div>
+
             </div>
         </div>
     );

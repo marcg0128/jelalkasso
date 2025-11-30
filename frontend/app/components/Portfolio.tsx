@@ -174,45 +174,7 @@ export default function Portfolio() {
                         >
                             Portfolio
                         </h1>
-                        <div className="mt-10 ">
-                            <div className="flex gap-10 text-6xl font-extralight ">
-                                <div>
-                                   +<CountUp
-                                    from={10}
-                                    to={40}
-                                    separator="."
-                                    duration={3}
-                                    className="count-up-text"
 
-                                    />
-
-                                </div>
-
-                                <div>
-                                    +<CountUp
-                                    to={8}
-                                    separator="."
-                                    duration={1}
-                                    className="count-up-text"
-
-                                    />
-
-                                </div>
-
-                            </div>
-                            <div className="flex text-6xl font-light gap-[130px] text-[#EAEAEA]/80">
-                                <p className="text-center mt-4 text-lg w-7">
-                                    zufriedene Kunden
-                                </p>
-                                <p className="text-center mt-4 text-lg">
-                                    Partner
-                                </p>
-
-                            </div>
-
-
-
-                        </div>
 
                     </div>
 
