@@ -1,13 +1,16 @@
 import Image from 'next/image';
 import VariableProximity from "@/components/VariableProximity";
 import React from "react";
-import { useRef } from "react";
+import { useRef, useState} from "react";
 import CountUp from "@/components/CountUp";
 
+
 function AchievmentsCards({title, number, icon}: {title: string; number: number; icon: string}) {
+    const [cardOpen, setCardOpen] = useState(false);
+
     return (
-        <div className="flex flex-col items-center bg-[#1C1C1C] h-[65vh] w-[450px] rounded-4xl">
-            <div className="flex flex-col items-center mt-36">
+        <div className="flex flex-col items-center bg-[#1C1C1C] h-[65vh] w-[450px] rounded-4xl relative">
+            <div className="flex flex-col items-center mt-36 ">
                 <Image
                     src={"/icons/" + icon + ".svg"}
                     alt={title}
@@ -28,15 +31,15 @@ function AchievmentsCards({title, number, icon}: {title: string; number: number;
 
                 </div>
                 <p className="text-5xl font-light text-center px-10 text-[#FFFFFF]/70">{title}</p>
-                <div className="bg-[#2C2C2C]">
-                    <button className=" ">
+                <div className="bg-[#2C2C2C] rounded-full absolute bottom-8 right-10">
+                    <button className="p-2 hover:scale-105 transition-transform duration-300 cursor-pointer"
+                            onClick={() => setCardOpen(!cardOpen)}>
                         <Image
                             src="/icons/plus.svg"
                             alt="Arrow Icon"
-                            width={40}
-                            height={40}
-                            className="object-contain mt-10 transform  hover:scale-105 transition-transform duration-300"
-
+                            width={35}
+                            height={35}
+                            className={`object-contain transform transition-transform duration-300 ${cardOpen ? 'rotate-45' : 'rotate-0'}`}
                         />
                     </button>
                 </div>

@@ -18,7 +18,7 @@ export default function Portfolio() {
     const [currentProjekt, setCurrentProjekt] = useState<string | null>(null);
     const [moreDetailsProjekt, setMoreDetailsProject] = useState<string | null>(null);
 
-
+    const portfolioContainerRef = useRef<HTMLDivElement | null>(null);
     const itemRefs = useRef<Array<HTMLDivElement | null>>([]);
     const isAutoScrollingRef = useRef(false);
     const debounceTimeoutRef = useRef<number | null>(null);
@@ -74,7 +74,25 @@ export default function Portfolio() {
             }
         }
 
+        function isInPortfolioSection(): boolean {
+            if (!portfolioContainerRef.current) return false;
+
+            const rect = portfolioContainerRef.current.getBoundingClientRect();
+            const viewportHeight = window.innerHeight;
+
+            // Prüfe ob der Portfolio-Bereich im Viewport ist
+            // Du kannst die Schwellenwerte nach Bedarf anpassen
+            const isVisible = rect.top < viewportHeight && rect.bottom > 0;
+
+            return isVisible;
+        }
+
         function handleScroll() {
+            // Wenn wir außerhalb des Portfolio-Bereichs sind, nicht reagieren
+            if (!isInPortfolioSection()) {
+                return;
+            }
+
             // Wenn wir gerade programmgesteuert scrollen, ignorieren
             if (isAutoScrollingRef.current) return;
 
@@ -113,24 +131,19 @@ export default function Portfolio() {
 
             const r2 = el.getBoundingClientRect();
             const elementCenterY = r2.top + r2.height / 2;
-            const TARGET_OFFSET = -20; // negativ = höher, positiv = tiefer
+            const TARGET_OFFSET = -20;
             const offset = elementCenterY + TARGET_OFFSET - lineY;
 
-            const MIN_OFFSET = 20; // minimaler Abstand, ab dem wir zentrieren
-            const DEBOUNCE_MS = 1000; // wartezeit um scroll-events zu gruppieren
-            const AUTO_SCROLL_END_MS = 500; // wie lange wir Auto-Scroll als aktiv betrachten
+            const MIN_OFFSET = 20;
+            const DEBOUNCE_MS = 1000;
+            const AUTO_SCROLL_END_MS = 500;
 
             if (Math.abs(offset) > MIN_OFFSET) {
-                // debounce: warte kurz, gruppiere Scroll-Events
                 cleanupTimeout(debounceTimeoutRef);
                 debounceTimeoutRef.current = window.setTimeout(() => {
-                    // set flag damit handleScroll ignoriert wird während smooth scroll läuft
                     isAutoScrollingRef.current = true;
-
-                    // scrollBy verwendet viewport-differenz, offset ist korrekt (beide sind viewport-Koords)
                     window.scrollBy({ top: offset, behavior: "smooth" });
 
-                    // nach einiger Zeit (geschätzt) gehen wir davon aus, dass der smooth scroll vorbei ist
                     cleanupTimeout(autoScrollEndTimeoutRef);
                     autoScrollEndTimeoutRef.current = window.setTimeout(() => {
                         isAutoScrollingRef.current = false;
@@ -142,10 +155,7 @@ export default function Portfolio() {
             }
         }
 
-        // listener
         window.addEventListener("scroll", handleScroll, { passive: true });
-
-        // initial run
         handleScroll();
 
         return () => {
@@ -153,106 +163,83 @@ export default function Portfolio() {
             cleanupTimeout(debounceTimeoutRef);
             cleanupTimeout(autoScrollEndTimeoutRef);
         };
-    }, []); // leer: portfolioItems sind konstant in deinem Beispiel
-
-
-
+    }, []);
 
     return (
+        <div
+            ref={portfolioContainerRef}
+            className="flex items-start justify-between gap-4 h-[83vh] mt-70 mb-300"
+        >
+            <div className="flex items-start justify-center gap-4 h-[97vh] ml-47 mt-60">
+                <div className={`sticky top-50 transition-all duration-700 ease-in-out ${
+                    moreDetailsProjekt ? '-translate-x-[200%] opacity-0' : 'translate-x-0 opacity-100'
+                }`}>
+                    <h1
+                        id="portfolio-title"
+                        className="text-5xl font-bold mb-50 inline-block after:inline-block
+                        after:ml-20 after:w-20 after:h-0.5 after:bg-[#EAEAEA] after:align-middle
+                        rounded-4xl "
+                    >
+                        Portfolio
+                    </h1>
+                </div>
 
-
-            <div className="flex  items-start justify-between gap-4 h-[83vh]  mt-70 mb-300">
-                <div className="flex items-start justify-center gap-4 h-[97vh] ml-47 mt-60">
-                    <div className={`sticky top-50 transition-all duration-700 ease-in-out ${
-                        moreDetailsProjekt ? '-translate-x-[200%] opacity-0' : 'translate-x-0 opacity-100'
-                    }`}>
-                        <h1
-                            id="portfolio-title"
-                            className="text-5xl font-bold mb-6 inline-block after:inline-block
-                            after:ml-20 after:w-20 after:h-0.5 after:bg-[#EAEAEA] after:align-middle
-                            rounded-4xl "
+                <div className="flex flex-col items-start justify-start ml-10 mr-10">
+                    {portfolioItems.map((item, index) => (
+                        <div
+                            className={`mb-15 cursor-pointer transition-all duration-700 ease-in-out ${
+                                moreDetailsProjekt 
+                                    ? currentProjekt === item.title
+                                        ? '-translate-x-[200%] -translate-y-[40%]'
+                                        : 'translate-x-[200%] opacity-0'
+                                    : ''
+                            }`}
+                            key={index}
+                            onClick={() => scrollToProject(index)}
+                            ref={(el) => { itemRefs.current[index] = el; }}
+                            data-index={index}
                         >
-                            Portfolio
-                        </h1>
-
-
-                    </div>
-
-
-
-                    <div className="flex flex-col items-start justify-start ml-10 mr-10">
-                        {portfolioItems.map((item, index) => (
-                            <div
-                                className={`mb-15 cursor-pointer transition-all duration-700 ease-in-out ${
-                                    moreDetailsProjekt 
-                                        ? currentProjekt === item.title
-                                            ? '-translate-x-[200%] -translate-y-[40%]'
-                                            : 'translate-x-[200%] opacity-0'
-                                        : ''
-                                }`}
-                                key={index}
-                                onClick={() => scrollToProject(index)}
-                                ref={(el) => { itemRefs.current[index] = el; }}
-                                data-index={index}
-                            >
-                                <h2
-                                    className={`text-5xl font-bold mt-4 ${
-                                        currentProjekt === item.title
-                                            ? "text-[#EAEAEA]\""
-                                            : "text-[#888888]"
-                                    }`}
-                                >
-                                    {item.title}
-                                </h2>
-                            </div>
-                        ))}
-
-                    </div>
-
-                    {/*<ul className="flex flex-col items-end ml-20 overflow-y-auto snap-y gap-8">*/}
-                    {/*    {portfolioItems.map((item, index) => (*/}
-                    {/*        <li className="mb-20 snap-center" key={index}>*/}
-
-                    {/*            <h2 className="text-5xl font-bold mt-4">{item.title}</h2>*/}
-
-                    {/*        </li>*/}
-                    {/*    ))}*/}
-
-                    {/*</ul>*/}
-                </div>
-                <div className="flex-1  flex items-start justify-center  sticky top-0     ">
-                    <div>
-                        {portfolioItems.map((item, index) => (
-                            <div
-                                key={index}
-                                className={`w-full h-screen top-0 left-0 absolute ${
-                                    currentProjekt === item.title ? "opacity-100 z-10" : "opacity-0 z-0"
+                            <h2
+                                className={`text-5xl font-bold mt-4 ${
+                                    currentProjekt === item.title
+                                        ? "text-[#EAEAEA]\""
+                                        : "text-[#888888]"
                                 }`}
                             >
-                                <img
-                                    src={item.imageName}
-                                    alt={item.title}
-                                    className="w-full h-full object-cover "
-                                />
-                                <div className="absolute bottom-[5%] left-[50%] w-[50%] translate-x-[-50%] py-6
-                                bg-[#121212] text-white p-4 rounded-4xl text-center
-                                flex gap-8 items-center justify-center text-[18px]">
-                                    <div className="text-[#888888] font-semibold">{item.description}</div>
-                                    <div className="text-[#EAEAEA] font-bold cursor-pointer relative group inline-block">
-                                      <span onClick={() => openLearnMore(item.title)}>Mehr Erfahren</span>
-                                      <span className="absolute left-0 -bottom-0.5 h-[1px] bg-[#EAEAEA] w-full transform scale-x-0 origin-left transition-transform duration-400 group-hover:scale-x-100" />
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-
-
-
+                                {item.title}
+                            </h2>
+                        </div>
+                    ))}
                 </div>
-
-
             </div>
 
+            <div className="flex-1 flex items-start justify-center sticky top-0">
+                <div>
+                    {portfolioItems.map((item, index) => (
+                        <div
+                            key={index}
+                            className={`w-full h-screen top-0 left-0 absolute ${
+                                currentProjekt === item.title ? "opacity-100 z-10" : "opacity-0 z-0"
+                            }`}
+                        >
+                            <img
+                                src={item.imageName}
+                                alt={item.title}
+                                className="w-full h-full object-cover "
+                            />
+                            <div className="absolute bottom-[5%] left-[50%] w-[50%] translate-x-[-50%] py-6
+                            bg-[#121212] text-white p-4 rounded-4xl text-center
+                            flex gap-8 items-center justify-center text-[18px]">
+                                <div className="text-[#888888] font-semibold">{item.description}</div>
+                                <div className="text-[#EAEAEA] font-bold cursor-pointer relative group inline-block">
+                                  <span onClick={() => openLearnMore(item.title)}>Mehr Erfahren</span>
+                                  <span className="absolute left-0 -bottom-0.5 h-[1px] bg-[#EAEAEA] w-full transform scale-x-0 origin-left transition-transform duration-400 group-hover:scale-x-100" />
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </div>
     );
 }
