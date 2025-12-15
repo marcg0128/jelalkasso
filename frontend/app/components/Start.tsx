@@ -63,10 +63,10 @@ export default function Start() {
                         <p className="text-[1.8vw] text-[#EAEAEA]/75" style={titleStyle(0.2)}>Videograf</p>
                         <p className="text-[1.8vw] text-[#EAEAEA]/55" style={titleStyle(0.3)}>Editer</p>
                     </div>
-                     <h1 className="leading-[0.9] mt-17" style={{ fontSize: "12vw", fontWeight: "bold", marginBottom: "1rem" }}
+                     <h1 className="leading-[1] mt-17" style={{ fontSize: "11vw", fontWeight: "bold", marginBottom: "1rem" }}
                          onMouseEnter={() => setHover(true)}
                          onMouseLeave={() => setHover(false)}>
-                        Jelal&nbsp;&nbsp;&nbsp;&nbsp;Kasso
+                        JELAL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;KASSO
                     </h1>
                 </div>
                 <div className="absolute bottom-4">

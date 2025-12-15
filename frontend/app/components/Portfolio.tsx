@@ -6,13 +6,80 @@ import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 
 const portfolioItems = [
-        { title: "Projekt A", description: "Beschreibung A", imageName: "/images/projects/1.png" },
+        { title: "Projekt A", description: "Beschreibung A", imageName: "/images/projects/1.png", detailedText1: "Die Mathias Fahrschule bietet moderne Ausbildung, klare Anleitung und ein entspanntes Lernumfeld – für einen sicheren Weg zum Führerschein." },
         { title: "Projekt B", description: "Beschreibung B", imageName: "/images/projects/2.png" },
         { title: "Projekt C", description: "Beschreibung C", imageName: "/images/projects/3.png" },
         { title: "Projekt D", description: "Beschreibung D", imageName: "/images/projects/4.png" },
         { title: "Projekt E", description: "Beschreibung E", imageName: "/images/projects/5.png" },
         { title: "Projekt F", description: "Beschreibung F", imageName: "/images/projects/6.png" }
     ];
+
+function VideoCard({redirectUrl, media }: { redirectUrl?: string,  media?: string }) {
+    const videoRef = useRef<HTMLVideoElement | null>(null);
+    const [isPlaying, setIsPlaying] = useState(false);
+
+    const togglePlay = () => {
+        if (!videoRef.current) return;
+
+        if (videoRef.current.paused) {
+            videoRef.current.play();
+            setIsPlaying(true);
+        } else {
+            videoRef.current.pause();
+            setIsPlaying(false);
+        }
+    };
+
+    const redirectTo = () => {
+        if (redirectUrl) {
+            window.open(redirectUrl, '_blank');
+        }
+    };
+
+    return (
+        <div className={`relative rounded-4xl shadow-md overflow-hidden h-[40vh] w-[190%] ${
+            redirectUrl ? 'hover:cursor-pointer' : ''
+        }`}
+            onClick={() => redirectTo()}
+        >
+
+            {media && (media.endsWith('.mp4') || media.endsWith('.MOV'))  && (
+                <>
+                    <video
+                        ref={videoRef}
+                        className="absolute inset-0 w-full h-full object-cover"
+                        controls={false}
+                        playsInline
+                        onEnded={() => setIsPlaying(false)}
+                    >
+                        <source src={media} type="video/mp4" />
+                    </video>
+
+                    {/* Custom Play/Pause Button */}
+                    <button
+                        onClick={(e) => {
+                            e.stopPropagation();   // verhindert Redirect
+                            togglePlay();
+                        }}
+                        className="absolute bottom-3 right-0 z-50 -translate-x-1/2 bg-black/50 px-6 py-3 rounded-full backdrop-blur-md hover:bg-black/70 transition-colors hover:cursor-pointer"
+                    >
+                        {!isPlaying && (
+                            <Image src="/icons/spielen.svg" alt="Play" width={20} height={20} />
+                        )}
+                        {isPlaying && (
+                            <Image src="/icons/pause.svg" alt="Pause" width={20} height={20} />
+                        )}
+                    </button>
+                </>
+            )}
+
+
+            {/*shadow gradient*/}
+            <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-black/70 to-transparent z-40"></div>
+
+        </div>
+    );
+}
 
 export default function Portfolio() {
     const [currentProjekt, setCurrentProjekt] = useState<string | null>(null);
@@ -25,6 +92,7 @@ export default function Portfolio() {
     const autoScrollEndTimeoutRef = useRef<number | null>(null);
 
     function scrollToProject(index: number) {
+        if (moreDetailsProjekt) return;
         const el = itemRefs.current[index];
         const title = document.getElementById("portfolio-title");
         if (!el || !title) return;
@@ -89,6 +157,8 @@ export default function Portfolio() {
 
         function handleScroll() {
             // Wenn wir außerhalb des Portfolio-Bereichs sind, nicht reagieren
+            if (moreDetailsProjekt != null) return;
+
             if (!isInPortfolioSection()) {
                 return;
             }
@@ -163,7 +233,22 @@ export default function Portfolio() {
             cleanupTimeout(debounceTimeoutRef);
             cleanupTimeout(autoScrollEndTimeoutRef);
         };
-    }, []);
+    }, [moreDetailsProjekt]);
+
+    useEffect(() => {
+        if (moreDetailsProjekt) {
+            // Scrollen blockieren
+            document.body.style.overflow = 'hidden';
+        } else {
+            // Scrollen wieder erlauben
+            document.body.style.overflow = 'unset';
+        }
+
+        // Cleanup beim Unmount
+        return () => {
+            document.body.style.overflow = 'unset';
+        };
+    }, [moreDetailsProjekt]);
 
     return (
         <div
@@ -190,7 +275,7 @@ export default function Portfolio() {
                             className={`mb-15 cursor-pointer transition-all duration-700 ease-in-out ${
                                 moreDetailsProjekt 
                                     ? currentProjekt === item.title
-                                        ? '-translate-x-[200%] -translate-y-[40%]'
+                                        ? '-translate-x-[200%] -translate-y-[5%]'
                                         : 'translate-x-[200%] opacity-0'
                                     : ''
                             }`}
@@ -208,6 +293,41 @@ export default function Portfolio() {
                             >
                                 {item.title}
                             </h2>
+                            <div className={`flex justify-around w-[300%] min-h-[70vh] max-h-[80vh] p-10 bg-[#444444] rounded-4xl mt-10 overflow-y-auto ${
+                                moreDetailsProjekt
+                                    ? currentProjekt === item.title
+                                        ? ''
+                                        : 'hidden'
+                                    : 'hidden'
+                            }`}>
+                                <div className="flex flex-col justify-center items-center">
+
+                                    <p className="w-[100px] break-all mb-10 text-center">
+                                        aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+                                    </p>
+
+                                    <VideoCard
+                                        media="/images/reviews/Kilian Fürstle.MOV"
+
+
+                                    />
+
+                                </div>
+                                <div className="flex flex-col items-center justify-center ">
+
+                                    <VideoCard
+                                        media="/images/reviews/Kilian Fürstle.MOV"
+
+
+                                    />
+
+                                    <p className="w-[100px] break-all mb-10 text-center">
+                                        aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+                                    </p>
+
+
+                                </div>
+                            </div>
                         </div>
                     ))}
                 </div>
