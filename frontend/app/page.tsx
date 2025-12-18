@@ -6,6 +6,7 @@ import {ChevronLeft, ChevronRight, Instagram, Menu, X, ArrowUpRight} from 'lucid
 import {useInView} from "react-intersection-observer";
 
 import NavBar from "./components/NavBar";
+import About from "./components/About";
 import Start from "./components/Start";
 import Portfolio from "@/app/components/Portfolio";
 import Reviews from "@/app/components/Reviews";
@@ -153,6 +154,8 @@ export default function Home() {
             </div>
 
             <Start></Start>
+
+            <About></About>
 
             <Portfolio></Portfolio>
 

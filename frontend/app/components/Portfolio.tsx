@@ -293,7 +293,7 @@ export default function Portfolio() {
                             >
                                 {item.title}
                             </h2>
-                            <div className={`flex justify-around w-[300%] min-h-[70vh] max-h-[80vh] p-10 bg-[#444444] rounded-4xl mt-10 overflow-y-auto ${
+                            <div className={`flex justify-around w-[300%] min-h-[70vh] max-h-[80vh] p-10  rounded-4xl  overflow-y-auto ${
                                 moreDetailsProjekt
                                     ? currentProjekt === item.title
                                         ? ''
@@ -302,8 +302,8 @@ export default function Portfolio() {
                             }`}>
                                 <div className="flex flex-col justify-center items-center">
 
-                                    <p className="w-[100px] break-all mb-10 text-center">
-                                        aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+                                    <p className="w-[100px] break-all mb-10 ">
+                                        Eine moderne Fahrschule mit erfahrenen Lehrern, persönlicher Betreuung und einer angenehmen Lernatmosphäre – für einen sicheren und entspannten Weg zum Führerschein.
                                     </p>
 
                                     <VideoCard
