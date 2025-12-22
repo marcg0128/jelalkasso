@@ -24,6 +24,13 @@ export default function Admin() {
         <div className="p-10 text-center">
             <h1 className="text-2xl font-bold">Admin Panel</h1>
             <p>{message}</p>
+
+            <button
+                className="mt-5 px-4 py-2 bg-blue-500 text-white rounded"
+                onClick={() => router.push("/admin/edit-reviews")}
+            >
+                Go to Edit Reviews
+            </button>
         </div>
     );
 }

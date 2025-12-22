@@ -109,11 +109,20 @@ def create_access_token(data: dict, expires_delta=None):
     to_encode.update({"exp": expire})
     return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
 
+
 @app.post("/login")
 def login(form_data: OAuth2PasswordRequestForm = Depends()):
     users = db.get_user(form_data.username)
-    if  not verify_password(form_data.password, users["password"]):
+    print(users)
+
+    # Überprüfen, ob der Benutzer existiert
+    if users is None:
         raise HTTPException(status_code=400, detail="Invalid credentials")
+
+    # Überprüfen, ob das Passwort korrekt ist
+    if not verify_password(form_data.password, users["password"]):
+        raise HTTPException(status_code=400, detail="Invalid credentials")
+
     token = create_access_token({"sub": form_data.username})
     return {"access_token": token, "token_type": "bearer"}
 
