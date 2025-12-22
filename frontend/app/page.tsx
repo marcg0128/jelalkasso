@@ -2,7 +2,7 @@
 import React, {useEffect, useState} from 'react';
 import Image from 'next/image';
 import {motion, useAnimation} from "framer-motion";
-import {ChevronLeft, ChevronRight, Instagram, Menu, X, ArrowUpRight} from 'lucide-react';
+import {ChevronLeft, ChevronRight, Instagram, Menu, X, ArrowUpRight, } from 'lucide-react';
 import {useInView} from "react-intersection-observer";
 
 import NavBar from "./components/NavBar";
@@ -153,14 +153,20 @@ export default function Home() {
 
             </div>
 
-            <Start></Start>
+            <section>
+                <Start></Start>
+                <div id="about" className="-translate-y-20"></div>
+                <About></About>
+            </section>
 
-            <About></About>
 
+            <div id="portfolio" className=""></div>
             <Portfolio></Portfolio>
 
+            <div id="achievsment" className="-translate-y-32"></div>
             <Achievments></Achievments>
 
+            <div id="feedback" className="-translate-y-32"></div>
             <Reviews></Reviews>
 
 
@@ -211,6 +217,28 @@ export default function Home() {
                                 darauf, deine Ideen in Bildern und Videos zum Leben zu erwecken. Schreib mir
                                 einfach, und wir finden gemeinsam den passenden Weg.
                             </p>
+                            <div className="mt-10 flex gap-3">
+                                <a href="https://www.instagram.com/jelal.kasso/"
+                                   target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="p-5 w-20 h-20  rounded-full flex items-center justify-center transition-all duration-300 border-2 border-gray-700 hover:border-[#DAA520] hover:bg-[#DAA520]/20 group">
+                                    <Instagram className="w-12 h-12 text-gray-600 group-hover:text-[#DAA520]  transition-all" />
+
+                                </a>
+
+                                <a href="https://www.instagram.com/jelal.kasso/"
+                                   target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="p-5 w-20 h-20  rounded-full flex items-center justify-center transition-all duration-300 border-2 border-gray-700 hover:border-[#DAA520] hover:bg-[#DAA520]/20 group">
+
+                                </a>
+                                <a href="https://www.instagram.com/jelal.kasso/"
+                                   target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="p-5 w-20 h-20  rounded-full flex items-center justify-center transition-all duration-300 border-2 border-gray-700 hover:border-[#DAA520] hover:bg-[#DAA520]/20 group">
+
+                                </a>
+                            </div>
                         </div>
                         <div className="w-full md:w-2/3 flex items-center justify-center">
                             <div className="w-full max-w-lg p-4 md:p-8">

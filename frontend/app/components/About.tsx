@@ -3,7 +3,7 @@ import BlurText from "@/components/BlurText";
 export default function About() {
 
     return (
-        <div className="w-1/2 h-[100vh] px-47 mb-30 mt-60 ml-[50%]">
+        <div id="about" className="w-1/2 h-[100vh] px-47  mt-60 ml-[50%] ">
             <h1 className="text-5xl font-bold">Über mich</h1>
             <BlurText
                 text="Hallo, ich bin Jelal – Fotograf und Videograf für Unternehmen und besondere Events."

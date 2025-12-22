@@ -253,7 +253,7 @@ export default function Portfolio() {
     return (
         <div
             ref={portfolioContainerRef}
-            className="flex items-start justify-between gap-4 h-[83vh] mt-70 mb-300"
+            className="flex items-start justify-between gap-4 h-[83vh] mb-300"
         >
             <div className="flex items-start justify-center gap-4 h-[97vh] ml-47 mt-60">
                 <div className={`sticky top-50 transition-all duration-700 ease-in-out ${
