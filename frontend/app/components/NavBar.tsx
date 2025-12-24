@@ -17,12 +17,14 @@ export default function NavBar() {
     useEffect(() => {
         const updateIndicator = () => {
             if (navRef.current) {
-                const activeLink = navRef.current.querySelector(`a[href="${activePath}"]`) as HTMLElement;
+                const activeLink = navRef.current.querySelector(
+                    `a[href="${activePath}"]`
+                ) as HTMLElement;
+
                 if (activeLink) {
-                    const { offsetLeft, offsetWidth } = activeLink;
                     setIndicatorStyle({
-                        left: `${offsetLeft}px`,
-                        width: `${offsetWidth}px`
+                        left: `${activeLink.offsetLeft}px`,
+                        width: `${activeLink.offsetWidth}px`
                     });
                 }
             }
@@ -33,13 +35,10 @@ export default function NavBar() {
         return () => window.removeEventListener('resize', updateIndicator);
     }, [activePath]);
 
-    // #AF8A3A
-
     return (
-        <nav className="px-6 py-3 bg-white/80 text-black rounded-[64px] backdrop-blur-xl">
+        <nav className="relative px-6 py-3 bg-white/80 text-black rounded-[64px] backdrop-blur-xl">
             {/* Desktop Menu */}
             <div className="hidden md:block relative" ref={navRef}>
-                {/* Animated Background Indicator */}
                 <div
                     className="absolute top-0 h-full bg-[#DAA520] rounded-4xl transition-all duration-500 ease-out"
                     style={indicatorStyle}
@@ -60,16 +59,16 @@ export default function NavBar() {
                 </ul>
             </div>
 
-            {/* Mobile Menu Button */}
-            <div className="md:hidden flex justify-end gap-8 text-2xl">
-                Menu
+            {/* Mobile Header */}
+            <div className="md:hidden flex justify-between items-center text-2xl">
+                <span>Menu</span>
                 <button
                     onClick={() => setIsOpen(!isOpen)}
-                    className="relative w-8 h-8 flex flex-col justify-center items-center"
+                    className="relative w-8 h-8 flex items-center justify-center"
                     aria-label="Menu"
                 >
                     <span
-                        className={`block w-6 h-0.5 bg-black transition-all duration-300 absolute ${
+                        className={`absolute block w-6 h-0.5 bg-black transition-all duration-300 ${
                             isOpen ? 'rotate-45' : '-translate-y-2'
                         }`}
                     />
@@ -79,7 +78,7 @@ export default function NavBar() {
                         }`}
                     />
                     <span
-                        className={`block w-6 h-0.5 bg-black transition-all duration-300 absolute ${
+                        className={`absolute block w-6 h-0.5 bg-black transition-all duration-300 ${
                             isOpen ? '-rotate-45' : 'translate-y-2'
                         }`}
                     />
@@ -88,13 +87,14 @@ export default function NavBar() {
 
             {/* Mobile Menu */}
             <div
-                className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
-                    isOpen ? 'max-h-96 opacity-100 mt-4' : 'max-h-0 opacity-0'
-                }`}
-            >
-                <ul className="flex flex-col gap-4 text-2xl">
+    className={`md:hidden absolute  -translate-x-[50%] top-full mt-4 w-[70vw] max-w-[600px] bg-white/95 rounded-3xl overflow-hidden transition-all duration-300 ease-in-out${
+        isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+    }`}
+>
+
+                <ul className="flex flex-col gap-4 text-2xl p-4">
                     {menuItems.map((item) => (
-                        <li key={item.href} className="border-t border-black/10 pt-4">
+                        <li key={item.href}>
                             <a
                                 href={item.href}
                                 onClick={() => {
@@ -102,8 +102,9 @@ export default function NavBar() {
                                     setActivePath(item.href);
                                 }}
                                 className={`block px-4 py-4 rounded-2xl transition-all duration-300 ${
-                                    activePath === item.href 
-                                        ? 'bg-[#AF8A3A]' : ''
+                                    activePath === item.href
+                                        ? 'bg-[#AF8A3A]'
+                                        : ''
                                 }`}
                             >
                                 {item.label}
