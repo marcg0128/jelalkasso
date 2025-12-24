@@ -9,6 +9,7 @@ import NavBar from "./components/NavBar";
 import About from "./components/About";
 import Start from "./components/Start";
 import Portfolio from "@/app/components/Portfolio";
+import PortfolioMobile from "@/app/components/mobile/PortfolioMobile";
 import Reviews from "@/app/components/Reviews";
 import Achievments from "@/app/components/Achievments";
 import {useResponsiveNumber} from "@/app/useResponsiveNumber";
@@ -60,6 +61,8 @@ export default function Home() {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [active, setActive] = useState("home");
     const [menuOpen, setMenuOpen] = useState(false);
+    
+    const [device, setDevice] = useState('mobile');
 
 
 
@@ -119,6 +122,16 @@ export default function Home() {
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
+    useEffect(() => {
+        const width = window.innerWidth;
+        if (width < 768) {
+            setDevice('mobile');
+        } else {
+            setDevice('desktop');
+        }
+
+    }, []);
+
 
     const scrollToSection = (id: string) => {
         const section = document.getElementById(id);
@@ -129,6 +142,7 @@ export default function Home() {
             });
         }
     };
+
 
 
 
@@ -160,15 +174,26 @@ export default function Home() {
                 <About></About>
             </section>
 
+            {device === 'desktop' && (
+                <div>
+                    <div id="portfolio" className=""></div>
+                    <Portfolio></Portfolio>
+                </div>
+            )}
+            
+            {device === 'mobile' && (
+                <div>
+                    <div id="portfolio" className=""></div>
+                    <PortfolioMobile></PortfolioMobile>
+                </div>
+            )}
+            
 
-            <div id="portfolio" className=""></div>
-            <Portfolio></Portfolio>
+            {/*<div id="achievsment" className="-translate-y-32"></div>*/}
+            {/*<Achievments></Achievments>*/}
 
-            <div id="achievsment" className="-translate-y-32"></div>
-            <Achievments></Achievments>
-
-            <div id="feedback" className="-translate-y-32"></div>
-            <Reviews></Reviews>
+            {/*<div id="feedback" className="-translate-y-32"></div>*/}
+            {/*<Reviews></Reviews>*/}
 
 
 

@@ -28,7 +28,7 @@ export default function Start() {
 
 
     return (
-        <div className="w-full h-[200vh] md:min-h-screen px-4 sm:px-8 md:px-47 mb-10 md:mb-30">
+        <div className="w-full min-h-screen px-4 sm:px-8 md:px-47 mb-10 md:mb-30">
             <div className="min-h-screen md:flex flex-col items-center justify-center mt-10 relative">
 
                 {/* Top Section - Desktop Layout */}
