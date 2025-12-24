@@ -11,6 +11,7 @@ import Start from "./components/Start";
 import Portfolio from "@/app/components/Portfolio";
 import Reviews from "@/app/components/Reviews";
 import Achievments from "@/app/components/Achievments";
+import {useResponsiveNumber} from "@/app/useResponsiveNumber";
 
 // Animations-Wrapper
 const FadeInWhenVisible = ({children, direction = "up"}: {
@@ -146,12 +147,12 @@ export default function Home() {
 
 
 
-            <div className="flex items-center justify-between px-[10%] py-4 fixed top-0 left-0 w-full  z-50 ">
-                <Image src={"/logo.svg"} alt="Logo" width="90" height="90"
-                       className=""/>
-                <NavBar></NavBar>
+            {/*<div className="flex items-center justify-between px-4 md:px-[10%] py-4 fixed top-0 left-0 w-full  z-50 ">*/}
+            {/*    <Image src={"/logo.svg"} alt="Logo" width={useResponsiveNumber(70, 90)} height={useResponsiveNumber(70, 90)}*/}
+            {/*           className=""/>*/}
+            {/*    <NavBar></NavBar>*/}
 
-            </div>
+            {/*</div>*/}
 
             <section>
                 <Start></Start>
