@@ -253,8 +253,56 @@ export default function PortfolioMobile() {
     return (
         <div
             ref={portfolioContainerRef}
-            className=" gap-4 h-[83vh] mb-300"
+            className=" h-[83vh]"
         >
+            {portfolioItems.map((item, index) => (
+                        <div
+                            key={index}
+                            className={`w-full h-screen top-0 left-0 absolute ${
+                                currentProjekt === item.title ? "opacity-100 z-10" : "opacity-0 z-0"
+                            }`}
+                        >
+                            <img
+                                src={item.imageName}
+                                alt={item.title}
+                                className="w-full h-full object-cover "
+                            />
+                            <div className="absolute bottom-[5%] left-[50%] w-[50%] translate-x-[-50%] py-6
+                            bg-[#121212] text-white p-4 rounded-4xl text-center
+                            flex gap-8 items-center justify-center text-[18px]">
+                                <div className="text-[#888888] font-semibold">{item.description}</div>
+                                <div className="text-[#EAEAEA] font-bold cursor-pointer relative group inline-block">
+                                  <span onClick={() => openLearnMore(item.title)}>Mehr Erfahren</span>
+                                  <span className="absolute left-0 -bottom-0.5 h-[1px] bg-[#EAEAEA] w-full transform scale-x-0 origin-left transition-transform duration-400 group-hover:scale-x-100" />
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+            <div className="w-full overflow-hidden">
+                <div className="flex gap-4 overflow-x-auto snap-x snap-mandatory scroll-smooth no-scrollbar px-4">
+                    {portfolioItems.map((item, index) => (
+                        <div
+                            key={index}
+                            ref={(el) => { itemRefs.current[index] = el; }}
+                            data-index={index}
+                            onClick={() => scrollToProject(index)}
+                            className="min-w-[50%] sm:min-w-[40%] snap-center cursor-pointer transition-transform duration-300 hover:scale-105"
+                        >
+                            <div className="">
+                                <h2
+                                    className={`text-2xl ${
+                                        currentProjekt === item.title
+                                            ? "text-[#EAEAEA]"
+                                            : "text-[#888888]"
+                                    }`}
+                                >
+                                    {item.title}
+                                </h2>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
 
         </div>
     );

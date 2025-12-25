@@ -146,6 +146,7 @@ export default function Home() {
 
 
 
+
     return (
         <>
 
@@ -183,6 +184,7 @@ export default function Home() {
             
             {device === 'mobile' && (
                 <div>
+
                     <div id="portfolio" className=""></div>
                     <PortfolioMobile></PortfolioMobile>
                 </div>
