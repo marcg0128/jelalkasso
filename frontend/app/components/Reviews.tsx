@@ -1,7 +1,9 @@
 import Image from "next/image";
 import { useRef, useState } from "react";
+import { useResponsiveNumber } from "@/app/useResponsiveNumber";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
-function ReviewCard({ reviewer, redirectUrl, media }: { reviewer: string; redirectUrl?: string,  media?: string }) {
+function ReviewCard({ reviewer, redirectUrl, media }: { reviewer: string; redirectUrl?: string, media?: string }) {
     const videoRef = useRef<HTMLVideoElement | null>(null);
     const [isPlaying, setIsPlaying] = useState(false);
 
@@ -24,13 +26,12 @@ function ReviewCard({ reviewer, redirectUrl, media }: { reviewer: string; redire
     };
 
     return (
-        <div className={`relative rounded-4xl shadow-md overflow-hidden h-[65vh] w-full ${
-            redirectUrl ? 'hover:cursor-pointer' : ''
-        }`}
+        <div className={`relative rounded-4xl shadow-md overflow-hidden h-[65vh] w-full ${redirectUrl ? 'hover:cursor-pointer' : ''
+            }`}
             onClick={() => redirectTo()}
         >
 
-            {media && (media.endsWith('.mp4') || media.endsWith('.MOV'))  && (
+            {media && (media.endsWith('.mp4') || media.endsWith('.MOV')) && (
                 <>
                     <video
                         ref={videoRef}
@@ -102,6 +103,50 @@ function ReviewsLoop() {
     );
 }
 
+function MobileReviewsCarousel() {
+    const [currentIndex, setCurrentIndex] = useState(0);
+
+    const handlePrev = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        setCurrentIndex((prev) => (prev === 0 ? reviews.length - 1 : prev - 1));
+    };
+
+    const handleNext = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        setCurrentIndex((prev) => (prev === reviews.length - 1 ? 0 : prev + 1));
+    };
+
+    return (
+        <div className="relative">
+            {/* Review Card */}
+            <ReviewCard
+                key={currentIndex}
+                reviewer={reviews[currentIndex].reviewer}
+                redirectUrl={reviews[currentIndex].redirect || undefined}
+                media={reviews[currentIndex].media || undefined}
+            />
+
+            {/* Back Button - overlayed on video */}
+            <button
+                onClick={handlePrev}
+                className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-black/50 backdrop-blur-md rounded-full flex items-center justify-center hover:bg-black/70 transition-colors z-50"
+                aria-label="Previous review"
+            >
+                <ChevronLeft className="w-6 h-6 text-white" />
+            </button>
+
+            {/* Next Button - overlayed on video */}
+            <button
+                onClick={handleNext}
+                className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-black/50 backdrop-blur-md rounded-full flex items-center justify-center hover:bg-black/70 transition-colors z-50"
+                aria-label="Next review"
+            >
+                <ChevronRight className="w-6 h-6 text-white" />
+            </button>
+        </div>
+    );
+}
+
 
 
 const reviews = [
@@ -132,9 +177,15 @@ const reviews = [
 
 export default function Reviews() {
     return (
-        <div className="">
-            <h2 className="text-5xl font-bold mb-8 ml-47">Feedback</h2>
-            <ReviewsLoop />
+        <div className="px-4 md:px-0">
+            <h2 className="text-5xl font-bold mb-8 md:ml-47">Feedback</h2>
+            {useResponsiveNumber(1, 2) === 2 && (
+                <ReviewsLoop />
+            )}
+            {useResponsiveNumber(1, 2) === 1 && (
+                <MobileReviewsCarousel />
+            )}
+
         </div>
     );
 }
