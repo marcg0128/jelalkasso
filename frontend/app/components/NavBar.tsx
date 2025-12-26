@@ -87,10 +87,10 @@ export default function NavBar() {
 
             {/* Mobile Menu */}
             <div
-    className={`md:hidden absolute  -translate-x-[50%] top-full mt-4 w-[70vw] max-w-[600px] bg-white/95 rounded-3xl overflow-hidden transition-all duration-300 ease-in-out${
-        isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
-    }`}
->
+                className={`md:hidden absolute  -translate-x-[50%] top-full mt-4 w-[70vw] max-w-[600px] bg-white/95 rounded-3xl overflow-hidden transition-all duration-300 ease-in-out${
+                    isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+                }`}
+            >
 
                 <ul className="flex flex-col gap-4 text-2xl p-4">
                     {menuItems.map((item) => (

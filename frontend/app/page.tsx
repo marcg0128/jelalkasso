@@ -191,11 +191,11 @@ export default function Home() {
             )}
             
 
-            {/*<div id="achievsment" className="-translate-y-32"></div>*/}
-            {/*<Achievments></Achievments>*/}
+            <div id="achievsment" className="-translate-y-32"></div>
+            <Achievments></Achievments>
 
-            {/*<div id="feedback" className="-translate-y-32"></div>*/}
-            {/*<Reviews></Reviews>*/}
+            <div id="feedback" className="-translate-y-32"></div>
+            <Reviews></Reviews>
 
 
 
@@ -245,7 +245,7 @@ export default function Home() {
                                 darauf, deine Ideen in Bildern und Videos zum Leben zu erwecken. Schreib mir
                                 einfach, und wir finden gemeinsam den passenden Weg.
                             </p>
-                            <div className="mt-10 flex gap-3">
+                            <div className="mt-10 flex gap-3 justify-center">
                                 <a href="https://www.instagram.com/jelal.kasso/"
                                    target="_blank"
                                     rel="noopener noreferrer"
@@ -316,7 +316,7 @@ export default function Home() {
                                 </div>
                                 <div className="flex items-center justify-between">
                                     <button
-                                        className="bg-[#DAA520]/50 hover:bg-[#DAA520]/30 text-white font-bold p-3 px-6 rounded-xl focus:outline-none focus:shadow-outline transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                                        className="bg-[#DAA520]/50 hover:bg-[#DAA520]/30 text-white w-full font-bold p-3 px-6 rounded-xl focus:outline-none focus:shadow-outline transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                                         type="button"
                                         onClick={sendEmail}
                                         disabled={isSubmitting}
