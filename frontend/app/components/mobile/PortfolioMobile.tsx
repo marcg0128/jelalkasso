@@ -18,9 +18,10 @@ export default function PortfolioMobile() {
     useEffect(() => {
         const container = carouselRef.current;
         if (!container) return;
+        const containerEl = container as HTMLDivElement;
 
         function onScroll() {
-            const centerX = container.scrollLeft + container.clientWidth / 2;
+            const centerX = containerEl.scrollLeft + containerEl.clientWidth / 2;
 
             let closestIndex = 0;
             let closestDistance = Infinity;
@@ -77,7 +78,7 @@ export default function PortfolioMobile() {
                     {portfolioItems.map((item, index) => (
                         <div
                             key={item.title}
-                            ref={(el) => (itemRefs.current[index] = el)}
+                            ref={(el) => { itemRefs.current[index] = el; }}
                             className="snap-center min-w-[60%]  text-white rounded-2xl p-6 text-center"
                         >
                             <h2
