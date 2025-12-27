@@ -9,8 +9,10 @@ import NavBar from "./components/NavBar";
 import About from "./components/About";
 import Start from "./components/Start";
 import Portfolio from "@/app/components/Portfolio";
+import PortfolioMobile from "@/app/components/mobile/PortfolioMobile";
 import Reviews from "@/app/components/Reviews";
 import Achievments from "@/app/components/Achievments";
+import {useResponsiveNumber} from "@/app/useResponsiveNumber";
 
 // Animations-Wrapper
 const FadeInWhenVisible = ({children, direction = "up"}: {
@@ -59,6 +61,8 @@ export default function Home() {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [active, setActive] = useState("home");
     const [menuOpen, setMenuOpen] = useState(false);
+    
+    const [device, setDevice] = useState('mobile');
 
 
 
@@ -118,6 +122,16 @@ export default function Home() {
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
+    useEffect(() => {
+        const width = window.innerWidth;
+        if (width < 768) {
+            setDevice('mobile');
+        } else {
+            setDevice('desktop');
+        }
+
+    }, []);
+
 
     const scrollToSection = (id: string) => {
         const section = document.getElementById(id);
@@ -128,6 +142,8 @@ export default function Home() {
             });
         }
     };
+
+
 
 
 
@@ -146,8 +162,8 @@ export default function Home() {
 
 
 
-            <div className="flex items-center justify-between px-[10%] py-4 fixed top-0 left-0 w-full  z-50 ">
-                <Image src={"/logo.svg"} alt="Logo" width="90" height="90"
+            <div className="flex items-center justify-between px-4 md:px-[10%] py-4 fixed top-0 left-0 w-full  z-50 ">
+                <Image src={"/logo.svg"} alt="Logo" width={useResponsiveNumber(70, 90)} height={useResponsiveNumber(70, 90)}
                        className=""/>
                 <NavBar></NavBar>
 
@@ -159,9 +175,21 @@ export default function Home() {
                 <About></About>
             </section>
 
+            {device === 'desktop' && (
+                <div>
+                    <div id="portfolio" className=""></div>
+                    <Portfolio></Portfolio>
+                </div>
+            )}
+            
+            {device === 'mobile' && (
+                <div>
 
-            <div id="portfolio" className=""></div>
-            <Portfolio></Portfolio>
+                    <div id="portfolio" className=""></div>
+                    <PortfolioMobile></PortfolioMobile>
+                </div>
+            )}
+            
 
             <div id="achievsment" className="-translate-y-32"></div>
             <Achievments></Achievments>
@@ -217,7 +245,7 @@ export default function Home() {
                                 darauf, deine Ideen in Bildern und Videos zum Leben zu erwecken. Schreib mir
                                 einfach, und wir finden gemeinsam den passenden Weg.
                             </p>
-                            <div className="mt-10 flex gap-3">
+                            <div className="mt-10 flex gap-3 justify-center">
                                 <a href="https://www.instagram.com/jelal.kasso/"
                                    target="_blank"
                                     rel="noopener noreferrer"
@@ -288,7 +316,7 @@ export default function Home() {
                                 </div>
                                 <div className="flex items-center justify-between">
                                     <button
-                                        className="bg-[#DAA520]/50 hover:bg-[#DAA520]/30 text-white font-bold p-3 px-6 rounded-xl focus:outline-none focus:shadow-outline transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                                        className="bg-[#DAA520]/50 hover:bg-[#DAA520]/30 text-white w-full font-bold p-3 px-6 rounded-xl focus:outline-none focus:shadow-outline transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                                         type="button"
                                         onClick={sendEmail}
                                         disabled={isSubmitting}
