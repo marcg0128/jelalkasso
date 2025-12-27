@@ -105,7 +105,7 @@ export default function Start() {
 
                 {/* Main Image */}
                 <div
-                    className="md:bottom-0 md:sticky z-50 mt-0 w-full flex justify-center"
+                    className="md:bottom-0 md:sticky z-40 mt-0 w-full flex justify-center"
                     style={{
                         transform: typeof window !== 'undefined' && window.innerWidth >= 768
                             ? `translateX(-${Math.min(scrollX * 0.8, maxTranslate - 500)}px)`

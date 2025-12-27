@@ -163,8 +163,11 @@ export default function Home() {
 
 
             <div className="flex items-center justify-between px-4 md:px-[10%] py-4 fixed top-0 left-0 w-full  z-50 ">
-                <Image src={"/logo.svg"} alt="Logo" width={useResponsiveNumber(70, 90)} height={useResponsiveNumber(70, 90)}
+                <a href="#home" >
+                    <Image src={"/logo.svg"} alt="Logo" width={useResponsiveNumber(70, 90)} height={useResponsiveNumber(70, 90)}
                        className=""/>
+                </a>
+
                 <NavBar></NavBar>
 
             </div>
