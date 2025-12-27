@@ -23,12 +23,8 @@ export default function Start() {
         transition: `all 0.4s ease ${delay}s`
     });
 
-
-
-
-
     return (
-        <div className="w-full min-h-screen px-4 sm:px-8 md:px-47 mb-10 md:mb-30">
+        <div className="w-full h-screen px-4 sm:px-8 md:px-47 mb-10 md:mb-30">
             <div className="min-h-screen md:flex flex-col items-center justify-center mt-10 relative">
 
                 {/* Top Section - Desktop Layout */}
@@ -74,27 +70,26 @@ export default function Start() {
                 </div>
 
                 {/* Mobile Top Section - Mission Text only */}
-                <div className="md:hidden w-full mt-[17vh]">
+                <div className="md:hidden w-full mt-[14vh]">
                     <p className="text-xl text-white">
                         Meine Mission ist es, mit Fotografie und Film Emotionen zu wecken, Geschichten zu erzählen
                         und Erinnerungen zu schaffen, die bleiben.
                     </p>
                 </div>
 
-                {/* Main Title Section */}
-                <div className="md:sticky md:top-32 mb-20 md:mb-60 z-10 mt-16 md:mt-0 hidden md:block">
-                    <div className="self-start px-3 md:translate-y-15">
-                        <p className="text-lg md:text-[1.8vw] text-[#EAEAEA]/85" style={titleStyle(0.1)}>Fotograf</p>
-                        <p className="text-lg md:text-[1.8vw] text-[#EAEAEA]/75" style={titleStyle(0.2)}>Videograf</p>
-                        <p className="text-lg md:text-[1.8vw] text-[#EAEAEA]/55" style={titleStyle(0.3)}>Editer</p>
+                {/* Main Title Section - DESKTOP (Sticky wie vorher) */}
+                <div className="hidden md:block sticky top-32 mb-24 z-10">
+                    <div className="self-start px-3 translate-y-15">
+                        <p className="text-[1.8vw] text-[#EAEAEA]/85" style={titleStyle(0.1)}>Fotograf</p>
+                        <p className="text-[1.8vw] text-[#EAEAEA]/75" style={titleStyle(0.2)}>Videograf</p>
+                        <p className="text-[1.8vw] text-[#EAEAEA]/55" style={titleStyle(0.3)}>Editer</p>
                     </div>
 
                     <h1
-                        className="leading-[1] mt-8 md:mt-17 text-5xl md:text-[11vw] font-bold whitespace-nowrap overflow-hidden"
+                        className="leading-[1] mt-17 font-bold"
                         style={{
-                            transform: typeof window !== 'undefined' && window.innerWidth >= 768
-                                ? `translateX(-${Math.min(scrollX * 2.2, maxTranslate)}px)`
-                                : 'none'
+                            fontSize: "11vw",
+                            transform: `translateX(-${Math.min(scrollX * 2.2, maxTranslate)}px)`
                         }}
                         onMouseEnter={() => setHover(true)}
                         onMouseLeave={() => setHover(false)}
@@ -103,13 +98,13 @@ export default function Start() {
                     </h1>
                 </div>
 
-                {/* Main Image */}
+
+
+                {/* Main Image - DESKTOP (Sticky wie vorher) */}
                 <div
-                    className="md:bottom-0 md:sticky z-40 mt-0 w-full flex justify-center"
+                    className="hidden md:block bottom-0 sticky z-50"
                     style={{
-                        transform: typeof window !== 'undefined' && window.innerWidth >= 768
-                            ? `translateX(-${Math.min(scrollX * 0.8, maxTranslate - 500)}px)`
-                            : 'none'
+                        transform: `translateX(-${Math.min(scrollX * 0.8, maxTranslate - 500)}px)`
                     }}
                 >
                     <Image
@@ -117,18 +112,27 @@ export default function Start() {
                         alt="Jelal Kasso Logo"
                         width={800}
                         height={400}
-                        className="grayscale w-full max-w-md md:max-w-none md:w-[800px] h-auto"
+                        className="grayscale"
+                    />
+                </div>
+
+                {/* Main Image - MOBILE (Normal, nicht sticky) */}
+                <div className="md:hidden block z-40 mt-0 w-full flex justify-center  -translate-y-10 ">
+                    <Image
+                        src="/images/mainImage.png"
+                        alt="Jelal Kasso Logo"
+                        width={800}
+                        height={400}
+                        className="grayscale w-full max-w-md h-auto "
                     />
                 </div>
 
                 {/* Mobile Instagram Card - Bottom */}
-                <div className="md:hidden w-full mt-10 mb-10 bottom-4 z-20 absolute md:relative -translate-y-24 md:translate-0 ">
+                <div className="md:hidden w-full mb-10 -translate-y-16">
                     <div className="bg-[#1C1C1C] w-full p-5 h-auto flex gap-2 justify-center
                                     rounded-2xl hover:cursor-pointer hover:scale-105 transition-transform duration-300
                                     cursor-pointer relative"
                         onClick={() => window.open('https://www.instagram.com/jk_fotovideo/', '_blank')}>
-
-
                         <div>
                             <p className="text-sm text-[#EAEAEA]/85 mt-3">
                                 Ich erschaffe Bilder & Videos, die Marken bewegen.
@@ -150,9 +154,8 @@ export default function Start() {
                             alt="Jelal Kasso Logo"
                             width={150}
                             height={50}
-                            className=" rounded-2xl  right-4 top-4"
+                            className="rounded-2xl right-4 top-4"
                         />
-
                     </div>
                 </div>
 
