@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 
 export default function NavBar() {
     const [isOpen, setIsOpen] = useState(false);
-    const [activePath, setActivePath] = useState('#about');
+    const [activePath, setActivePath] = useState('home');
     const [indicatorStyle, setIndicatorStyle] = useState({});
     const navRef = useRef<HTMLDivElement>(null);
 
@@ -14,6 +14,48 @@ export default function NavBar() {
         { href: '#contact', label: 'Kontakt' }
     ];
 
+    const getActiveLabel = () => {
+        if (activePath === 'home') return 'Home';
+        const activeItem = menuItems.find(item => item.href === activePath);
+        return activeItem ? activeItem.label : 'Home';
+    };
+
+    // Scroll-Erkennung
+    useEffect(() => {
+        const handleScroll = () => {
+            const sections = ['#about', '#portfolio', '#achievsment', '#feedback', '#contact'];
+            let currentSection = 'home'; // Default auf "home" wenn ganz oben
+
+            // Prüfe ob wir noch ganz oben sind
+            if (window.scrollY < 100) {
+                currentSection = 'home';
+            } else {
+                // Von unten nach oben durchgehen, damit die oberste sichtbare Section gewählt wird
+                for (let i = sections.length - 1; i >= 0; i--) {
+                    const sectionId = sections[i];
+                    const element = document.querySelector(sectionId);
+                    if (element) {
+                        const rect = element.getBoundingClientRect();
+                        // Section ist aktiv wenn sie im oberen Bereich des Viewports beginnt
+                        if (rect.top <= 150) { // 150px Toleranz für die Navbar
+                            currentSection = sectionId;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            setActivePath(currentSection);
+        };
+
+        // Initial check
+        handleScroll();
+
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
+    // Indicator Position Update
     useEffect(() => {
         const updateIndicator = () => {
             if (navRef.current) {
@@ -36,7 +78,7 @@ export default function NavBar() {
     }, [activePath]);
 
     return (
-        <nav className="relative px-6 py-3 bg-white/80 text-black rounded-[64px] backdrop-blur-xl">
+        <nav className="relative px-6 py-3 bg-white/80 text-black rounded-[64px] backdrop-blur-xl z-50">
             {/* Desktop Menu */}
             <div className="hidden md:block relative" ref={navRef}>
                 <div
@@ -50,7 +92,9 @@ export default function NavBar() {
                             <a
                                 href={item.href}
                                 onClick={() => setActivePath(item.href)}
-                                className="relative z-10 block px-4 py-4 transition-colors duration-300"
+                                className={`relative z-10 block px-4 py-4 transition-colors duration-300 ${
+                                    activePath === item.href ? 'text-white' : 'text-black'
+                                }`}
                             >
                                 {item.label}
                             </a>
@@ -61,7 +105,7 @@ export default function NavBar() {
 
             {/* Mobile Header */}
             <div className="md:hidden flex justify-between items-center text-2xl">
-                <span>Menu</span>
+                <span className="transition-all duration-300">{getActiveLabel()}</span>
                 <button
                     onClick={() => setIsOpen(!isOpen)}
                     className="relative w-8 h-8 flex items-center justify-center"
@@ -87,11 +131,10 @@ export default function NavBar() {
 
             {/* Mobile Menu */}
             <div
-                className={`md:hidden absolute  -translate-x-[50%] top-full mt-4 w-[70vw] max-w-[600px] bg-white/95 rounded-3xl overflow-hidden transition-all duration-300 ease-in-out${
+                className={`md:hidden absolute left-1/2 -translate-x-1/2 top-full mt-4 w-[70vw] max-w-[600px] bg-white/95 rounded-3xl overflow-hidden transition-all duration-300 ease-in-out ${
                     isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
                 }`}
             >
-
                 <ul className="flex flex-col gap-4 text-2xl p-4">
                     {menuItems.map((item) => (
                         <li key={item.href}>
@@ -103,8 +146,8 @@ export default function NavBar() {
                                 }}
                                 className={`block px-4 py-4 rounded-2xl transition-all duration-300 ${
                                     activePath === item.href
-                                        ? 'bg-[#AF8A3A]'
-                                        : ''
+                                        ? 'bg-[#DAA520] text-white'
+                                        : 'text-black'
                                 }`}
                             >
                                 {item.label}
