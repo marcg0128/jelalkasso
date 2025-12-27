@@ -93,7 +93,7 @@ export default function NavBar() {
                                 href={item.href}
                                 onClick={() => setActivePath(item.href)}
                                 className={`relative z-10 block px-4 py-4 transition-colors duration-300 ${
-                                    activePath === item.href ? 'text-white' : 'text-black'
+                                    activePath === item.href ? '' : 'text-black'
                                 }`}
                             >
                                 {item.label}
@@ -146,7 +146,7 @@ export default function NavBar() {
                                 }}
                                 className={`block px-4 py-4 rounded-2xl transition-all duration-300 ${
                                     activePath === item.href
-                                        ? 'bg-[#DAA520] text-white'
+                                        ? 'bg-[#DAA520] '
                                         : 'text-black'
                                 }`}
                             >
